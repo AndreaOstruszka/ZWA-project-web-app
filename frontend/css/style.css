@@ -1,0 +1,243 @@
+﻿/* ----------------- definition of variable values ------------------ */
+:root {
+    --main-color: #434137;
+    --secondary-color: #ADA999;
+    --dark: #452521;
+    --light: #F7F6F3;
+    --light-beige: #DFDACE;
+    --dark-beige: #302C22;
+    --hover: #F65828
+}
+
+/* ----------------- general page properties ------------------ */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: 'Open Sans', Verdana, sans-serif;
+    font-size: 15px;
+}
+
+h1 {
+    color: var(--dark);
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 2px;
+}
+
+h2 {
+    display: block;
+    padding: 5px;
+    margin-bottom: 5px;
+    margin-top: 4px;
+    font-size: 18px;
+    color: var(--dark);
+    background-color: var(--secondary-color);
+}
+
+h3 {
+    padding-left: 35px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+header {
+    width: 100%;
+    background-color: var(--main-color);
+    color: var(--light);
+    text-align: center;
+}
+
+footer {
+    clear: both;
+    background-color: var(--main-color);
+    text-align: center;
+    padding-bottom: 5px;
+    color: var(--light);
+}
+
+q {
+    quotes: "„" "”";
+    display: block;
+    font-size: 17px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 5px;
+    margin-top: -4px;
+    text-align: center;
+}
+
+q:hover {
+    background-color: var(--hover);
+    color: var(--light);
+}
+
+ul {
+    margin-left: 35px;
+    padding: 0;
+    font-size: 16px;
+}
+
+li {
+    width: 100%;
+}
+
+p {
+    padding: 2px 5px 8px 5px;
+    text-align: justify;
+    font-size: 16px;
+}
+
+.formatting {
+    clear: both;
+}
+
+#logo {
+    max-width: 80%;
+    height: auto;
+}
+
+#login {
+    height: 28px;
+    color: var(--light);
+    text-align: right;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+#navigation {
+    width: 95%;
+    max-width: 1280px;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#main {
+    width: 100%;
+    padding: 0;
+}
+
+#main-wider {
+    width: 100%;
+    padding: 0;
+}
+
+#main-widest {
+    width: 100%;
+    padding: 0;
+}
+
+a.navigation_item:link {
+    display: block;
+    margin: 0;
+    background-color: var(--main-color);
+
+    color: var(--light);
+    text-align: center;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+
+    padding: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    border-style: solid;
+    border-width: 1px;
+    color: var(--light);
+    border-bottom: none;
+}
+
+a.return {
+    display: block;
+    width: 100px;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    padding: 0;
+    padding-bottom: 5px;
+    background-color: var(--main-color);
+
+    text-align: center;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--light);
+    border-top: none;
+}
+
+a.navigation_item:hover, a.return:hover {
+    background-color: var(--hover);
+    color: var(--light);
+    border-color: var(--light);
+}
+
+a:link, a:visited {
+    text-decoration: none;
+    color: var(--light);
+}
+
+a.genres_item {
+    display: block;
+    margin: 0;
+    padding: 7px 0 7px 7px;
+    background-color: var(--light-beige);
+    color: var(--dark);
+    font-size: 15px;
+
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--light);
+    border-right: none;
+    border-left: none;
+    border-top: none;
+}
+
+a.genres_item:hover {
+    background-color: var(--hover);
+    color: var(--light);
+}
+
+#content {
+    background-color: var(--light);
+    clear: both;
+    width: 95%;
+    max-width: 1280px;
+    margin: 10px auto;
+}
+
+#genres {
+    padding: 0;
+    float: left;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.ul_genres {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.li_genres {
+    width: 100%;
+}
+
+#ul_navigation {
+    width: auto;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.li_navigation {
+    width: 100%;
+}
