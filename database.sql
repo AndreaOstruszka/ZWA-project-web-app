@@ -3,8 +3,8 @@ CREATE TABLE authors (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     surname VARCHAR(255) NOT NULL,
-    birth_year YEAR NOT NULL,
-    death_year YEAR NOT NULL,
+    birth_year INT(4) NOT NULL,
+    death_year INT(4) NOT NULL,
     bio TEXT
 );
 
