@@ -341,3 +341,131 @@ a.genres_item:hover {
         width: 240px;
     }
 }
+
+/*OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*/
+@media (min-width: 1367px) {
+    #logo {
+        width: 300px;
+        height: 130px;
+    }
+
+    html {
+        background: var(--light) url("../images/background.jpg") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+
+    #navigation {
+        width: 75%;
+    }
+
+    .li_navigation {
+        width: 20%;
+        float: left;
+    }
+
+    .li_navigation_wider {
+        width: 17%;
+        float: left;
+    }
+
+    #content {
+        width: 75%;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 10px 0;
+    }
+
+    #main {
+        width: auto;
+        margin-left: 260px;
+        margin-right: 260px;
+    }
+
+    #main-wider {
+        width: auto;
+        margin-left: 260px;
+        margin-right: 10px;
+    }
+
+    #main-widest {
+        width: auto;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    #genres {
+        width: 240px;
+        margin-left: 10px;
+    }
+
+    #login {
+        margin-bottom: -33px;
+    }
+}
+
+/*OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*/
+@media (min-width: 1367px) {
+    #logo {
+        width: 300px;
+        height: 130px;
+    }
+
+    html {
+        background: var(--light) url("../images/background.jpg") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+
+    #navigation {
+        width: 75%;
+    }
+
+    .li_navigation {
+        width: 20%;
+        float: left;
+    }
+
+    .li_navigation_wider {
+        width: 17%;
+        float: left;
+    }
+
+    #content {
+        width: 75%;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 10px 0;
+    }
+
+    #main {
+        width: auto;
+        margin-left: 260px;
+        margin-right: 260px;
+    }
+
+    #main-wider {
+        width: auto;
+        margin-left: 260px;
+        margin-right: 10px;
+    }
+
+    #main-widest {
+        width: auto;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    #genres {
+        width: 240px;
+        margin-left: 10px;
+    }
+
+    #login {
+        margin-bottom: -33px;
+    }
+}
