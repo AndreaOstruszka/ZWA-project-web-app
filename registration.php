@@ -81,6 +81,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Form rendering with CSRF token as hidden field
 ?>
+
+<!-- JavaScript for validating password confirmation -->
+<script>
+    function validatePassword() {
+        const password = document.querySelector('input[name="password"]').value;
+        const passwordConfirm = document.querySelector('input[name="password_confirm"]').value;
+        const errorMessage = document.getElementById('password-error');
+
+        if (password !== passwordConfirm) {
+            errorMessage.textContent = "Passwords do not match.";
+        } else {
+            errorMessage.textContent = ""; // Clear error message if they match
+        }
+    }
+
+    // Add event listeners to the password fields
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('input[name="password"]').addEventListener('input', validatePassword);
+        document.querySelector('input[name="password_confirm"]').addEventListener('input', validatePassword);
+    });
+</script>
+
 <form method="POST" action="">
     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
     First Name: <input type="text" name="first_name" value="<?php echo htmlspecialchars($first_name ?? ''); ?>" required><br>
@@ -89,5 +111,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     Email: <input type="email" name="email" value="<?php echo htmlspecialchars($email ?? ''); ?>" required><br>
     Password: <input type="password" name="password" required><br>
     Confirm Password: <input type="password" name="password_confirm" required><br>
+    <div id="password-error" style="color: red;"></div> <!-- Error message display -->
     <input type="submit" value="Register">
 </form>
