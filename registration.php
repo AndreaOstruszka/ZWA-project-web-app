@@ -1,24 +1,35 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "andy";
-$password = "andy123";
-$dbname = "ostruand";
+// Start session at the top
+session_start();
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Generate a new CSRF token if not exists
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
-
-// Initialize error message variables
-$errors = [];
 
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Load and sanitize input data
+    // Check if the CSRF token is valid
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Invalid CSRF token!");
+    }
+
+    // Clear the CSRF token to prevent reuse
+    unset($_SESSION['csrf_token']);
+
+    // Database connection parameters
+    $servername = "localhost";
+    $username = "andy";
+    $password = "andy123";
+    $dbname = "ostruand";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Form data processing with validation...
+    $errors = [];
     $first_name = trim($_POST["first_name"]);
     $last_name = trim($_POST["last_name"]);
     $user_name = trim($_POST["user_name"]);
@@ -26,27 +37,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
     $password_confirm = $_POST["password_confirm"];
 
-    // Form data validation
-    if (empty($first_name)) {
-        $errors["first_name"] = "First name is required.";
-    }
-    if (empty($last_name)) {
-        $errors["last_name"] = "Last name is required.";
-    }
-    if (empty($user_name)) {
-        $errors["user_name"] = "User name is required.";
-    }
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors["email"] = "A valid email is required.";
-    }
-    if (empty($password)) {
-        $errors["password"] = "Password is required.";
-    } elseif ($password !== $password_confirm) {
-        $errors["password_confirm"] = "Passwords do not match.";
-    }
+    // Data validation...
+    if (empty($first_name)) { $errors["first_name"] = "First name is required."; }
+    if (empty($last_name)) { $errors["last_name"] = "Last name is required."; }
+    if (empty($user_name)) { $errors["user_name"] = "User name is required."; }
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) { $errors["email"] = "A valid email is required."; }
+    if (empty($password)) { $errors["password"] = "Password is required."; }
+    elseif ($password !== $password_confirm) { $errors["password_confirm"] = "Passwords do not match."; }
 
-    // Check if user_name or email already exists in the database
     if (empty($errors)) {
+        // Check if user already exists
         $stmt = $conn->prepare("SELECT id FROM users WHERE user_name = ? OR email = ?");
         $stmt->bind_param("ss", $user_name, $email);
         $stmt->execute();
@@ -57,37 +57,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
     }
 
-    // If no errors, insert user into the database
+    // If no errors, insert data and redirect
     if (empty($errors)) {
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
-        $role = 'registered_user'; // Default role
-
+        $role = 'registered_user';
         $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, user_name, email, password_hash, role) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssss", $first_name, $last_name, $user_name, $email, $password_hash, $role);
 
         if ($stmt->execute()) {
-            echo "Registration successful!";
+            $stmt->close();
+            $conn->close();
+            header("Location: registration_success.php");
+            exit();
         } else {
-            echo "An error occurred during registration: " . $stmt->error;
+            echo "Registration error: " . $stmt->error;
         }
-        $stmt->close();
     } else {
-        // Display errors
         foreach ($errors as $error) {
             echo htmlspecialchars($error) . "<br>";
         }
     }
 }
 
-$conn->close();
+// Form rendering with CSRF token as hidden field
 ?>
-
-<!-- HTML form -->
 <form method="POST" action="">
-    First Name: <input type="text" name="first_name" required><br>
-    Last Name: <input type="text" name="last_name" required><br>
-    User Name: <input type="text" name="user_name" required><br>
-    Email: <input type="email" name="email" required><br>
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+    First Name: <input type="text" name="first_name" value="<?php echo htmlspecialchars($first_name ?? ''); ?>" required><br>
+    Last Name: <input type="text" name="last_name" value="<?php echo htmlspecialchars($last_name ?? ''); ?>" required><br>
+    User Name: <input type="text" name="user_name" value="<?php echo htmlspecialchars($user_name ?? ''); ?>" required><br>
+    Email: <input type="email" name="email" value="<?php echo htmlspecialchars($email ?? ''); ?>" required><br>
     Password: <input type="password" name="password" required><br>
     Confirm Password: <input type="password" name="password_confirm" required><br>
     <input type="submit" value="Register">
