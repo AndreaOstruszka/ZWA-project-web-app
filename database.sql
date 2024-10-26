@@ -32,6 +32,7 @@ CREATE TABLE books
     author_id      INT                NOT NULL,
     literary_genre ENUM('prose', 'poetry', 'drama') NOT NULL,
     fiction_genre  ENUM('scifi', 'fantasy', 'horror', 'thriller', 'romance', 'none','historical fiction') DEFAULT 'none',
+    book_cover     VARCHAR(255),
     FOREIGN KEY (author_id) REFERENCES authors (id)
 );
 
