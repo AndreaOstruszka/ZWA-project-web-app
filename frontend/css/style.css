@@ -16,9 +16,25 @@
     padding: 0;
 }
 
-html {
+body, html {
     font-family: 'Open Sans', Verdana, sans-serif;
     font-size: 15px;
+    height: 100%;
+    margin: 0;
+}
+
+body > * {
+    flex-shrink: 0;
+}
+
+div {
+    flex-grow: 1;
+}
+
+main {
+    flex-grow: 1;
+    background-color: var(--light);
+    padding: 20px;
 }
 
 h1 {
@@ -58,6 +74,7 @@ footer {
     text-align: center;
     padding-bottom: 5px;
     color: var(--light);
+    margin-top: auto;
 }
 
 q {
@@ -242,7 +259,7 @@ a.genres_item:hover {
     width: 100%;
 }
 
-.button_primary {
+.submit_button {
     background-color: var(--main-color);
     border: none;
     color: var(--light);
@@ -254,12 +271,12 @@ a.genres_item:hover {
     border-radius: 8px;
 }
 
-.button_primary:hover {
+.submit_button:hover {
     background-color: var(--hover);
     color: var(--light);
 }
 
-.button_secondary {
+.reset_button {
     background-color: var(--light-beige);
     border: none;
     color: var(--main-color);
@@ -271,7 +288,7 @@ a.genres_item:hover {
     border-radius: 8px;
 }
 
-.button_secondary:hover {
+.reset_button:hover {
     background-color: var(--hover);
     color: var(--light);
 }
@@ -350,71 +367,7 @@ a.genres_item:hover {
     }
 
     html {
-        background: var(--light) url("../images/background.jpg") no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-    }
-
-    #navigation {
-        width: 75%;
-    }
-
-    .li_navigation {
-        width: 20%;
-        float: left;
-    }
-
-    .li_navigation_wider {
-        width: 17%;
-        float: left;
-    }
-
-    #content {
-        width: 75%;
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 10px 0;
-    }
-
-    #main {
-        width: auto;
-        margin-left: 260px;
-        margin-right: 260px;
-    }
-
-    #main-wider {
-        width: auto;
-        margin-left: 260px;
-        margin-right: 10px;
-    }
-
-    #main-widest {
-        width: auto;
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-
-    #genres {
-        width: 240px;
-        margin-left: 10px;
-    }
-
-    #login {
-        margin-bottom: -33px;
-    }
-}
-
-/*OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*/
-@media (min-width: 1367px) {
-    #logo {
-        width: 300px;
-        height: 130px;
-    }
-
-    html {
-        background: var(--light) url("../images/background.jpg") no-repeat center center fixed;
+        background: var(--light) url("../images/background.jpg");
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
