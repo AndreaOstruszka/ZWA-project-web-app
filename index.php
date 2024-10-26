@@ -14,7 +14,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Query to fetch all messages
+// Query to fetch all books
 $sql = "SELECT name, isbn, literary_genre, fiction_genre FROM books";
 $result = $conn->query($sql);
 
@@ -22,7 +22,12 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // Output data of each row
     while ($row = $result->fetch_assoc()) {
-        echo "name: " . $row["name"] . " - isbn: " . $row["isbn"] . " - literary_genre: " . $row["literary_genre"] . " - fiction_genre: " . $row["fiction_genre"] . "<br>";
+        // Use htmlspecialchars to escape output and prevent XSS
+        echo "name: " . htmlspecialchars($row["name"]) .
+            " - isbn: " . htmlspecialchars($row["isbn"]) .
+            " - literary_genre: " . htmlspecialchars($row["literary_genre"]) .
+            " - fiction_genre: " . htmlspecialchars($row["fiction_genre"]) .
+            "<br>";
     }
 } else {
     echo "0 results";
@@ -30,3 +35,4 @@ if ($result->num_rows > 0) {
 
 // Close connection
 $conn->close();
+?>
