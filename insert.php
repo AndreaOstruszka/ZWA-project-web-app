@@ -13,30 +13,43 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO books (name, isbn, author_id, literary_genre, fiction_genre) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $name, $isbn, $author_id, $literary_genre, $fiction_genre);
-
-    // Set parameters from form fields
-    $name = $conn->real_escape_string($_POST["name"]);
-    $isbn = $conn->real_escape_string($_POST["isbn"]);
-    $author_id = $conn->real_escape_string($_POST["author_id"]);
-    $literary_genre = $conn->real_escape_string($_POST["literary_genre"]);
-    $fiction_genre = $conn->real_escape_string($_POST["fiction_genre"]);
-
-    // Execute the statement
-    if ($stmt->execute()) {
-        echo "New record created successfully";
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-
-    // Close statement and connection
-    $stmt->close();
+// Function to validate and sanitize input
+function validate_input($data) {
+    return trim($data);
 }
 
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validate and sanitize form fields
+    $name = validate_input($_POST["name"]);
+    $isbn = validate_input($_POST["isbn"]);
+    $author_id = validate_input($_POST["author_id"]);
+    $literary_genre = validate_input($_POST["literary_genre"]);
+    $fiction_genre = validate_input($_POST["fiction_genre"]);
+
+    // Validate that fields are not empty and check ISBN format
+    if (empty($name) || empty($isbn) || empty($author_id) || empty($literary_genre) || empty($fiction_genre)) {
+        echo "All fields are required.";
+    } elseif (!ctype_digit($isbn) || (strlen($isbn) !== 10 && strlen($isbn) !== 13)) {
+        echo "ISBN must be a 10 or 13 digit number.";
+    } else {
+        // Prepare and bind
+        $stmt = $conn->prepare("INSERT INTO books (name, isbn, author_id, literary_genre, fiction_genre) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $name, $isbn, $author_id, $literary_genre, $fiction_genre);
+
+        // Execute the statement
+        if ($stmt->execute()) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+
+        // Close statement
+        $stmt->close();
+    }
+}
+
+// Close connection
 $conn->close();
 ?>
 
