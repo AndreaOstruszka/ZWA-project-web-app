@@ -13,24 +13,39 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Prepare and bind
-$stmt = $conn->prepare("INSERT INTO books (name, isbn, author_id, literary_genre, fiction_genre) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("sssss", $name, $isbn, $author_id, $literary_genre, $fiction_genre);
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Prepare and bind
+    $stmt = $conn->prepare("INSERT INTO books (name, isbn, author_id, literary_genre, fiction_genre) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $name, $isbn, $author_id, $literary_genre, $fiction_genre);
 
-// Set parameters and execute
-$name = "The Lord of the Rings"; // Book title
-$isbn = "978-0544003415"; // Sample ISBN for The Lord of the Rings
-$author_id = "1"; // Assuming author ID is '1'
-$literary_genre = "prose"; // Literary genre
-$fiction_genre = "fantasy"; // Fiction genre
+    // Set parameters from form fields
+    $name = $conn->real_escape_string($_POST["name"]);
+    $isbn = $conn->real_escape_string($_POST["isbn"]);
+    $author_id = $conn->real_escape_string($_POST["author_id"]);
+    $literary_genre = $conn->real_escape_string($_POST["literary_genre"]);
+    $fiction_genre = $conn->real_escape_string($_POST["fiction_genre"]);
 
-if ($stmt->execute()) {
-    echo "New record created successfully";
-} else {
-    echo "Error: " . $stmt->error;
+    // Execute the statement
+    if ($stmt->execute()) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    // Close statement and connection
+    $stmt->close();
 }
 
-// Close statement and connection
-$stmt->close();
 $conn->close();
 ?>
+
+<!-- HTML form to collect book data -->
+<form method="POST" action="">
+    Name: <input type="text" name="name" required><br>
+    ISBN: <input type="text" name="isbn" required><br>
+    Author ID: <input type="text" name="author_id" required><br>
+    Literary Genre: <input type="text" name="literary_genre" required><br>
+    Fiction Genre: <input type="text" name="fiction_genre" required><br>
+    <input type="submit" value="Submit">
+</form>
