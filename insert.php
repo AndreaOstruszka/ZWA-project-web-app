@@ -1,22 +1,6 @@
 <?php
-// Database credentials
-$servername = "localhost";
-$username = "andy";
-$password = "andy123";
-$dbname = "ostruand";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Function to validate and sanitize input
-function validate_input($data) {
-    return trim($data);
-}
+// Database connection
+require_once 'db_connection.php';
 
 // Fetch authors, literary genres, and fiction genres from the database
 $authors = $conn->query("SELECT id, name, surname FROM authors");

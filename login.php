@@ -9,6 +9,7 @@
             color: red;
             font-size: 0.9em;
         }
+
         .error-border {
             border-color: red;
         }
@@ -53,18 +54,7 @@
 session_start();
 
 // Database connection
-$servername = "localhost";
-$username = "andy";
-$password = "andy123";
-$dbname = "ostruand";
-
-// Create a connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_connection.php';
 
 // Initialize error array and form field values
 $errors = [];
@@ -117,11 +107,13 @@ $conn->close();
 
 <!-- HTML login form -->
 <form method="POST" action="login.php" onsubmit="return validateLoginForm()">
-    Username or Email: <input type="text" name="user_name" id="user_name" value="<?php echo htmlspecialchars($user_name); ?>" required><br>
+    Username or Email: <input type="text" name="user_name" id="user_name"
+                              value="<?php echo htmlspecialchars($user_name); ?>" required><br>
     <span id="userNameError" class="error"><?php echo isset($errors["user_name"]) ? $errors["user_name"] : ''; ?></span><br>
 
     Password: <input type="password" name="password" id="password" required><br>
-    <span id="passwordError" class="error"><?php echo isset($errors["password"]) ? $errors["password"] : ''; ?></span><br>
+    <span id="passwordError"
+          class="error"><?php echo isset($errors["password"]) ? $errors["password"] : ''; ?></span><br>
 
     <input type="submit" value="Login">
 </form>

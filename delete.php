@@ -1,20 +1,10 @@
 <?php
-// Database credentials
-$servername = "localhost";
-$username = "andy";
-$password = "andy123";
-$dbname = "ostruand";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Database connection
+require_once 'db_connection.php';
 
 // Function to delete a book by id
-function deleteBookById($conn, $id) {
+function deleteBookById($conn, $id)
+{
     // Prepare the SQL statement
     $stmt = $conn->prepare("DELETE FROM books WHERE id = ?");
 

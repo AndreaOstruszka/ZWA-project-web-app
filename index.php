@@ -1,18 +1,6 @@
 <?php
-
-// Database credentials
-$servername = "localhost";
-$username = "andy";
-$password = "andy123";
-$dbname = "ostruand";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Database connection
+require_once 'db_connection.php';
 
 // Query to fetch all books
 $sql = "SELECT name, isbn, literary_genre, fiction_genre FROM books";
