@@ -1,55 +1,76 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List with Pagination</title>
+</head>
+<body>
+<h1>Book List</h1>
+<div id="book-list"></div>
+<div id="pagination"></div>
 
-// Database credentials
-$servername = "localhost";
-$username = "andy";
-$password = "andy123";
-$dbname = "ostruand";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Determine the current page number
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$items_per_page = 10;
-$offset = ($page - 1) * $items_per_page;
-
-// Query to fetch books with pagination
-$sql = "SELECT name, isbn, literary_genre, fiction_genre FROM books LIMIT $items_per_page OFFSET $offset";
-$result = $conn->query($sql);
-
-// Check if any results were returned
-if ($result->num_rows > 0) {
-    // Output data of each row
-    while ($row = $result->fetch_assoc()) {
-        // Use htmlspecialchars to escape output and prevent XSS
-        echo "name: " . htmlspecialchars($row["name"]) .
-            " - isbn: " . htmlspecialchars($row["isbn"]) .
-            " - literary_genre: " . htmlspecialchars($row["literary_genre"]) .
-            " - fiction_genre: " . htmlspecialchars($row["fiction_genre"]) .
-            "<br>";
+<script>
+    // Function to fetch books for a specific page
+    function fetchBooks(page = 1) {
+        fetch(`fetch_books.php?page=${page}`)
+            .then(response => response.json())
+            .then(data => {
+                displayBooks(data.books);
+                displayPagination(data.total_pages, data.current_page);
+            })
+            .catch(error => console.error('Error:', error));
     }
-} else {
-    echo "0 results";
-}
 
-// Query to get the total number of books
-$total_sql = "SELECT COUNT(*) as total FROM books";
-$total_result = $conn->query($total_sql);
-$total_row = $total_result->fetch_assoc();
-$total_books = $total_row['total'];
-$total_pages = ceil($total_books / $items_per_page);
+    // Function to display books
+    function displayBooks(books) {
+        const bookList = document.getElementById('book-list');
+        bookList.innerHTML = ''; // Clear existing content
 
-// Display pagination links
-for ($i = 1; $i <= $total_pages; $i++) {
-    echo "<a href='select.php?page=$i'>$i</a> ";
-}
+        if (books.length === 0) {
+            bookList.innerHTML = '<p>No results found</p>';
+        } else {
+            books.forEach(book => {
+                const bookItem = document.createElement('div');
+                bookItem.innerHTML = `
+                        <strong>Name:</strong> ${book.name} <br>
+                        <strong>ISBN:</strong> ${book.isbn} <br>
+                        <strong>Literary Genre:</strong> ${book.literary_genre} <br>
+                        <strong>Fiction Genre:</strong> ${book.fiction_genre} <br><br>
+                    `;
+                bookList.appendChild(bookItem);
+            });
+        }
+    }
 
-// Close connection
-$conn->close();
-?>
+    // Function to display pagination
+    function displayPagination(totalPages, currentPage) {
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+            const pageLink = document.createElement('a');
+            pageLink.href = '#';
+            pageLink.textContent = i;
+            pageLink.style.margin = '0 5px';
+
+            if (i === currentPage) {
+                pageLink.style.fontWeight = 'bold';
+            }
+
+            pageLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                fetchBooks(i);
+            });
+
+            pagination.appendChild(pageLink);
+        }
+    }
+
+    // Initial fetch for the first page
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchBooks();
+    });
+</script>
+</body>
+</html>
