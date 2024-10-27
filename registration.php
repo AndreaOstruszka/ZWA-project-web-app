@@ -1,88 +1,92 @@
 <?php
-// Start session at the top
 session_start();
 
-// Generate a new CSRF token if not exists
+// Generate CSRF token if it doesn't already exist
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-// Process form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if the CSRF token is valid
+// Initialize errors and pre-filled form data
+$errors = [];
+$form_data = [
+    "first_name" => "",
+    "last_name" => "",
+    "user_name" => "",
+    "email" => "",
+];
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Validate CSRF token
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         die("Invalid CSRF token!");
     }
 
-    // Clear the CSRF token to prevent reuse
-    unset($_SESSION['csrf_token']);
-
-    // Database connection parameters
-    $servername = "localhost";
-    $username = "andy";
-    $password = "andy123";
-    $dbname = "ostruand";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    // Pre-fill form data
+    foreach ($form_data as $key => &$value) {
+        $value = trim($_POST[$key] ?? '');
     }
 
-    // Form data processing with validation...
-    $errors = [];
-    $first_name = trim($_POST["first_name"]);
-    $last_name = trim($_POST["last_name"]);
-    $user_name = trim($_POST["user_name"]);
-    $email = trim($_POST["email"]);
-    $password = $_POST["password"];
-    $password_confirm = $_POST["password_confirm"];
+    // Input validation
+    if (empty($form_data["first_name"])) {
+        $errors["first_name"] = "First name is required.";
+    }
+    if (empty($form_data["last_name"])) {
+        $errors["last_name"] = "Last name is required.";
+    }
+    if (empty($form_data["user_name"])) {
+        $errors["user_name"] = "User name is required.";
+    }
+    if (empty($form_data["email"]) || !filter_var($form_data["email"], FILTER_VALIDATE_EMAIL)) {
+        $errors["email"] = "A valid email is required.";
+    }
 
-    // Data validation...
-    if (empty($first_name)) { $errors["first_name"] = "First name is required."; }
-    if (empty($last_name)) { $errors["last_name"] = "Last name is required."; }
-    if (empty($user_name)) { $errors["user_name"] = "User name is required."; }
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) { $errors["email"] = "A valid email is required."; }
-    if (empty($password)) { $errors["password"] = "Password is required."; }
-    elseif ($password !== $password_confirm) { $errors["password_confirm"] = "Passwords do not match."; }
+    // Password validation
+    $password = $_POST["password"] ?? '';
+    $password_confirm = $_POST["password_confirm"] ?? '';
+    if (empty($password)) {
+        $errors["password"] = "Password is required.";
+    } elseif ($password !== $password_confirm) {
+        $errors["password_confirm"] = "Passwords do not match.";
+    }
 
+    // If no errors, proceed with saving to the database
     if (empty($errors)) {
-        // Check if user already exists
+        // Connect to the database
+        $conn = new mysqli("localhost", "andy", "andy123", "ostruand");
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
         $stmt = $conn->prepare("SELECT id FROM users WHERE user_name = ? OR email = ?");
-        $stmt->bind_param("ss", $user_name, $email);
+        $stmt->bind_param("ss", $form_data["user_name"], $form_data["email"]);
         $stmt->execute();
         $stmt->store_result();
         if ($stmt->num_rows > 0) {
-            $errors[] = "This user_name or email is already registered.";
+            $errors["user_name"] = "This username or email is already registered.";
         }
         $stmt->close();
-    }
 
-    // If no errors, insert data and redirect
-    if (empty($errors)) {
-        $password_hash = password_hash($password, PASSWORD_BCRYPT);
-        $role = 'registered_user';
-        $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, user_name, email, password_hash, role) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $first_name, $last_name, $user_name, $email, $password_hash, $role);
+        if (empty($errors)) {
+            $password_hash = password_hash($password, PASSWORD_BCRYPT);
+            $role = 'registered_user';
+            $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, user_name, email, password_hash, role) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssss", $form_data["first_name"], $form_data["last_name"], $form_data["user_name"], $form_data["email"], $password_hash, $role);
 
-        if ($stmt->execute()) {
-            $stmt->close();
-            $conn->close();
-            header("Location: registration_success.php");
-            exit();
-        } else {
-            echo "Registration error: " . $stmt->error;
-        }
-    } else {
-        foreach ($errors as $error) {
-            echo htmlspecialchars($error) . "<br>";
+            if ($stmt->execute()) {
+                $stmt->close();
+                $conn->close();
+                unset($_SESSION['csrf_token']); // Remove token only after successful registration
+                header("Location: registration_success.php");
+                exit();
+            } else {
+                echo "Registration error: " . $stmt->error;
+            }
         }
     }
 }
-
-// Form rendering with CSRF token as hidden field
 ?>
 
-<!-- JavaScript for validating password confirmation -->
+<!-- JavaScript for password validation -->
 <script>
     function validatePassword() {
         const password = document.querySelector('input[name="password"]').value;
@@ -92,25 +96,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password !== passwordConfirm) {
             errorMessage.textContent = "Passwords do not match.";
         } else {
-            errorMessage.textContent = ""; // Clear error message if they match
+            errorMessage.textContent = ""; // Clear error message if passwords match
         }
     }
 
-    // Add event listeners to the password fields
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('input[name="password"]').addEventListener('input', validatePassword);
         document.querySelector('input[name="password_confirm"]').addEventListener('input', validatePassword);
     });
 </script>
 
+<!-- Styling for error highlighting -->
+<style>
+    .error { color: red; font-size: 0.9em; }
+    .input-error { border-color: red; }
+</style>
+
+<!-- Form with pre-filled values and error messages -->
 <form method="POST" action="">
     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-    First Name: <input type="text" name="first_name" value="<?php echo htmlspecialchars($first_name ?? ''); ?>" required><br>
-    Last Name: <input type="text" name="last_name" value="<?php echo htmlspecialchars($last_name ?? ''); ?>" required><br>
-    User Name: <input type="text" name="user_name" value="<?php echo htmlspecialchars($user_name ?? ''); ?>" required><br>
-    Email: <input type="email" name="email" value="<?php echo htmlspecialchars($email ?? ''); ?>" required><br>
-    Password: <input type="password" name="password" required><br>
-    Confirm Password: <input type="password" name="password_confirm" required><br>
-    <div id="password-error" style="color: red;"></div> <!-- Error message display -->
+
+    First Name:
+    <input type="text" name="first_name" value="<?php echo htmlspecialchars($form_data['first_name']); ?>" class="<?php echo isset($errors['first_name']) ? 'input-error' : ''; ?>">
+    <span class="error"><?php echo $errors["first_name"] ?? ''; ?></span>
+    <br>
+
+    Last Name:
+    <input type="text" name="last_name" value="<?php echo htmlspecialchars($form_data['last_name']); ?>" class="<?php echo isset($errors['last_name']) ? 'input-error' : ''; ?>">
+    <span class="error"><?php echo $errors["last_name"] ?? ''; ?></span>
+    <br>
+
+    User Name:
+    <input type="text" name="user_name" value="<?php echo htmlspecialchars($form_data['user_name']); ?>" class="<?php echo isset($errors['user_name']) ? 'input-error' : ''; ?>">
+    <span class="error"><?php echo $errors["user_name"] ?? ''; ?></span>
+    <br>
+
+    Email:
+    <input type="email" name="email" value="<?php echo htmlspecialchars($form_data['email']); ?>" class="<?php echo isset($errors['email']) ? 'input-error' : ''; ?>">
+    <span class="error"><?php echo $errors["email"] ?? ''; ?></span>
+    <br>
+
+    Password:
+    <input type="password" name="password" class="<?php echo isset($errors['password']) ? 'input-error' : ''; ?>">
+    <span class="error"><?php echo $errors["password"] ?? ''; ?></span>
+    <br>
+
+    Confirm Password:
+    <input type="password" name="password_confirm" class="<?php echo isset($errors['password_confirm']) ? 'input-error' : ''; ?>">
+    <span class="error" id="password-error"><?php echo $errors["password_confirm"] ?? ''; ?></span>
+    <br>
+
     <input type="submit" value="Register">
 </form>
