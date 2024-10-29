@@ -187,7 +187,7 @@ a.return {
 
     border-style: solid;
     border-width: 1px;
-    border-color: var(--light);
+    border-color: #686356;
     border-top: none;
 }
 
@@ -291,6 +291,43 @@ a.genres_item:hover {
 .reset_button:hover {
     background-color: var(--hover);
     color: var(--light);
+}
+
+/* --------------------------- tables -------------------------- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+    margin-top: 5px;
+}
+
+caption {
+    font-weight: bold;
+}
+
+table, th, td {
+    border: 1px solid var(--light);
+}
+
+td {
+    padding: 5px;
+    vertical-align: middle;
+}
+
+tr:hover, tr:nth-child(even):hover {
+    background-color: var(--hover);
+    color: var(--light);
+}
+
+tr:nth-child(even) {
+    background-color: #e1e1e1;
+}
+
+th {
+    padding: 5px;
+    background-color: var(--light-beige);
+    color: var(--dark-beige);
 }
 
 /*OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*/
