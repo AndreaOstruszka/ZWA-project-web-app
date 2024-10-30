@@ -27,9 +27,9 @@ Website name: Book Nook
 
 Purpuse: Like IMDB, but for books.
 
-Features:
+Features: book reviews, book charts, 
 
-User roles:
+User roles: anonymous user, registered user, admin
 
 ## Requirements
 
