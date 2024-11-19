@@ -1,5 +1,5 @@
 <?php
-// Database connection
+// connect to the database
 require_once 'db_connection.php';
 
 // Query to fetch all books
