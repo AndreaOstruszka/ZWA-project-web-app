@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "ISBN must be a 10 or 13 digit number.";
     } else {
         // Prepare and bind
-        $stmt = $conn->prepare("INSERT INTO books (name, isbn, author_id, literary_genre, fiction_genre) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO books (name, isbn, author_id, literary_genre, fiction_genre) VALUES (?, ?, ?, ?, ?)");      // Prepare statement
         $stmt->bind_param("sssss", $name, $isbn, $author_id, $literary_genre, $fiction_genre);
 
         // Execute the statement
