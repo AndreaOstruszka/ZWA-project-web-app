@@ -1,6 +1,10 @@
 <?php
 // Database connection
 require_once 'db_connection.php';
+
+// Get the current page number from the GET request, default to 1 if not set
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
 $items_per_page = 10;
 $offset = ($page - 1) * $items_per_page;
 
