@@ -6,8 +6,8 @@ require_once 'db_connection.php';
 $errors = [];
 
 // Process form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $book_id = intval($_POST["book_id"]);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {         // This block starts only if the form method is POST
+    $book_id = intval($_POST["book_id"]);           // Intval ensures that book_id is an integer
 
     // Check if file was uploaded without errors
     if (isset($_FILES["book_cover"]) && $_FILES["book_cover"]["error"] == 0) {
@@ -37,11 +37,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Move the uploaded file to the server
             $new_filename = "uploads/" . basename($filename);
             if (move_uploaded_file($_FILES["book_cover"]["tmp_name"], $new_filename)) {
-                // Insert file path into the database
-                $stmt = $conn->prepare("UPDATE books SET book_cover = ? WHERE id = ?");
+
+                // Insert file path into the database - prepared statement
+                $stmt = $conn->prepare("UPDATE books SET book_cover = ? WHERE id = ?");     // ? means that data will be inserted later - preventing change of the SQL statement
                 $stmt->bind_param("si", $new_filename, $book_id);
 
-                if ($stmt->execute()) {
+                if ($stmt->execute()) {         // Uses prepared statement - SQL Injection will be ignored, because data aren't included into the SQL statement
                     echo "File uploaded successfully.";
                 } else {
                     echo "Error: Could not save the file path to the database.";
