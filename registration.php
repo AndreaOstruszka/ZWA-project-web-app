@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($stmt->execute()) {
                 $stmt->close();
                 $conn->close();
-                unset($_SESSION['csrf_token']); // Remove token only after successful registration
+                unset($_SESSION['csrf_token']);                 // Remove token only after successful registration
                 header("Location: registration_success.php");
                 exit();
             } else {
@@ -83,31 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 
-<!-- JavaScript for password validation -->
-<script>
-    function validatePassword() {
-        const password = document.querySelector('input[name="password"]').value;
-        const passwordConfirm = document.querySelector('input[name="password_confirm"]').value;
-        const errorMessage = document.getElementById('password-error');
-
-        if (password !== passwordConfirm)   // zkontroluj, jestli to takhle funguje
-            errorMessage.textContent = "Passwords do not match.";
-        } else {
-            errorMessage.textContent = ""; // Clear error message if passwords match
-        }
-    }
-                                                                    // tu opravit DOMContentLoaded - script hodit na konec kodu (dle Duska)
-    document.addEventListener('DOMContentLoaded', function() {          // addEventListener starts when user starts typing into the password field
-        document.querySelector('input[name="password"]').addEventListener('input', validatePassword);
-        document.querySelector('input[name="password_confirm"]').addEventListener('input', validatePassword);
-    });
-</script>
-
 <!-- Styling for error highlighting -->
-<style>
-    .error { color: red; font-size: 0.9em; }
-    .input-error { border-color: red; }
-</style>
+<link rel="stylesheet" href="error_highlight.css">
 
 <!-- Form with pre-filled values and error messages -->
 <form method="POST" action="">
@@ -146,3 +123,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <input type="submit" value="Register">
 </form>
+
+<!-- JavaScript for password validation -->
+<script src="password_validation.js"></script>
