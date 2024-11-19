@@ -36,3 +36,4 @@ deleteBookById($conn, $idToDelete);
 // Close the connection
 $conn->close();
 ?>
+
