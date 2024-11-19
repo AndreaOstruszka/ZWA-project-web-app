@@ -22,8 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // Pre-fill form data
-    foreach ($form_data as $key => &$value) {
-        $value = trim($_POST[$key] ?? '');
+    foreach ($form_data as $key => &$value) {               // Foreach goes through every element in the array
+        $value = trim($_POST[$key] ?? '');          // Trim removes redundant spaces. If input is nonexistent, empty string is used.
     }
 
     // Input validation
@@ -51,14 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // If no errors, proceed with saving to the database
     if (empty($errors)) {
-        // Connect to the database
-        $conn = new mysqli("localhost", "andy", "andy123", "ostruand");
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+        // Database connection
+        require_once 'db_connection.php';
 
-        $stmt = $conn->prepare("SELECT id FROM users WHERE user_name = ? OR email = ?");
-        $stmt->bind_param("ss", $form_data["user_name"], $form_data["email"]);
+        $stmt = $conn->prepare("SELECT id FROM users WHERE user_name = ? OR email = ?");    // Prepare SQL statement to check if user or mail already exists
+        $stmt->bind_param("ss", $form_data["user_name"], $form_data["email"]);  // Bind input parameters to statement
         $stmt->execute();
         $stmt->store_result();
         if ($stmt->num_rows > 0) {
@@ -67,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->close();
 
         if (empty($errors)) {
-            $password_hash = password_hash($password, PASSWORD_BCRYPT);
+            $password_hash = password_hash($password, PASSWORD_BCRYPT);     // Hash password by method BCRYPT
             $role = 'registered_user';
             $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, user_name, email, password_hash, role) VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("ssssss", $form_data["first_name"], $form_data["last_name"], $form_data["user_name"], $form_data["email"], $password_hash, $role);
@@ -93,14 +90,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         const passwordConfirm = document.querySelector('input[name="password_confirm"]').value;
         const errorMessage = document.getElementById('password-error');
 
-        if (password !== passwordConfirm) {
+        if (password !== passwordConfirm)   // zkontroluj, jestli to takhle funguje
             errorMessage.textContent = "Passwords do not match.";
         } else {
             errorMessage.textContent = ""; // Clear error message if passwords match
         }
     }
-
-    document.addEventListener('DOMContentLoaded', function() {
+                                                                    // tu opravit DOMContentLoaded - script hodit na konec kodu (dle Duska)
+    document.addEventListener('DOMContentLoaded', function() {          // addEventListener starts when user starts typing into the password field
         document.querySelector('input[name="password"]').addEventListener('input', validatePassword);
         document.querySelector('input[name="password_confirm"]').addEventListener('input', validatePassword);
     });
@@ -116,6 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <form method="POST" action="">
     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
+    <!-- In HTML if input is valid, then $form_data, else empty string -->
     First Name:
     <input type="text" name="first_name" value="<?php echo htmlspecialchars($form_data['first_name']); ?>" class="<?php echo isset($errors['first_name']) ? 'input-error' : ''; ?>">
     <span class="error"><?php echo $errors["first_name"] ?? ''; ?></span>
