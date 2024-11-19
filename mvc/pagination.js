@@ -1,7 +1,7 @@
 // pagination.js
 function fetchBooks(page = 1) {
-    fetch(`BookController.php?page=${page}`)
-        .then(response => response.json())
+    fetch(`BookController.php?page=${page}`)                // Creates a HTTP GET request
+        .then(response => response.json())              // Converts the response to JSON
         .then(data => {
             displayBooks(data.books);
             displayPagination(data.total_pages, data.current_page);
@@ -11,12 +11,12 @@ function fetchBooks(page = 1) {
 
 function displayBooks(books) {
     const bookList = document.getElementById('book-list');
-    bookList.innerHTML = '';
+    bookList.innerHTML = '';                // Deletes previous data
 
     if (books.length === 0) {
         bookList.innerHTML = '<p>No results found</p>';
     } else {
-        books.forEach(book => {
+        books.forEach(book => {             // Creates nev div element for each book
             const bookItem = document.createElement('div');
             bookItem.innerHTML = `
                 <strong>Name:</strong> ${book.name} <br>
@@ -29,21 +29,21 @@ function displayBooks(books) {
     }
 }
 
-function displayPagination(totalPages, currentPage) {
+function displayPagination(totalPages, currentPage) {           // Creates a link for each page
     const pagination = document.getElementById('pagination');
-    pagination.innerHTML = '';
+    pagination.innerHTML = '';                  // Deletes previous data
 
     for (let i = 1; i <= totalPages; i++) {
         const pageLink = document.createElement('a');
         pageLink.href = '#';
-        pageLink.textContent = i;
+        pageLink.textContent = i;               // Link text linked to page number
         pageLink.style.margin = '0 5px';
 
-        if (i === currentPage) {
+        if (i === currentPage) {                // Bold the current page
             pageLink.style.fontWeight = 'bold';
         }
 
-        pageLink.addEventListener('click', (event) => {
+        pageLink.addEventListener('click', (event) => {     // Click on link calls fetchBooks for said link page
             event.preventDefault();
             fetchBooks(i);
         });
