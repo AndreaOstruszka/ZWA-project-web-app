@@ -24,7 +24,7 @@
             const password = document.getElementById("password");
 
             // Clear previous errors
-            document.querySelectorAll(".error").forEach(el => el.innerText = "");
+            document.querySelectorAll(".error").forEach(el => el.innerText = "");    // Delete all HTML elements with class error
             document.querySelectorAll("input").forEach(el => el.classList.remove("error-border"));
 
             // Validate required fields
@@ -33,7 +33,7 @@
                 userName.classList.add("error-border");
                 isValid = false;
             }
-            if (password.value.trim() === "") {
+            if (password.value.trim() === "") {             // If password is empty after deleting redundant characters, add error message
                 errors.password = "Password is required.";
                 password.classList.add("error-border");
                 isValid = false;
@@ -107,13 +107,11 @@ $conn->close();
 
 <!-- HTML login form -->
 <form method="POST" action="login.php" onsubmit="return validateLoginForm()">
-    Username or Email: <input type="text" name="user_name" id="user_name"
-                              value="<?php echo htmlspecialchars($user_name); ?>" required><br>
+    Username or Email: <input type="text" name="user_name" id="user_name" value="<?php echo htmlspecialchars($user_name); ?>" required><br>
     <span id="userNameError" class="error"><?php echo isset($errors["user_name"]) ? $errors["user_name"] : ''; ?></span><br>
 
     Password: <input type="password" name="password" id="password" required><br>
-    <span id="passwordError"
-          class="error"><?php echo isset($errors["password"]) ? $errors["password"] : ''; ?></span><br>
+    <span id="passwordError" class="error"><?php echo isset($errors["password"]) ? $errors["password"] : ''; ?></span><br>
 
     <input type="submit" value="Login">
 </form>
