@@ -1,79 +1,100 @@
 ﻿<!DOCTYPE html>
 <html lang='en'>
 <head>
-    <title>BookNook</title>
+    <title>BookNook - main page</title>
     <meta charset='utf-8'>
     <meta name="description" content='BOOK NOOK'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans&amp;subset=greek-ext,greek,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans&amp;subset=greek-ext,greek,latin-ext' rel='stylesheet' type='text/css'>  <!-- font style -->
+    <script src="https://kit.fontawesome.com/7bce69507d.js" crossorigin="anonymous"></script>   <!-- icons - font awesome -->
     <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
 <header>
-    <div id="login"><a href="login.html">Log in</a> <a href="register.html">Create an account</a></div>
+    <div id="login"><a href="login.html"><i class="fa-solid fa-lock"></i> Log in </a><a href="register.html"><i class="fa-solid fa-user-plus"></i> Create an account</a></div>
     <a href="index.html"><img src="images/logo.svg" alt="BookNook" id="logo"></a>
     <div id="navigation">
         <ul id="ul_navigation">
-            <li class="li_navigation"><a class="navigation_item" href="index.html">Main page</a></li>
-            <li class="li_navigation"><a class="navigation_item" href="index.html">Book chart</a></li>
-            <li class="li_navigation"><a class="navigation_item" href="index.html">My profile</a></li>
-            <li class="li_navigation"><a class="navigation_item" href="index.html">My books</a></li>
-            <li class="li_navigation"><a class="navigation_item" href="index.html">Something</a></li>
+            <li class="li_navigation"><a class="navigation_item" href="index.html"><i class="fa fa-bookmark"></i> Main page</a></li>
+            <li class="li_navigation"><a class="navigation_item" href="detail.html"><i class="fa-solid fa-book-open"></i> Books</a></li>
+            <li class="li_navigation"><a class="navigation_item" href="charts.html"><i class="fa-solid fa-chart-simple"></i> Book charts</a></li>
+            <li class="li_navigation"><a class="navigation_item" href="index.html"><i class="fa-solid fa-comment"></i> Reviews</a></li>
+            <li class="li_navigation"><a class="navigation_item" href="profile.html"><i class="fa-solid fa-user"></i> My profile</a></li>
         </ul>
     </div>
     <div class="formatting"></div>
 </header>
 <div id="content">
-    <nav id="genres">
-        <ul class="ul_genres">
-            <li class="li_genres"><a class="genres_item" href="index.html">Fantasy</a></li>
-            <li class="li_genres"><a class="genres_item" href="index.html">Sci-Fi</a></li>
-            <li class="li_genres"><a class="genres_item" href="index.html">Horror</a></li>
-            <li class="li_genres"><a class="genres_item" href="index.html">Romance</a></li>
-            <li class="li_genres"><a class="genres_item" href="index.html">ETC</a></li>
-        </ul>
-    </nav>
-    <article id="main-wider">
-        <h1>Main page</h1>
-        <h2>Lorem ipsum</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla in sem sit amet elementum. Duis
-            bibendum semper purus, non suscipit erat imperdiet id. Quisque sollicitudin dapibus ligula, non pretium sem
-            hendrerit a. Aliquam ut velit ut est hendrerit posuere.</p>
-        <p>Morbi placerat elementum eros quis tincidunt. Morbi ac justo sagittis, interdum elit in, tempor felis.
-            Integer nibh purus, porttitor sit amet odio eget, luctus gravida nisi. Maecenas ultrices felis rhoncus
-            iaculis fringilla. Suspendisse sit amet porttitor tortor, posuere dictum enim. Pellentesque habitant morbi
-            tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-        <p>Curabitur at justo vitae est bibendum euismod. Ut quis tellus eget nunc mollis congue. Praesent nisi tortor,
-            venenatis in ultricies eu, aliquet sed nisl. Morbi a odio ac odio scelerisque commodo at et nisi.</p>
-        <p>Sed augue leo, dictum a ligula in, ullamcorper ullamcorper lectus. Vestibulum vitae volutpat metus.
-            Suspendisse commodo, augue vitae accumsan sagittis, libero elit lobortis neque, sed viverra sapien ipsum sed
-            odio.</p>
-        <h2>Lorem ipsum</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla in sem sit amet elementum. Duis
-            bibendum semper purus, non suscipit erat imperdiet id. Quisque sollicitudin dapibus ligula, non pretium sem
-            hendrerit a. Aliquam ut velit ut est hendrerit posuere.</p>
-        <p>Morbi placerat elementum eros quis tincidunt. Morbi ac justo sagittis, interdum elit in, tempor felis.
-            Integer nibh purus, porttitor sit amet odio eget, luctus gravida nisi. Maecenas ultrices felis rhoncus
-            iaculis fringilla. Suspendisse sit amet porttitor tortor, posuere dictum enim. Pellentesque habitant morbi
-            tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-        <p>Curabitur at justo vitae est bibendum euismod. Ut quis tellus eget nunc mollis congue. Praesent nisi tortor,
-            venenatis in ultricies eu, aliquet sed nisl. Morbi a odio ac odio scelerisque commodo at et nisi.</p>
-        <p>Sed augue leo, dictum a ligula in, ullamcorper ullamcorper lectus. Vestibulum vitae volutpat metus.
-            Suspendisse commodo, augue vitae accumsan sagittis, libero elit lobortis neque, sed viverra sapien ipsum sed
-            odio.</p>
-        <h1>Main page</h1>
-        <h2>Lorem ipsum</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla in sem sit amet elementum. Duis
-            bibendum semper purus, non suscipit erat imperdiet id. Quisque sollicitudin dapibus ligula, non pretium sem
-            hendrerit a. Aliquam ut velit ut est hendrerit posuere.</p>
-        <p>Morbi placerat elementum eros quis tincidunt. Morbi ac justo sagittis, interdum elit in, tempor felis.
-            Integer nibh purus, porttitor sit amet odio eget, luctus gravida nisi. Maecenas ultrices felis rhoncus
-            iaculis fringilla. Suspendisse sit amet porttitor tortor, posuere dictum enim. Pellentesque habitant morbi
-            tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-        <p>Curabitur at justo vitae est bibendum euismod. Ut quis tellus eget nunc mollis congue. Praesent nisi tortor,
-            venenatis in ultricies eu, aliquet sed nisl. Morbi a odio ac odio scelerisque commodo at et nisi.</p>
-        <p>Sed augue leo, dictum a ligula in, ullamcorper ullamcorper lectus. Vestibulum vitae volutpat metus.
-            Suspendisse commodo, augue vitae accumsan sagittis, libero elit lobortis neque, sed viverra sapien ipsum sed
-            odio.</p>
+    <article id="main-widest">
+        <h1>Welcome to BookNook!</h1>
+        <div class="main_container">
+            <div class="section welcome">
+                <h2>Everything about your favourite books</h2>
+                <p>lorem ipsum
+                    <br>
+                </p>
+            </div>
+            <div class="section new_release">
+                <h2>New release</h2>
+                <div class="book_cover_div">
+                    <img src="images/ZMENIT.jpg" alt="Hobbit" class="book_cover">
+                </div>
+                <div class="book_info">
+                    <p>Name: Hobbit</p>
+                    <p>Author: J. R. R. Tolkien</p>
+                    <p>Release date: 31.12.2024
+                </div>
+            </div>
+            <div class="section most_popular">
+                <h2>Most popular</h2>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Author</th>
+                        <th>Rating</th>
+                    </tr>
+                    <tr>
+                        <td>Harry Potter</td>
+                        <td>J.K. Rowling</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>Hobbit</td>
+                        <td>J. R. R. Tolkien</td>
+                        <td>4,8</td>
+                    </tr>
+                    <tr>
+                        <td>1984</td>
+                        <td>George Orwell</td>
+                        <td>4,7</td>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="section new_reviews">
+                <h2>New reviews</h2>
+                <table>
+                    <tr>
+                        <p>1984 je dystopický román, který vykresluje temnou vizi totalitního světa, kde je každý aspekt
+                            života kontrolován státem. Hlavní postava, Winston Smith, se pokouší vzepřít neúprosnému
+                            režimu, což vede k dramatickému a tragickému závěru. Orwellova kniha je hlubokou kritikou
+                            totalitarismu a zůstává relevantní i v dnešní době.</p>
+                    </tr>
+                    <tr>
+                        <p>Malý princ je filozofická pohádka, která oslovuje čtenáře všech věkových kategorií svou
+                            jednoduchostí a hloubkou. Příběh malého prince, který cestuje mezi planetami a setkává se s
+                            různými postavami, odhaluje důležité životní pravdy o lásce, přátelství a smyslu života.
+                            Saint-Exupéryho nádherné ilustrace a poetický jazyk činí tuto knihu nezapomenutelným
+                            zážitkem.</p>
+                    </tr>
+                    <tr>
+                        <p>Sto roků samoty je magicko-realistický román, který sleduje osudy rodiny Buendíů ve fiktivním
+                            městě Macondo. Márquez mistrně proplétá realitu s magií a vytváří bohatý a komplexní svět
+                            plný fascinujících postav a událostí. Tato epická sága je oslavou latinskoamerické kultury a
+                            literatury, která čtenáře zcela pohltí.</p>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </article>
 </div>
 <footer><a class="return" href="#logo">Up</a>&copy; 2024 Andrea Ostruszkova</footer>
