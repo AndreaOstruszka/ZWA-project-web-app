@@ -391,6 +391,9 @@ a.genres_item:hover {
 
 .book_info p {
     margin: 5px 0;
+    color: var(--dark);
+    font-size: 1.1em;
+    padding-right: 3%;
 }
 
 .book_container img {
@@ -402,19 +405,71 @@ a.genres_item:hover {
     position: absolute;
     top: 5%;
     right: 10%;
-    padding: 1%;
-    background-color: rgba(255, 255, 255);
-    border-radius: 5px;
+    padding: 3%;
+    width: 18%;
+    background-color: var(--light);
+    border-radius: 3px;
 }
 
-.review {
-    margin-top: 3%;
-    margin-bottom: 3%;
-    padding: 2%;
+.rating p {
+    margin: 0; /* Ensure no margin around the paragraph */
+}
+
+.rating_button {
+    background-color: var(--dark-beige); /* Replace with your desired color */
+    border: none;
+    color: white;
+    padding: 0.5em;
+    margin-left: 10px;
+    text-align: center;
+    display: inline-block;
+    font-size: 0.9em;
+    border-radius: 3px;
+}
+
+.rating_button:hover {
+    background-color: var(--hover);
+    cursor: pointer;
+}
+
+.comment-section {
+    width: 97%;
+    margin: 1em auto;
+    padding: 10px;
     background-color: var(--light-beige);
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
+.comment {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--main-color);
+}
+
+.comment_text {
+    margin: 0 0 10px 0;
+    line-height: 1.5;
+    color: var(--main-color);
+    font-size: 1.1em;
+}
+
+.comment_info {
+    font-size: 14px;
+    color: var(--secondary-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1em;
+}
+
+.comment_user {
+    font-weight: bold;
+    color: var(--main-color);
+}
+
+.comment_time {
+    font-style: italic;
+    color: var(--main-color);
+}
 
 /* --------------------------- login and register -------------------------- */
 .form_wrapper {
