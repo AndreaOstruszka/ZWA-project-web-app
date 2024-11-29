@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
-    <title>BookNook</title>
+    <title>BookNook - register</title>
     <meta charset='utf-8'>
     <meta name="description" content='BOOK NOOK'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans&amp;subset=greek-ext,greek,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans&amp;subset=greek-ext,greek,latin-ext' rel='stylesheet'
+          type='text/css'>
     <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
@@ -26,43 +27,42 @@
     <article id="main-widest">
         <h1>Registration</h1>
         <br>
-        <form action="https://WHERE TO?" method="post" enctype="multipart/form-data">
-            <fieldset>
-                <legend>Please fill in info about yourself</legend>
-                <br>
+        <div class="form_wrapper">
+            <form action="https://WHERE TO?" method="post" enctype="multipart/form-data" class="my_form">
+                <legend>Please fill in info about yourself:</legend>
                 <label for="fName">First name:</label>
-                <input id="fName" type="text" name="fName" placeholder="John">
-                <br><br>
+                <input class="form_input" id="fName" type="text" name="fName" placeholder="John" required>
 
                 <label for="lName">Last name:</label>
-                <input id="lName" type="text" name="lName" placeholder="Smith">
-                <br><br>
+                <input class="form_input" id="lName" type="text" name="lName" placeholder="Doe" required>
 
                 <label for="nickname">Nickname:</label>
-                <input id="nickname" type="text" name="nickname" placeholder="BookWorm125">
-                <br><br>
+                <input class="form_input" id="nickname" type="text" name="nickname" placeholder="BookWorm125" required>
 
                 <label for="email">Email:</label>
-                <input id="email" type="email" name="email" required value="@">
-                <br><br>
+                <input class="form_input" id="email" type="email" name="email" value="@" required>
 
                 <label for="password">Password:</label>
-                <input id="password" type="text" name="password" placeholder="at least 6 characters">
+                <input class="form_input" id="password" type="password" name="password" placeholder="at least 6 characters" required>
+
                 <label for="repassword">Re-enter password:</label>
-                <input id="repassword" type="text" name="repassword">
-                <br><br><br>
+                <input class="form_input" id="repassword" type="password" name="repassword" required>
 
-                <button class="submit_button" type="submit">Create account</button>
-                <button class="reset_button" type="reset">Reset form</button>
-                <br><br>
-
-                <label>
-                    <input type="checkbox" name="agreed" value="yes" checked="">
+                <label class="checkbox_label">
+                    <input type="checkbox" name="agreed" value="yes" checked required>
                     I agree to the BookNook Terms of Service and Privacy Policy
-
                 </label>
-            </fieldset>
-        </form>
+
+                <div class="button_container">
+                    <button class="submit_button" type="submit">Create account</button>
+                    <button class="reset_button" type="reset">Reset form</button>
+                </div>
+            </form>
+            <div class="link_div">
+                <p>Already have an account? Click <a href="login.html">here!</a></p>
+            </div>
+            <br><br>
+        </div>
     </article>
 </div>
 <footer><a class="return" href="#logo">Up</a>&copy; 2024 Andrea Ostruszkova</footer>

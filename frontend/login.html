@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
-    <title>BookNook</title>
+    <title>BookNook - login</title>
     <meta charset='utf-8'>
     <meta name="description" content='BOOK NOOK'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans&amp;subset=greek-ext,greek,latin-ext' rel='stylesheet' type='text/css'>
@@ -26,23 +26,29 @@
     <article id="main-widest">
         <h1>Log in</h1>
         <br>
-        <form action="https://WHERE TO?" method="post" enctype="multipart/form-data">
-            <fieldset>
-                <legend>Please fill in your login info</legend>
-                <br>
-
-                <label for="nickname">Nickname:</label>
-                <input id="nickname" type="text" name="name" placeholder="e.g. Bookworm125">
-                <br><br>
-
-                <label for="password">Password:</label>
-                <input id="password" type="text" name="password" placeholder="*******">
-                <br><br>
-
-                <button class='submit_button' type="submit">Log in</button>
-                <button class='reset_button' type="reset">Reset form</button>
-            </fieldset>
-        </form>>
+        <div class="form_wrapper">
+            <div class="form_container">
+                <form action="https://WHERE TO?" method="post" enctype="multipart/form-data" class="my_form">
+                    <fieldset>
+                        <legend>Please fill in your login info:</legend>
+                        <br>
+                        <label for="nickname">Nickname:</label>
+                        <input class="form_input" id="nickname" type="text" name="name" placeholder="Bookworm125" required>
+                        <br><br>
+                        <label for="password">Password:</label>
+                        <input class="form_input" id="password" type="password" name="password" placeholder="*******" required>
+                        <br><br>
+                        <div class="button_container">
+                            <button class='submit_button' type="submit">Log in</button>
+                            <button class='reset_button' type="reset">Reset form</button>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="link_div">
+                <p>Don't have an account yet? Click <a href="register.html">here!</a></p>
+            </div>
+            <br><br>
+        </div>
     </article>
 </div>
 <footer><a class="return" href="#logo">Up</a>&copy; 2024 Andrea Ostruszkova</footer>
