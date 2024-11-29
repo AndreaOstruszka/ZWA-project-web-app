@@ -20,12 +20,12 @@ Czech Technical University in Prague, Faculty of Electrical Engineering
 - [Installation](#installation)
 
 ## Introduction – Project Brief
-A brief description of the project, its purpose, and its goals.
+A simple web app where registered users can view book charts, newly released books and write reviews. Admins can add or delete books, edit existing books and edit user settings.
 
 ## Project Overview and Scope
 Website name: Book Nook
 
-Purpuse: Like IMDB, but for books.
+Purpose: Like IMDB, but for books.
 
 Features: book reviews, book charts, 
 

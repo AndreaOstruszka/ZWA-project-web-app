@@ -28,7 +28,7 @@ function deleteBookById($conn, $id)
 }
 
 // Specify the ID of the book to delete
-$idToDelete = 4; // Change this to the desired ID
+//$idToDelete = 4; // Change this to the desired ID
 
 // Call the function to delete the book
 deleteBookById($conn, $idToDelete);

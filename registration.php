@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
 
 <!-- Styling for error highlighting -->
-<link rel="stylesheet" href="error_highlight.css">
+<link rel="stylesheet" href="frontend/css/error_highlight.css">
 
 <!-- Form with pre-filled values and error messages -->
 <form method="POST" action="">
@@ -92,32 +92,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <!-- In HTML if input is valid, then $form_data, else empty string -->
     First Name:
-    <input type="text" name="first_name" value="<?php echo htmlspecialchars($form_data['first_name']); ?>" class="<?php echo isset($errors['first_name']) ? 'input-error' : ''; ?>">
+    <input type="text" name="first_name" value="<?php echo htmlspecialchars($form_data['first_name']); ?>" class="<?php echo isset($errors['first_name']) ? 'error-border' : ''; ?>">
     <span class="error"><?php echo $errors["first_name"] ?? ''; ?></span>
     <br>
 
     Last Name:
-    <input type="text" name="last_name" value="<?php echo htmlspecialchars($form_data['last_name']); ?>" class="<?php echo isset($errors['last_name']) ? 'input-error' : ''; ?>">
+    <input type="text" name="last_name" value="<?php echo htmlspecialchars($form_data['last_name']); ?>" class="<?php echo isset($errors['last_name']) ? 'error-border' : ''; ?>">
     <span class="error"><?php echo $errors["last_name"] ?? ''; ?></span>
     <br>
 
     User Name:
-    <input type="text" name="user_name" value="<?php echo htmlspecialchars($form_data['user_name']); ?>" class="<?php echo isset($errors['user_name']) ? 'input-error' : ''; ?>">
+    <input type="text" name="user_name" value="<?php echo htmlspecialchars($form_data['user_name']); ?>" class="<?php echo isset($errors['user_name']) ? 'error-border' : ''; ?>">
     <span class="error"><?php echo $errors["user_name"] ?? ''; ?></span>
     <br>
 
     Email:
-    <input type="email" name="email" value="<?php echo htmlspecialchars($form_data['email']); ?>" class="<?php echo isset($errors['email']) ? 'input-error' : ''; ?>">
+    <input type="email" name="email" value="<?php echo htmlspecialchars($form_data['email']); ?>" class="<?php echo isset($errors['email']) ? 'error-border' : ''; ?>">
     <span class="error"><?php echo $errors["email"] ?? ''; ?></span>
     <br>
 
     Password:
-    <input type="password" name="password" class="<?php echo isset($errors['password']) ? 'input-error' : ''; ?>">
+    <input type="password" name="password" class="<?php echo isset($errors['password']) ? 'error-border' : ''; ?>">
     <span class="error"><?php echo $errors["password"] ?? ''; ?></span>
     <br>
 
     Confirm Password:
-    <input type="password" name="password_confirm" class="<?php echo isset($errors['password_confirm']) ? 'input-error' : ''; ?>">
+    <input type="password" name="password_confirm" class="<?php echo isset($errors['password_confirm']) ? 'error-border' : ''; ?>">
     <span class="error" id="password-error"><?php echo $errors["password_confirm"] ?? ''; ?></span>
     <br>
 

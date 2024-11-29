@@ -411,12 +411,8 @@ a.genres_item:hover {
     border-radius: 3px;
 }
 
-.rating p {
-    margin: 0; /* Ensure no margin around the paragraph */
-}
-
 .rating_button {
-    background-color: var(--dark-beige); /* Replace with your desired color */
+    background-color: var(--dark-beige);
     border: none;
     color: white;
     padding: 0.5em;
