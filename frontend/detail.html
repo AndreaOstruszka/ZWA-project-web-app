@@ -24,31 +24,40 @@
     <div class="formatting"></div>
 </header>
 <div id="content">
-    <article id="main-widest">
-        <h1>Log in</h1>
-        <br>
-        <div class="form_wrapper">
-            <div class="form_container">
-                <form action="https://WHERE TO?" method="post" enctype="multipart/form-data" class="my_form">
-                    <fieldset>
-                        <legend>Please fill in your login info:</legend>
-                        <br>
-                        <label for="nickname">Nickname:</label>
-                        <input class="form_input" id="nickname" type="text" name="name" placeholder="Bookworm125" required>
-                        <br><br>
-                        <label for="password">Password:</label>
-                        <input class="form_input" id="password" type="password" name="password" placeholder="*******" required>
-                        <br><br>
-                        <div class="button_container">
-                            <button class='submit_button' type="submit">Log in</button>
-                            <button class='reset_button' type="reset">Reset form</button>
-                    </fieldset>
-                </form>
+    <nav id="genres">
+        <ul class="ul_genres">
+            <li class="li_genres"><a class="genres_item" href="charts.html#chart_popular">Popular</a></li>
+            <li class="li_genres"><a class="genres_item" href="charts.html#chart_fantasy">Fantasy</a></li>
+            <li class="li_genres"><a class="genres_item" href="charts.html#chart_scifi">Sci-Fi</a></li>
+            <li class="li_genres"><a class="genres_item" href="charts.html#chart_horor">Horror</a></li>
+            <li class="li_genres"><a class="genres_item" href="charts.html#chart_romance">Romance</a></li>
+        </ul>
+    </nav>
+    <article id="main-wider">
+        <h1>Book detail</h1>
+        <h2>Hobbit</h2>
+        <div class="book_container">
+            <div class="book_cover_div">
+                <img src="images/hobbit2.jpg" alt="Hobbit" class="book_cover">
             </div>
-            <div class="link_div">
-                <p>Don't have an account yet? Click <a href="register.html">here!</a></p>
+            <div class="book_info">
+                <p class="rating">Rating: 4.8/5</p>
+                <p>Author: J. R. R. Tolkien</p>
+                <p>ISBN: 496 660 164</p>
+                <p>Literary genre: prose</p>
+                <p>Fictional genre: fantasy</p>
             </div>
-            <br><br>
+        </div>
+        <div class="review_container">
+            <div class="review">
+                <p>Kniha se mi libila.</p>
+            </div>
+            <div class="review">
+                Kniha se mi nelibila.
+            </div>
+            <div class="review">
+                Hezka kniha.
+            </div>
         </div>
     </article>
 </div>
