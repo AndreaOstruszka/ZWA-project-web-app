@@ -428,7 +428,7 @@ a.genres_item:hover {
     cursor: pointer;
 }
 
-.comment-section {
+.review_section {
     width: 97%;
     margin: 1em auto;
     padding: 10px;
@@ -436,20 +436,20 @@ a.genres_item:hover {
     border-radius: 3px;
 }
 
-.comment {
+.review {
     padding: 10px;
     margin-bottom: 15px;
     border-bottom: 1px solid var(--main-color);
 }
 
-.comment_text {
+.review_text {
     margin: 0 0 10px 0;
     line-height: 1.5;
     color: var(--main-color);
     font-size: 1.1em;
 }
 
-.comment_info {
+.review_info {
     font-size: 14px;
     color: var(--secondary-color);
     display: flex;
@@ -457,16 +457,32 @@ a.genres_item:hover {
     gap: 1em;
 }
 
-.comment_user {
+.review_user {
     font-weight: bold;
     color: var(--main-color);
 }
 
-.comment_time {
+.review_time{
     font-style: italic;
     color: var(--main-color);
 }
 
+.add_comment_button {
+    background-color: var(--dark-beige);
+    border: none;
+    color: white;
+    padding: 1em;
+    margin-left: 10px;
+    text-align: center;
+    display: inline-block;
+    font-size: 1em;
+    border-radius: 3px;
+}
+
+.add_comment_button:hover {
+    background-color: var(--hover);
+    cursor: pointer;
+}
 /* --------------------------- login and register -------------------------- */
 .form_wrapper {
     display: flex;
