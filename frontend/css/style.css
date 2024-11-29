@@ -181,8 +181,8 @@ a.return {
     width: 100px;
     margin: 0 auto;
     margin-bottom: 5px;
-    padding: 0;
-    padding-bottom: 5px;
+    padding-top: 6px;
+    padding-bottom: 4px;
     background-color: var(--main-color);
 
     text-align: center;
