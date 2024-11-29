@@ -119,13 +119,17 @@ p {
     height: auto;
 }
 
-#login {
+#header_links {
     height: 28px;
     color: var(--light);
     text-align: right;
     padding-right: 10px;
     padding-left: 10px;
     padding-top: 5px;
+}
+
+.header_register_link {
+    margin-left: 10px;
 }
 
 #navigation {
@@ -168,7 +172,7 @@ a.navigation_item:link {
 
     border-style: solid;
     border-width: 1px;
-    color: var(--light);
+    border-color: #686356;
     border-bottom: none;
 }
 
@@ -628,7 +632,7 @@ th {
         margin-left: auto;
     }
 
-    #login {
+    #header_links {
         text-align: center;
     }
 
@@ -657,7 +661,7 @@ th {
         width: 95%;
     }
 
-    #login {
+    #header_links {
         margin-bottom: -33px;
     }
 
@@ -746,7 +750,7 @@ th {
         margin-left: 10px;
     }
 
-    #login {
+    #header_links {
         margin-bottom: -33px;
     }
 }
