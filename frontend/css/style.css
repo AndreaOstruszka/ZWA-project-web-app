@@ -337,6 +337,30 @@ a.genres_item:hover {
     border-radius: 4px;
 }
 
+.review_index {
+    margin-bottom: 1em;
+    padding: 0.8em;
+    background-color: var(--light);
+    border-radius: 5px;
+    border: 1px solid var(--light-beige);
+}
+
+.review_book_index {
+    font-size: 1em;
+    color: var(--main-color);
+    margin-bottom: 1%;
+}
+
+.review_user_index {
+    font-size: 1em;
+    color: var(--main-color);
+    margin-bottom: 1%;
+}
+
+.review_text_index {
+    font-size: 1em;
+    color: var(--main-color);
+}
 /* --------------------------- my profile -------------------------- */
 .profile_container {
     display: flex;
