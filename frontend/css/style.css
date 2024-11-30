@@ -70,12 +70,54 @@ header {
 }
 
 footer {
-    clear: both;
     background-color: var(--main-color);
-    text-align: center;
-    padding-bottom: 5px;
     color: var(--light);
-    margin-top: auto;
+    text-align: center;
+    padding: 0 20px 20px 20px; /* No padding on the top, 20px padding on other sides */
+    width: 100%;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+#footer-container {
+    width: 95%;
+    max-width: 1280px;
+    margin: 0 auto;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+#footer-row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#footer-row-middle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#footer-row-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.footer-half-left {
+    text-align: left;
+}
+
+.footer-half-right {
+    text-align: right;
+}
+
+.footer-half-left a {
+    margin-right: 10px;
+    color: var(--light);
+    text-decoration: none;
 }
 
 /*q {*/
@@ -155,7 +197,7 @@ p {
     padding: 0;
 }
 
-a.navigation_item:link {
+a.navigation_item {
     display: block;
     margin: 0;
     background-color: var(--main-color);
@@ -194,6 +236,8 @@ a.return {
     border-width: 1px;
     border-color: #686356;
     border-top: none;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
 a.navigation_item:hover, a.return:hover {
@@ -678,6 +722,12 @@ th {
         display: block;
     }
 
+    #footer-container {
+        width: 95%;
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+
     .section {
         width: 100%;
     }
@@ -717,6 +767,10 @@ th {
     #main-wider {
         width: auto;
         margin-left: 250px;
+    }
+
+    #footer-container {
+        width: 95%;
     }
 
     #genres {
@@ -776,6 +830,12 @@ th {
         width: auto;
         margin-left: 10px;
         margin-right: 10px;
+    }
+
+    #footer-container {
+        width: 75%;
+        max-width: 1280px;
+        margin: 0 auto;
     }
 
     #genres {
