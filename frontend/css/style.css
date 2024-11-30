@@ -857,7 +857,7 @@ th {
     }
 
     html {
-        background: var(--color-primary-lightest) url("../images/background.jpg");
+        background: var(--color-primary-lightest) url("../images/gui/background.jpg");
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
