@@ -84,37 +84,40 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
 
 <!-- JavaScript for password validation -->
-<script>
-    function validatePassword() {
-        const password = document.querySelector('input[name="password"]').value;
-        const passwordConfirm = document.querySelector('input[name="password_confirm"]').value;
-        const errorMessage = document.getElementById('password-error');
+<!--<script>-->
+<!--    function validatePassword() {-->
+<!--        const password = document.querySelector('input[name="password"]').value;-->
+<!--        const passwordConfirm = document.querySelector('input[name="password_confirm"]').value;-->
+<!--        const errorMessage = document.getElementById('password-error');-->
+<!---->
+<!--        if (password !== passwordConfirm)   // zkontroluj, jestli to takhle funguje-->
+<!--            errorMessage.textContent = "Passwords do not match. JS";-->
+<!--        } else {-->
+<!--            errorMessage.textContent = ""; // Clear error message if passwords match-->
+<!--        }-->
+<!--    }-->
+<!--                                                                    // tu opravit DOMContentLoaded - script hodit na konec kodu (dle Duska)-->
+<!--    document.addEventListener('DOMContentLoaded', function() {          // addEventListener starts when user starts typing into the password field-->
+<!--        document.querySelector('input[name="password"]').addEventListener('input', validatePassword);-->
+<!--        document.querySelector('input[name="password_confirm"]').addEventListener('input', validatePassword);-->
+<!--    });-->
+<!--</script>-->
 
-        if (password !== passwordConfirm)   // zkontroluj, jestli to takhle funguje
-            errorMessage.textContent = "Passwords do not match. (JS)";
-        } else {
-            errorMessage.textContent = ""; // Clear error message if passwords match
-        }
-    }
-                                                                    // tu opravit DOMContentLoaded - script hodit na konec kodu (dle Duska)
-    document.addEventListener('DOMContentLoaded', function() {          // addEventListener starts when user starts typing into the password field
-        document.querySelector('input[name="password"]').addEventListener('input', validatePassword);
-        document.querySelector('input[name="password_confirm"]').addEventListener('input', validatePassword);
-    });
-</script>
-
-<!-- Styling for error highlighting -->
-<style>
-    .error { color: red; font-size: 0.9em; }
-    .input-error { border-color: red; }
-</style>
-
-<!-- Form with pre-filled values and error messages -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+    <style>
+        .error { color: red; font-size: 0.9em; }
+        .input-error { border-color: red; }
+    </style>
+</head>
+<body>
 <form method="POST" action="">
     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
-    <!-- In HTML if input is valid, then $form_data, else empty string -->
-    First Name 1:
+    First Name:
     <input type="text" name="first_name" value="<?php echo htmlspecialchars($form_data['first_name']); ?>" class="<?php echo isset($errors['first_name']) ? 'input-error' : ''; ?>">
     <span class="error"><?php echo $errors["first_name"] ?? ''; ?></span>
     <br>
@@ -146,3 +149,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <input type="submit" value="Register">
 </form>
+
+<script>
+    function validatePassword() {
+        const password = document.querySelector('input[name="password"]').value;
+        const passwordConfirm = document.querySelector('input[name="password_confirm"]').value;
+        const errorMessage = document.getElementById('password-error');
+
+        if (password !== passwordConfirm) {
+            errorMessage.textContent = "Passwords do not match. JS";
+        } else {
+            errorMessage.textContent = ""; // Clear error message if passwords match
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordInput = document.querySelector('input[name="password"]');
+        const passwordConfirmInput = document.querySelector('input[name="password_confirm"]');
+
+        passwordInput.addEventListener('input', validatePassword);
+        passwordConfirmInput.addEventListener('input', validatePassword);
+    });
+</script>
+</body>
+</html>
