@@ -1,79 +1,88 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
-  <title>BookNook - main page</title>
-  <meta charset='utf-8'>
-  <meta name="description" content='BOOK NOOK'>
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans&amp;subset=greek-ext,greek,latin-ext' rel='stylesheet' type='text/css'>  <!-- font style -->
-  <script src="https://kit.fontawesome.com/7bce69507d.js" crossorigin="anonymous"></script>   <!-- icons - font awesome -->
-  <link rel="stylesheet" href="css/style.css" type="text/css">
+    <title>BookNook - main page</title>
+    <meta charset='utf-8'>
+    <meta name="description" content='BOOK NOOK'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans&amp;subset=greek-ext,greek,latin-ext' rel='stylesheet'
+          type='text/css'>  <!-- font style -->
+    <script src="https://kit.fontawesome.com/7bce69507d.js" crossorigin="anonymous"></script>
+    <!-- icons - font awesome -->
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
 <header>
-  <div id="header_links"><a class="header_login_link" href="login.html"><i class="fa-solid fa-lock"></i> Log in </a><a class="header_register_link" href="register.html"><i class="fa-solid fa-user-plus"></i> Register</a></div>
-  <a href="index.html"><img src="images/logo.svg" alt="BookNook" id="logo"></a>
-  <div id="navigation">
-    <ul id="ul_navigation">
-      <li class="li_navigation"><a class="navigation_item" href="index.html"><i class="fa fa-bookmark"></i> Main page</a></li>
-      <li class="li_navigation"><a class="navigation_item" href="detail.html"><i class="fa-solid fa-book-open"></i> Books</a></li>
-      <li class="li_navigation"><a class="navigation_item" href="charts.html"><i class="fa-solid fa-chart-simple"></i> Charts</a></li>
-      <li class="li_navigation"><a class="navigation_item" href="index.html"><i class="fa-solid fa-comment"></i> Reviews</a></li>
-      <li class="li_navigation"><a class="navigation_item" href="profile.html"><i class="fa-solid fa-user"></i> My profile</a></li>
-    </ul>
-  </div>
-  <div class="formatting"></div>
+    <div id="header_links"><a class="header_login_link" href="login.html"><i class="fa-solid fa-lock"></i> Log in </a><a
+            class="header_register_link" href="register.html"><i class="fa-solid fa-user-plus"></i> Register</a></div>
+    <a href="index.html"><img src="images/logo.svg" alt="BookNook" id="logo"></a>
+    <div id="navigation">
+        <ul id="ul_navigation">
+            <li class="li_navigation"><a class="navigation_item" href="index.html"><i class="fa fa-bookmark"></i> Main
+                page</a></li>
+            <li class="li_navigation"><a class="navigation_item" href="detail.html"><i
+                    class="fa-solid fa-book-open"></i> Books</a></li>
+            <li class="li_navigation"><a class="navigation_item" href="charts.html"><i
+                    class="fa-solid fa-chart-simple"></i> Charts</a></li>
+            <li class="li_navigation"><a class="navigation_item" href="index.html"><i class="fa-solid fa-comment"></i>
+                Reviews</a></li>
+            <li class="li_navigation"><a class="navigation_item" href="profile.html"><i class="fa-solid fa-user"></i> My
+                profile</a></li>
+        </ul>
+    </div>
+    <div class="formatting"></div>
 </header>
 
 <div id="content">
-  <article id="main-widest">
-    <h1>My profile</h1>
-    <h2>Profile details</h2>
+    <article id="main-widest">
+        <h1>My profile</h1>
+        <h2>Profile details</h2>
 
-    <div class="profile_container">
-      <div class="profile_info">
-        <p><strong>Nickname:</strong> andy</p>
-        <p><strong>First Name:</strong> A</p>
-        <p><strong>Last Name:</strong> O</p>
-        <p><strong>Email:</strong> andy@mail.cz</p>
+        <div class="profile_container">
+            <div class="profile_info">
+                <p><strong>Nickname:</strong> andy</p>
+                <p><strong>First Name:</strong> A</p>
+                <p><strong>Last Name:</strong> O</p>
+                <p><strong>Email:</strong> andy@mail.cz</p>
 
-        <div class="profile_links">
-          <a href="edit.html">Edit profile</a>
+                <div class="profile_links">
+                    <a href="edit.html">Edit profile</a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div>
-      <h2>My reviews</h2>
-      <div>
+        <div>
+            <h2>My reviews</h2>
+            <div>
 
-      </div>
-    </div>
+            </div>
+        </div>
 
-    <div>
-      <h2>My books</h2>
-      <div>
-
-      </div>
-    </div>
-  </article>
+        <div>
+            <h2>Books inserted by me</h2>
+            <a href=detail.html title="Book Title"><div class="book_cover_image_wrapper"><img src="images/covers/cover-hobbit.jpg" alt="" height="220" width="160">Book Title</div></a>
+            <a href=detail.html title="Book Title"><div class="book_cover_image_wrapper"><img src="images/covers/cover-hobbit.jpg" alt="" height="220" width="160">Book Title</div></a>
+            <a href=detail.html title="Book Title"><div class="book_cover_image_wrapper"><img src="images/covers/cover-hobbit.jpg" alt="" height="220" width="160">Book Title</div></a>
+            <div class="formatting"></div>
+        </div>
+    </article>
 </div>
 <footer>
-  <div id="footer-container">
-    <div class="footer-row"><a class="return" href="#logo"><i class="fa solid fa-chevron-up fa-2xl" aria-hidden="true"></i></a></div>
-    <div class="footer-row">
-      <div class="footer-half-left">
-        <a href="terms.html">Terms & Conditions</a></div>
-      <div class="footer-half-right"></div>
+    <div id="footer-container">
+        <div class="footer-row"><a class="return" href="#logo"><i class="fa solid fa-chevron-up fa-2xl" aria-hidden="true"></i></a></div>
+        <div class="footer-row">
+            <div class="footer-half-left">
+                <a href="terms.html">Terms & Conditions</a></div>
+            <div class="footer-half-right"></div>
+        </div>
+        <div class="footer-row">
+            <div class="footer-half-left">
+                <a href="https://www.facebook.com" target="_blank"><i class="fa fa-facebook fa-xl"></i></a>
+                <a href="https://www.twitter.com" target="_blank"><i class="fa fa-twitter fa-xl"></i></a>
+                <a href="https://www.instagram.com" target="_blank"><i class="fa fa-instagram fa-xl"></i></a>
+            </div>
+            <div class="footer-half-right">&copy; 2024 Andrea Ostruszkova</div>
+        </div>
     </div>
-    <div class="footer-row">
-      <div class="footer-half-left">
-        <a href="https://www.facebook.com" target="_blank"><i class="fa fa-facebook fa-xl"></i></a>
-        <a href="https://www.twitter.com" target="_blank"><i class="fa fa-twitter fa-xl"></i></a>
-        <a href="https://www.instagram.com" target="_blank"><i class="fa fa-instagram fa-xl"></i></a>
-      </div>
-      <div class="footer-half-right">&copy; 2024 Andrea Ostruszkova</div>
-    </div>
-  </div>
 </footer>
 </body>
 </html>
