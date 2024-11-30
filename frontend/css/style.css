@@ -138,7 +138,7 @@ p {
     font-size: 16px;
 }
 
-.formatting {
+.spacing {
     clear: both;
 }
 
@@ -147,7 +147,7 @@ p {
     height: auto;
 }
 
-#header_links {
+#header-links-container {
     height: 28px;
     color: var(--color-primary-lightest);
     text-align: right;
@@ -156,7 +156,7 @@ p {
     padding-top: 5px;
 }
 
-.header_register_link {
+.header-register-link {
     margin-left: 10px;
 }
 
@@ -183,7 +183,7 @@ p {
     padding: 0;
 }
 
-a.navigation_item {
+a.navigation-item {
     display: block;
     margin: 0;
     background-color: var(--color-primary-dark);
@@ -226,7 +226,7 @@ a.return {
     border-bottom-right-radius: 6px;
 }
 
-a.navigation_item:hover, a.return:hover {
+a.navigation-item:hover, a.return:hover {
     background-color: var(--color-secondary-medium);
     color: var(--color-primary-lightest);
     border-color: var(--color-primary-lightest);
@@ -241,7 +241,7 @@ a:hover {
     color: var(--color-secondary-medium);
 }
 
-a.genres_item {
+a.genres-item {
     display: block;
     margin: 0;
     padding: 7px 0 7px 7px;
@@ -257,7 +257,7 @@ a.genres_item {
     border-top: none;
 }
 
-a.genres_item:hover {
+a.genres-item:hover {
     background-color: var(--color-secondary-medium);
     color: var(--color-primary-lightest);
     transition: background-color 0.3s ease;
@@ -278,28 +278,28 @@ a.genres_item:hover {
     margin-bottom: 10px;
 }
 
-.ul_genres {
+.ul-genres {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-.li_genres {
+.li-genres {
     width: 100%;
 }
 
-#ul_navigation {
+#ul-navigation {
     width: auto;
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-.li_navigation {
+.li-navigation {
     width: 100%;
 }
 
-.submit_button {
+.button-submit {
     background-color: var(--color-primary-dark);
     border: none;
     color: var(--color-primary-lightest);
@@ -311,12 +311,12 @@ a.genres_item:hover {
     border-radius: 8px;
 }
 
-.submit_button:hover {
+.button-submit:hover {
     background-color: var(--color-secondary-medium);
     color: var(--color-primary-lightest);
 }
 
-.reset_button {
+.button-reset {
     background-color: var(--color-primary-light);
     border: none;
     color: var(--color-primary-dark);
@@ -328,28 +328,28 @@ a.genres_item:hover {
     border-radius: 8px;
 }
 
-.reset_button:hover {
+.button-reset:hover {
     background-color: var(--color-secondary-medium);
     color: var(--color-primary-lightest);
 }
 
-.book_container {
+.book-container {
     display: flex;
     flex-wrap: wrap;
 }
 
-.book_cover_div {
+.book-cover-div {
     flex: 0 0 30%;
 }
 
-.book_cover {
+.book-cover {
     width: 100%;
     height: auto;
     border: 1px solid #ccc;
 }
 
 /* --------------------------- main page -------------------------- */
-.main_container {
+.main-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -367,18 +367,18 @@ a.genres_item:hover {
     border-radius: 4px;
 }
 
-.new_release_container {
+.new-release-container {
     display: flex;
     align-items: flex-start;
 }
 
-.book_cover_mini {
+.book-cover-mini {
     width: 100%;
     height: auto;
     margin-right: 2%
 }
 
-.book_info_mini {
+.book-info-mini {
     position: relative;
     flex: 2;
     padding-top: 3%;
@@ -388,11 +388,11 @@ a.genres_item:hover {
     border-radius: 5px;
 }
 
-.book_cover_div {
+.book-cover-div {
     flex: 1;
 }
 
-.review_index {
+.review-index {
     position: relative;
     margin-bottom: 1em;
     padding: 0.8em;
@@ -401,7 +401,7 @@ a.genres_item:hover {
     border: 1px solid var(--color-primary-light);
 }
 
-.review_index * {
+.review-index * {
     font-size: 1em;
     color: var(--color-primary-dark);
     margin-bottom: 1%;
@@ -410,7 +410,7 @@ a.genres_item:hover {
 
 /* ----------------------- books overview ------------------------ */
 
-.book_cover_image_wrapper {
+.book-cover-image-wrapper {
     float: left;
     width: 160px;
     margin: 5px;
@@ -419,40 +419,40 @@ a.genres_item:hover {
     color: var(--color-primary-dark);
 }
 
-.book_cover_image_wrapper:hover {
+.book-cover-image-wrapper:hover {
     background-color: var(--color-secondary-medium);
     color: var(--color-primary-lightest);
 }
 
 /* --------------------------- my profile -------------------------- */
-.profile_container {
+.profile-container {
     display: flex;
     justify-content: space-around;
     padding: 1em;
     margin: 0 auto;
 }
 
-.profile_info {
+.profile-info {
     flex: 1;
     padding: 20px;
     font-family: 'Arial', sans-serif;
 }
 
-.profile_info p {
+.profile-info p {
     font-size: 1.4em;
     margin-bottom: 1em;
 }
 
-.profile_info strong {
+.profile-info strong {
     font-weight: bold;
 }
 
-.profile_links {
+.profile-links {
     text-align: center;
     margin-top: 1em;
 }
 
-.profile_links a {
+.profile-links a {
     display: inline-block;
     background-color: var(--color-primary-darkest);
     color: white;
@@ -465,14 +465,14 @@ a.genres_item:hover {
     transition: background-color 0.3s ease;
 }
 
-.profile_links a:hover {
+.profile-links a:hover {
     background-color: var(--color-secondary-medium);
 }
 
-.review_edit_span {
+.review-edit-span {
 }
 
-#review_container .edit_button {
+#review-container .button-edit {
     color: var(--color-primary-dark);
     background: none;
     border: none;
@@ -481,19 +481,19 @@ a.genres_item:hover {
     cursor: pointer;
 }
 
-#review_container .edit_button:hover {
+#review-container .button-edit:hover {
     color: var(--color-secondary-medium);
     text-decoration: underline var(--color-secondary-medium);
 }
 
-.review_edit_span {
+.review-edit-span {
     position: absolute;
     bottom: 1em;
     right: 2em;
 }
 
 /* --------------------------- book detail -------------------------- */
-.book_info {
+.book-info {
     position: relative;
     flex: 1;
     padding-top: 3%;
@@ -504,23 +504,23 @@ a.genres_item:hover {
 }
 
 
-.book_info p {
+.book-info p {
     margin: 2%;
     color: var(--color-primary-darkest);
     font-size: 1.1em;
 }
 
-.book_container {
+.book-container {
     margin: 3%;
 }
 
-.book_cover_div {
+.book-cover-div {
     flex: 1;
     height: auto;
     width: 100%;
 }
 
-.book_info {
+.book-info {
     flex: 2;
 }
 
@@ -536,7 +536,7 @@ a.genres_item:hover {
     border-radius: 3px;
 }
 
-.review_container {
+.review-container {
     width: 97%;
     margin: 1em auto;
     padding: 10px;
@@ -551,14 +551,14 @@ a.genres_item:hover {
     border-bottom: 1px solid var(--color-primary-dark);
 }
 
-.review_text {
+.review-text {
     margin: 0 0 1em 0;
     line-height: 1.5;
     color: var(--color-primary-dark);
     font-size: 1.1em;
 }
 
-.review_info {
+.review-info {
     font-size: 1em;
     margin-bottom: 1em;
     color: var(--color-primary-dark);
@@ -567,16 +567,16 @@ a.genres_item:hover {
     gap: 1em;
 }
 
-.review_user, .review_rating, .review_book {
+.review-user, .review-rating, .review-book {
     font-weight: bold;
     color: var(--color-primary-dark);
 }
 
-.review_user {
+.review-user {
     margin-right: 2%;
 }
 
-.review_time {
+.review-time {
     font-style: italic;
     color: var(--color-primary-dark);
     font-size: 0.9em;
@@ -585,28 +585,28 @@ a.genres_item:hover {
     right: 2em;
 }
 
-.button_container {
+.button-container {
     display: flex;
     justify-content: center;
 }
 
-.framed_form {
+.framed-form {
     border: 1px solid var(--color-primary-darkest);
     padding: 1em;
     border-radius: 3px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form_detail#review_text{
+.form-detail#review-text{
     width: 96%;
 }
 
-.form_detail#review_rating {
+.form-detail#review-rating {
     width: 100%;
     color: var(--color-primary-dark);
 }
 
-.add_comment_button {
+.add-comment-button {
     background-color: var(--color-primary-darkest);
     border: none;
     color: white;
@@ -618,32 +618,32 @@ a.genres_item:hover {
     border-radius: 3px;
 }
 
-.add_comment_button:hover {
+.add-comment-button:hover {
     background-color: var(--color-secondary-medium);
     cursor: pointer;
 }
 
-/*.book-table th.title_table, .book-table td.title_table {*/
+/*.book-table th.title-table, .book-table td.title-table {*/
 /*    width: 50%;*/
 /*}*/
 
-/*.book-table th.author_table, .book-table td.author_table {*/
+/*.book-table th.author-table, .book-table td.author-table {*/
 /*    width: 33.33%;*/
 /*}*/
 
-/*.book-table th.rating_table, .book-table td.rating_table {*/
+/*.book-table th.rating-table, .book-table td.rating-table {*/
 /*    width*/
 
 /* --------------------------- charts -------------------------- */
 /* --------------------------- login and register -------------------------- */
-.form_wrapper {
+.form-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.form_container {
+.form-container {
     width: 100%;
 }
 
@@ -674,7 +674,7 @@ label {
     letter-spacing: 0.05em;
 }
 
-.form_input {
+.form-input {
     width: 100%;
     padding: 0.5em;
     margin: 0.5em 0;
@@ -684,7 +684,7 @@ label {
     font-size: 1em;
 }
 
-.submit_button, .reset_button {
+.button-submit, .button-reset {
     width: 50%;
     padding: 0.5em;
     margin: 1em 1%;
@@ -698,21 +698,21 @@ label {
     transition: background-color 0.3s ease;
 }
 
-.link_div {
+.link-div {
     text-align: center;
     margin-top: 1em;
 }
 
-.link_div a {
+.link-div a {
     color: var(--color-primary-darkest);
     transition: background-color 0.3s ease;
 }
 
-.link_div a:hover {
+.link-div a:hover {
     color: var(--color-secondary-medium);
 }
 
-.button_container {
+.button-container {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -720,7 +720,7 @@ label {
     margin-bottom: 1em;
 }
 
-.checkbox_label {
+.checkbox-label {
     align-items: center;
     font-size: 1em;
     margin-top: 1em;
@@ -780,16 +780,16 @@ th {
         margin-left: auto;
     }
 
-    #header_links {
+    #header-links-container {
         text-align: center;
     }
 
-    a.navigation_item:link {
+    a.navigation-item:link {
         text-align: left;
         padding-left: 5px;
     }
 
-    .main_container {
+    .main-container {
         display: block;
     }
 
@@ -815,16 +815,16 @@ th {
         width: 95%;
     }
 
-    #header_links {
+    #header-links-container {
         margin-bottom: -33px;
     }
 
-    .li_navigation {
+    .li-navigation {
         width: 20%;
         float: left;
     }
 
-    .li_navigation_wider {
+    .li-navigation-wider {
         width: 17%;
         float: left;
     }
@@ -868,12 +868,12 @@ th {
         width: 75%;
     }
 
-    .li_navigation {
+    .li-navigation {
         width: 20%;
         float: left;
     }
 
-    .li_navigation_wider {
+    .li-navigation-wider {
         width: 17%;
         float: left;
     }
@@ -914,7 +914,7 @@ th {
         margin-left: 10px;
     }
 
-    #header_links {
+    #header-links-container {
         margin-bottom: -33px;
     }
 }
