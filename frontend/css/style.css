@@ -428,7 +428,6 @@ a.genres_item:hover {
 .profile_container {
     display: flex;
     justify-content: space-around;
-    margin-top: 2em;
     padding: 1em;
     margin: 0 auto;
 }
@@ -469,6 +468,26 @@ a.genres_item:hover {
 .profile_links a:hover {
     background-color: var(--color-secondary-medium);
 }
+
+.review_edit_span {
+}
+
+#review_container .edit_button {
+    color: var(--color-primary-dark);
+}
+
+
+#review_container .edit_button:hover {
+    color: var(--color-secondary-medium);
+    text-decoration: underline var(--color-secondary-medium);
+}
+
+.review_edit_span {
+    position: absolute;
+    bottom: 1em;
+    right: 2em;
+}
+
 /* --------------------------- book detail -------------------------- */
 .book_info {
     position: relative;
@@ -517,8 +536,9 @@ a.genres_item:hover {
     width: 97%;
     margin: 1em auto;
     padding: 10px;
-    background-color: var(--color-primary-light);
+    background-color: var(--color-primary-lightest);
     border-radius: 3px;
+    position: relative;
 }
 
 .review {
@@ -530,7 +550,6 @@ a.genres_item:hover {
 .review_text {
     margin: 0 0 1em 0;
     line-height: 1.5;
-    color: var(--main-color);
     color: var(--color-primary-dark);
     font-size: 1.1em;
 }
@@ -555,7 +574,7 @@ a.genres_item:hover {
 
 .review_time {
     font-style: italic;
-    color: var(--main-color);
+    color: var(--color-primary-dark);
     font-size: 0.9em;
     position: absolute;
     top: 1em;
@@ -568,7 +587,7 @@ a.genres_item:hover {
 }
 
 .framed_form {
-    border: 1px solid var(--dark-beige);
+    border: 1px solid var(--color-secondary-dark);
     padding: 1em;
     border-radius: 3px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
