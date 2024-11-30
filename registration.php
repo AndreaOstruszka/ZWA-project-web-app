@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($stmt->execute()) {
                 $stmt->close();
                 $conn->close();
-                unset($_SESSION['csrf_token']);                 // Remove token only after successful registration
+                unset($_SESSION['csrf_token']); // Remove token only after successful registration
                 header("Location: registration_success.php");
                 exit();
             } else {
@@ -83,46 +83,66 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 
+<!-- JavaScript for password validation -->
+<script>
+    function validatePassword() {
+        const password = document.querySelector('input[name="password"]').value;
+        const passwordConfirm = document.querySelector('input[name="password_confirm"]').value;
+        const errorMessage = document.getElementById('password-error');
+
+        if (password !== passwordConfirm)   // zkontroluj, jestli to takhle funguje
+            errorMessage.textContent = "Passwords do not match. (JS)";
+        } else {
+            errorMessage.textContent = ""; // Clear error message if passwords match
+        }
+    }
+                                                                    // tu opravit DOMContentLoaded - script hodit na konec kodu (dle Duska)
+    document.addEventListener('DOMContentLoaded', function() {          // addEventListener starts when user starts typing into the password field
+        document.querySelector('input[name="password"]').addEventListener('input', validatePassword);
+        document.querySelector('input[name="password_confirm"]').addEventListener('input', validatePassword);
+    });
+</script>
+
 <!-- Styling for error highlighting -->
-<link rel="stylesheet" href="frontend/css/notifications.css">
+<style>
+    .error { color: red; font-size: 0.9em; }
+    .input-error { border-color: red; }
+</style>
 
 <!-- Form with pre-filled values and error messages -->
 <form method="POST" action="">
     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
     <!-- In HTML if input is valid, then $form_data, else empty string -->
-    First Name:
-    <input type="text" name="first_name" value="<?php echo htmlspecialchars($form_data['first_name']); ?>" class="<?php echo isset($errors['first_name']) ? 'error-border' : ''; ?>">
+    First Name 1:
+    <input type="text" name="first_name" value="<?php echo htmlspecialchars($form_data['first_name']); ?>" class="<?php echo isset($errors['first_name']) ? 'input-error' : ''; ?>">
     <span class="error"><?php echo $errors["first_name"] ?? ''; ?></span>
     <br>
 
     Last Name:
-    <input type="text" name="last_name" value="<?php echo htmlspecialchars($form_data['last_name']); ?>" class="<?php echo isset($errors['last_name']) ? 'error-border' : ''; ?>">
+    <input type="text" name="last_name" value="<?php echo htmlspecialchars($form_data['last_name']); ?>" class="<?php echo isset($errors['last_name']) ? 'input-error' : ''; ?>">
     <span class="error"><?php echo $errors["last_name"] ?? ''; ?></span>
     <br>
 
     User Name:
-    <input type="text" name="user_name" value="<?php echo htmlspecialchars($form_data['user_name']); ?>" class="<?php echo isset($errors['user_name']) ? 'error-border' : ''; ?>">
+    <input type="text" name="user_name" value="<?php echo htmlspecialchars($form_data['user_name']); ?>" class="<?php echo isset($errors['user_name']) ? 'input-error' : ''; ?>">
     <span class="error"><?php echo $errors["user_name"] ?? ''; ?></span>
     <br>
 
     Email:
-    <input type="email" name="email" value="<?php echo htmlspecialchars($form_data['email']); ?>" class="<?php echo isset($errors['email']) ? 'error-border' : ''; ?>">
+    <input type="email" name="email" value="<?php echo htmlspecialchars($form_data['email']); ?>" class="<?php echo isset($errors['email']) ? 'input-error' : ''; ?>">
     <span class="error"><?php echo $errors["email"] ?? ''; ?></span>
     <br>
 
     Password:
-    <input type="password" name="password" class="<?php echo isset($errors['password']) ? 'error-border' : ''; ?>">
+    <input type="password" name="password" class="<?php echo isset($errors['password']) ? 'input-error' : ''; ?>">
     <span class="error"><?php echo $errors["password"] ?? ''; ?></span>
     <br>
 
     Confirm Password:
-    <input type="password" name="password_confirm" class="<?php echo isset($errors['password_confirm']) ? 'error-border' : ''; ?>">
+    <input type="password" name="password_confirm" class="<?php echo isset($errors['password_confirm']) ? 'input-error' : ''; ?>">
     <span class="error" id="password-error"><?php echo $errors["password_confirm"] ?? ''; ?></span>
     <br>
 
     <input type="submit" value="Register">
 </form>
-
-<!-- JavaScript for password validation -->
-<script src="password_validation.js"></script>
