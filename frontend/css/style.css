@@ -337,6 +337,26 @@ a.genres_item:hover {
     border-radius: 4px;
 }
 
+.new_release_container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.book_cover_mini {
+    width: 100%;
+    height: auto;
+    margin-right: 2%
+}
+
+.book_cover_div {
+    flex: 1;
+}
+
+.book_info_mini {
+    flex: 1;
+    background-color: var(--light-beige);
+}
+
 .review_index {
     margin-bottom: 1em;
     padding: 0.8em;
@@ -407,21 +427,25 @@ a.genres_item:hover {
     background-color: var(--hover);
 }
 /* --------------------------- book detail -------------------------- */
-.book_info {
+.book_info, .book_info_mini{
     position: relative;
     flex: 1;
     padding-top: 3%;
     padding-left: 3%;
+    padding-right: 3%;
     background-color: var(--light-beige);
     border-radius: 5px;
 }
 
 
 .book_info p {
-    margin: 5px 0;
+    margin: 2%;
     color: var(--dark);
     font-size: 1.1em;
-    padding-right: 3%;
+}
+
+.book_container {
+    margin: 3%;
 }
 
 .book_container img {
@@ -430,6 +454,8 @@ a.genres_item:hover {
 }
 
 .rating {
+    display: flex;
+    align-items: center;
     position: absolute;
     top: 5%;
     right: 10%;
@@ -437,23 +463,6 @@ a.genres_item:hover {
     width: 18%;
     background-color: var(--light);
     border-radius: 3px;
-}
-
-.rating_button {
-    background-color: var(--dark-beige);
-    border: none;
-    color: white;
-    padding: 0.5em;
-    margin-left: 10px;
-    text-align: center;
-    display: inline-block;
-    font-size: 0.9em;
-    border-radius: 3px;
-}
-
-.rating_button:hover {
-    background-color: var(--hover);
-    cursor: pointer;
 }
 
 .review_section {
