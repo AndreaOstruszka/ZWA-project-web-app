@@ -407,6 +407,22 @@ a.genres_item:hover {
     margin-top: 1%;
 }
 
+/* ----------------------- books overview ------------------------ */
+
+.book_cover_image_wrapper {
+    float: left;
+    width: 160px;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+    color: var(--main-color);
+}
+
+.book_cover_image_wrapper:hover {
+    background-color: var(--hover);
+    color: var(--light);
+}
+
 /* --------------------------- my profile -------------------------- */
 .profile_container {
     display: flex;
