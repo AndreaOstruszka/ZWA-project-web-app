@@ -46,31 +46,50 @@
 
         <h2>Reviews</h2>
         <div class="review_container">
-            <div class="review">
-                <div class="review_info">
+            <div class="review_index">
                     <span class="review_user">Karol</span>
                     <span class="review_rating">5/5</span>
-                    <span class="review_time">2024-11-29 12:34</span>
-                </div>
-                <p class="review_text">Velmi pekna kniha.</p>
+                    <span class="review_time">29.11.2024 12:34</span>
+                <p class="review_text_index">Velmi pekna kniha.</p>
             </div>
-            <div class="review">
-                <div class="review_info">
-                    <span class="review_user">User123</span>
-                    <span class="review_rating">5/5</span>
-                    <span class="review_time">2024-11-29 12:34</span>
-                </div>
-                <p class="review_text">Doporucuji, hezky se to cetlo.</p>
+            <div class="review_index">
+                <span class="review_user">User123</span>
+                <span class="review_rating">5/5</span>
+                <span class="review_time">29.11.2024 12:34</span>
+                <p class="review_text_index">Doporucuji, hezky se to cetlo.</p>
             </div>
-            <div class="review">
-                <div class="review_info">
+            <div class="review_index">
                     <span class="review_user">Petra</span>
                     <span class="review_rating">1/5</span>
-                    <span class="review_time">2024-11-29 12:34</span>
-                </div>
-                <p class="review_text">Malo obrazku. Nelibilo.</p>
+                    <span class="review_time">29.11.2024 12:34</span>
+                <p class="review_text_index">Malo obrazku. Nelibilo.</p>
             </div>
-            <button class="add_comment_button">Add your review</button>
+            <br><br>
+
+            <div class="review_form framed_form">
+                <form>
+                    <form action="https://WHERE TO?" method="post" enctype="multipart/form-data" class="my_form">
+                    <legend>How did you like this book?</legend>
+                        <input type="text" id="review_user" name="review_user" value="NICKNAME DOPLNIT" hidden>     <!-- TO DO - je to takhle ok? -->
+                        <input type="datetime-local" id="review_time" name="review_time" value="2024-11-29T12:34" hidden>
+
+                        <label for="review_text">Review:</label>
+                        <textarea class="form_input form_detail" id="review_text" name="review_text" placeholder="Is there anything you would like to say?"></textarea>
+
+                        <label for="review_rating">Rating:</label>
+                        <select class="form_input form_detail" id="review_rating" name="review_rating"><span>/5</span>
+                            <option value="1">1/5</option>
+                            <option value="2">2/5</option>
+                            <option value="3">3/5</option>
+                            <option value="4">4/5</option>
+                            <option value="5">5/5</option>
+                        </select>
+                        <br><br>
+
+                        <div class="button_container">
+                            <button class="add_comment_button">Add your review</button>
+                        </div>
+            </div>
         </div>
     </article>
 </div>
