@@ -490,9 +490,14 @@ a.genres_item:hover {
     margin: 3%;
 }
 
-.book_container img {
-    border-radius: 5px;
-    height: 100%;
+.book_cover_div {
+    flex: 1;
+    height: auto;
+    width: 100%;
+}
+
+.book_info {
+    flex: 2;
 }
 
 .rating {
@@ -507,7 +512,7 @@ a.genres_item:hover {
     border-radius: 3px;
 }
 
-.review_section {
+.review_container {
     width: 97%;
     margin: 1em auto;
     padding: 10px;
@@ -516,27 +521,28 @@ a.genres_item:hover {
 }
 
 .review {
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 1em;
+    margin-bottom: 1em;
     border-bottom: 1px solid var(--main-color);
 }
 
 .review_text {
-    margin: 0 0 10px 0;
+    margin: 0 0 1em 0;
     line-height: 1.5;
     color: var(--main-color);
     font-size: 1.1em;
 }
 
 .review_info {
-    font-size: 14px;
-    color: var(--secondary-color);
+    font-size: 1em;
+    margin-bottom: 1em;
+    color: var(--main-color);
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 1em;
 }
 
-.review_user {
+.review_user, .review_rating {
     font-weight: bold;
     color: var(--main-color);
 }
