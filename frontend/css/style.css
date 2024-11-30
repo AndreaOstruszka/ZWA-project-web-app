@@ -343,8 +343,8 @@ a.genres_item:hover {
 }
 
 .book_cover {
-    width: 100%; /* 100% šířky kontejneru */
-    height: auto; /* Zachování poměru stran */
+    width: 100%;
+    height: auto;
     border: 1px solid #ccc;
 }
 
@@ -400,22 +400,13 @@ a.genres_item:hover {
     border: 1px solid var(--light-beige);
 }
 
-.review_book_index {
+.review_index * {
     font-size: 1em;
     color: var(--main-color);
     margin-bottom: 1%;
+    margin-top: 1%;
 }
 
-.review_user_index {
-    font-size: 1em;
-    color: var(--main-color);
-    margin-bottom: 1%;
-}
-
-.review_text_index {
-    font-size: 1em;
-    color: var(--main-color);
-}
 /* --------------------------- my profile -------------------------- */
 .profile_container {
     display: flex;
