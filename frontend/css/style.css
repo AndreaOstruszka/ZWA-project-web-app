@@ -1,13 +1,13 @@
 ﻿/* ----------------- definition of variable values ------------------ */
 :root {
-    --main-color: #434137;
-    --secondary-color: #ADA999;
-    --dark: #452521;
-    --light: #F7F6F3;
-    --light-beige: #DFDACE;
-    --medium: #f0eee8;
-    --dark-beige: #302C22;
-    --hover: #F65828
+    --color-primary-darkest: #302C22;
+    --color-primary-dark: #434137;
+    --color-primary-medium: #ADA999;
+    --color-primary-light: #DFDACE;
+    --color-primary-lighter: #f0eee8;
+    --color-primary-lightest: #F7F6F3;
+    --color-secondary-medium: #F65828;
+    --color-secondary-dark: #452521;
 }
 
 /* ----------------- general page properties ------------------ */
@@ -34,12 +34,12 @@ div {
 
 main {
     flex-grow: 1;
-    background-color: var(--light);
+    background-color: var(--color-primary-lightest);
     padding: 20px;
 }
 
 h1 {
-    color: var(--dark);
+    color: var(--color-secondary-dark);
     font-size: 20px;
     font-weight: bold;
     text-transform: uppercase;
@@ -52,8 +52,8 @@ h2 {
     margin-bottom: 5px;
     margin-top: 4px;
     font-size: 18px;
-    color: var(--dark);
-    background-color: var(--secondary-color);
+    color: var(--color-secondary-dark);
+    background-color: var(--color-primary-medium);
 }
 
 h3 {
@@ -64,14 +64,14 @@ h3 {
 
 header {
     width: 100%;
-    background-color: var(--main-color);
-    color: var(--light);
+    background-color: var(--color-primary-dark);
+    color: var(--color-primary-lightest);
     text-align: center;
 }
 
 footer {
-    background-color: var(--main-color);
-    color: var(--light);
+    background-color: var(--color-primary-dark);
+    color: var(--color-primary-lightest);
     text-align: center;
     padding: 0 20px 20px 20px; /* No padding on the top, 20px padding on other sides */
     width: 100%;
@@ -102,7 +102,7 @@ footer {
 
 .footer-half-left a {
     margin-right: 10px;
-    color: var(--light);
+    color: var(--color-primary-lightest);
     text-decoration: none;
 }
 
@@ -149,7 +149,7 @@ p {
 
 #header_links {
     height: 28px;
-    color: var(--light);
+    color: var(--color-primary-lightest);
     text-align: right;
     padding-right: 10px;
     padding-left: 10px;
@@ -186,9 +186,9 @@ p {
 a.navigation_item {
     display: block;
     margin: 0;
-    background-color: var(--main-color);
+    background-color: var(--color-primary-dark);
 
-    color: var(--light);
+    color: var(--color-primary-lightest);
     text-align: center;
     font-size: 15px;
     text-transform: uppercase;
@@ -211,7 +211,7 @@ a.return {
     margin-bottom: 5px;
     padding-top: 6px;
     padding-bottom: 4px;
-    background-color: var(--main-color);
+    background-color: var(--color-primary-dark);
 
     text-align: center;
     font-size: 15px;
@@ -227,44 +227,44 @@ a.return {
 }
 
 a.navigation_item:hover, a.return:hover {
-    background-color: var(--hover);
-    color: var(--light);
-    border-color: var(--light);
+    background-color: var(--color-secondary-medium);
+    color: var(--color-primary-lightest);
+    border-color: var(--color-primary-lightest);
 }
 
 a:link, a:visited {
     text-decoration: none;
-    color: var(--light);
+    color: var(--color-primary-lightest);
 }
 
 a:hover {
-    color: var(--hover);
+    color: var(--color-secondary-medium);
 }
 
 a.genres_item {
     display: block;
     margin: 0;
     padding: 7px 0 7px 7px;
-    background-color: var(--light-beige);
-    color: var(--dark);
+    background-color: var(--color-primary-light);
+    color: var(--color-secondary-dark);
     font-size: 15px;
 
     border-style: solid;
     border-width: 1px;
-    border-color: var(--light);
+    border-color: var(--color-primary-lightest);
     border-right: none;
     border-left: none;
     border-top: none;
 }
 
 a.genres_item:hover {
-    background-color: var(--hover);
-    color: var(--light);
+    background-color: var(--color-secondary-medium);
+    color: var(--color-primary-lightest);
     transition: background-color 0.3s ease;
 }
 
 #content {
-    background-color: var(--light);
+    background-color: var(--color-primary-lightest);
     clear: both;
     width: 95%;
     max-width: 1280px;
@@ -300,9 +300,9 @@ a.genres_item:hover {
 }
 
 .submit_button {
-    background-color: var(--main-color);
+    background-color: var(--color-primary-dark);
     border: none;
-    color: var(--light);
+    color: var(--color-primary-lightest);
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -312,14 +312,14 @@ a.genres_item:hover {
 }
 
 .submit_button:hover {
-    background-color: var(--hover);
-    color: var(--light);
+    background-color: var(--color-secondary-medium);
+    color: var(--color-primary-lightest);
 }
 
 .reset_button {
-    background-color: var(--light-beige);
+    background-color: var(--color-primary-light);
     border: none;
-    color: var(--main-color);
+    color: var(--color-primary-dark);
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -329,8 +329,8 @@ a.genres_item:hover {
 }
 
 .reset_button:hover {
-    background-color: var(--hover);
-    color: var(--light);
+    background-color: var(--color-secondary-medium);
+    color: var(--color-primary-lightest);
 }
 
 .book_container {
@@ -361,8 +361,8 @@ a.genres_item:hover {
     flex: 1 1 calc(50% - 1em);
     box-sizing: border-box;
     padding: 2ex;
-    border: 1px solid var(--light-beige);
-    background-color: var(--light);
+    border: 1px solid var(--color-primary-light);
+    background-color: var(--color-primary-lightest);
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.12);
     border-radius: 4px;
 }
@@ -384,7 +384,7 @@ a.genres_item:hover {
     padding-top: 3%;
     padding-left: 3%;
     padding-right: 3%;
-    background-color: var(--light);
+    background-color: var(--color-primary-lightest);
     border-radius: 5px;
 }
 
@@ -396,14 +396,14 @@ a.genres_item:hover {
     position: relative;
     margin-bottom: 1em;
     padding: 0.8em;
-    background-color: var(--light);
+    background-color: var(--color-primary-lightest);
     border-radius: 5px;
-    border: 1px solid var(--light-beige);
+    border: 1px solid var(--color-primary-light);
 }
 
 .review_index * {
     font-size: 1em;
-    color: var(--main-color);
+    color: var(--color-primary-dark);
     margin-bottom: 1%;
     margin-top: 1%;
 }
@@ -416,12 +416,12 @@ a.genres_item:hover {
     margin: 5px;
     padding: 5px;
     text-align: center;
-    color: var(--main-color);
+    color: var(--color-primary-dark);
 }
 
 .book_cover_image_wrapper:hover {
-    background-color: var(--hover);
-    color: var(--light);
+    background-color: var(--color-secondary-medium);
+    color: var(--color-primary-lightest);
 }
 
 /* --------------------------- my profile -------------------------- */
@@ -455,7 +455,7 @@ a.genres_item:hover {
 
 .profile_links a {
     display: inline-block;
-    background-color: var(--dark-beige);
+    background-color: var(--color-primary-darkest);
     color: white;
     padding: 10px 20px;
     margin-right: 10px;
@@ -467,7 +467,7 @@ a.genres_item:hover {
 }
 
 .profile_links a:hover {
-    background-color: var(--hover);
+    background-color: var(--color-secondary-medium);
 }
 /* --------------------------- book detail -------------------------- */
 .book_info {
@@ -476,14 +476,14 @@ a.genres_item:hover {
     padding-top: 3%;
     padding-left: 3%;
     padding-right: 3%;
-    background-color: var(--light-beige);
+    background-color: var(--color-primary-light);
     border-radius: 5px;
 }
 
 
 .book_info p {
     margin: 2%;
-    color: var(--dark);
+    color: var(--color-secondary-dark);
     font-size: 1.1em;
 }
 
@@ -509,7 +509,7 @@ a.genres_item:hover {
     right: 10%;
     padding: 3%;
     width: 18%;
-    background-color: var(--light);
+    background-color: var(--color-primary-lightest);
     border-radius: 3px;
 }
 
@@ -517,26 +517,36 @@ a.genres_item:hover {
     width: 97%;
     margin: 1em auto;
     padding: 10px;
-    background-color: var(--light);
+    background-color: var(--color-primary-light);
     border-radius: 3px;
 }
 
 .review {
     padding: 1em;
     margin-bottom: 1em;
-    border-bottom: 1px solid var(--main-color);
+    border-bottom: 1px solid var(--color-primary-dark);
 }
 
 .review_text {
     margin: 0 0 1em 0;
     line-height: 1.5;
     color: var(--main-color);
+    color: var(--color-primary-dark);
+    font-size: 1.1em;
+}
+
+.review_info {
     font-size: 1em;
+    margin-bottom: 1em;
+    color: var(--color-primary-dark);
+    display: flex;
+    justify-content: flex-start;
+    gap: 1em;
 }
 
 .review_user, .review_rating, .review_book {
     font-weight: bold;
-    color: var(--main-color);
+    color: var(--color-primary-dark);
 }
 
 .review_user {
@@ -570,10 +580,11 @@ a.genres_item:hover {
 
 .form_detail#review_rating {
     width: 100%;
+    color: var(--color-primary-dark);
 }
 
 .add_comment_button {
-    background-color: var(--dark-beige);
+    background-color: var(--color-primary-darkest);
     border: none;
     color: white;
     padding: 1em;
@@ -585,7 +596,7 @@ a.genres_item:hover {
 }
 
 .add_comment_button:hover {
-    background-color: var(--hover);
+    background-color: var(--color-secondary-medium);
     cursor: pointer;
 }
 /* --------------------------- login and register -------------------------- */
@@ -619,7 +630,7 @@ legend {
 label {
     display: block;
     font-size: 1em;
-    color: var(--dark-beige);
+    color: var(--color-primary-darkest);
     margin-top: 1em;
     margin-bottom: 0.3em;
     font-weight: bold;
@@ -631,7 +642,7 @@ label {
     width: 100%;
     padding: 0.5em;
     margin: 0.5em 0;
-    border: 1px solid var(--dark-beige);
+    border: 1px solid var(--color-primary-darkest);
     border-radius: 4px;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.12);
     font-size: 1em;
@@ -643,7 +654,7 @@ label {
     margin: 1em 1%;
     border: none;
     border-radius: 4px;
-    background-color: var(--main-color);
+    background-color: var(--color-primary-dark);
     color: white;
     cursor: pointer;
     font-size: 1em;
@@ -657,12 +668,12 @@ label {
 }
 
 .link_div a {
-    color: var(--dark-beige);
+    color: var(--color-primary-darkest);
     transition: background-color 0.3s ease;
 }
 
 .link_div a:hover {
-    color: var(--hover);
+    color: var(--color-secondary-medium);
 }
 
 .button_container {
@@ -695,7 +706,7 @@ caption {
 }
 
 table, th, td {
-    border: 1px solid var(--light);
+    border: 1px solid var(--color-primary-lightest);
 }
 
 td {
@@ -704,18 +715,18 @@ td {
 }
 
 tr:hover, tr:nth-child(even):hover {
-    background-color: var(--hover);
-    color: var(--light);
+    background-color: var(--color-secondary-medium);
+    color: var(--color-primary-lightest);
 }
 
 tr:nth-child(even) {
-    background-color: var(--medium);
+    background-color: var(--color-primary-lighter);
 }
 
 th {
     padding: 5px;
-    background-color: var(--light-beige);
-    color: var(--dark-beige);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-darkest);
 }
 
 /*OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*/
@@ -810,7 +821,7 @@ th {
     }
 
     html {
-        background: var(--light) url("../images/background.jpg");
+        background: var(--color-primary-lightest) url("../images/background.jpg");
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;

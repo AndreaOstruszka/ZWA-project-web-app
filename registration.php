@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
 
 <!-- Styling for error highlighting -->
-<link rel="stylesheet" href="frontend/css/error_highlight.css">
+<link rel="stylesheet" href="frontend/css/notifications.css">
 
 <!-- Form with pre-filled values and error messages -->
 <form method="POST" action="">

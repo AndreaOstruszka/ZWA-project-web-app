@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
     <style>
-        .error {
+        .notification_error {
             color: red;
             font-size: 0.9em;
         }
@@ -24,7 +24,7 @@
             const password = document.getElementById("password");
 
             // Clear previous errors
-            document.querySelectorAll(".error").forEach(el => el.innerText = "");    // Delete all HTML elements with class error
+            document.querySelectorAll(".notification_error").forEach(el => el.innerText = "");    // Delete all HTML elements with class error
             document.querySelectorAll("input").forEach(el => el.classList.remove("error-border"));
 
             // Validate required fields
