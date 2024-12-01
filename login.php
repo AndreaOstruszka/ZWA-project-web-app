@@ -1,3 +1,67 @@
+<?php
+session_start();
+
+// Database connection
+$servername = "db";
+$username = "andy";
+$password = "andy123";
+$dbname = "ostruand";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Initialize error array and form field values
+$errors = [];
+$user_name = "";
+
+// Handle form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve and sanitize input data
+    $user_name = htmlspecialchars(trim($_POST["user_name"]));
+    $password = $_POST["password"];
+
+    // Validate input
+    if (empty($user_name)) {
+        $errors["user_name"] = "Username is required.";
+    }
+    if (empty($password)) {
+        $errors["password"] = "Password is required.";
+    }
+
+    // Check credentials if no validation errors
+    if (empty($errors)) {
+        // Prepare SQL statement to prevent SQL injection
+        $stmt = $conn->prepare("SELECT id, password_hash FROM users WHERE user_name = ? OR email = ?");
+        $stmt->bind_param("ss", $user_name, $user_name);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            // Fetch password hash and verify
+            $stmt->bind_result($user_id, $password_hash);
+            $stmt->fetch();
+
+            if (password_verify($password, $password_hash)) {
+                // Successful login, create session
+                $_SESSION["user_id"] = $user_id;
+                $_SESSION["user_name"] = $user_name;
+                echo "Login successful! Welcome, " . htmlspecialchars($user_name) . ".";
+            } else {
+                $errors["password"] = "Incorrect password.";
+            }
+        } else {
+            $errors["user_name"] = "No user found with that username or email.";
+        }
+        $stmt->close();
+    }
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,61 +113,6 @@
     </script>
 </head>
 <body>
-
-<?php
-session_start();
-
-// Database connection
-require_once 'db_connection.php';
-
-// Initialize error array and form field values
-$errors = [];
-$user_name = "";
-
-// Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve and sanitize input data
-    $user_name = htmlspecialchars(trim($_POST["user_name"]));
-    $password = $_POST["password"];
-
-    // Validate input
-    if (empty($user_name)) {
-        $errors["user_name"] = "Username is required.";
-    }
-    if (empty($password)) {
-        $errors["password"] = "Password is required.";
-    }
-
-    // Check credentials if no validation errors
-    if (empty($errors)) {
-        // Prepare SQL statement to prevent SQL injection
-        $stmt = $conn->prepare("SELECT id, password_hash FROM users WHERE user_name = ? OR email = ?");
-        $stmt->bind_param("ss", $user_name, $user_name);
-        $stmt->execute();
-        $stmt->store_result();
-
-        if ($stmt->num_rows > 0) {
-            // Fetch password hash and verify
-            $stmt->bind_result($user_id, $password_hash);
-            $stmt->fetch();
-
-            if (password_verify($password, $password_hash)) {
-                // Successful login, create session
-                $_SESSION["user_id"] = $user_id;
-                $_SESSION["user_name"] = $user_name;
-                echo "Login successful! Welcome, " . htmlspecialchars($user_name) . ".";
-            } else {
-                $errors["password"] = "Incorrect password.";
-            }
-        } else {
-            $errors["user_name"] = "No user found with that username or email.";
-        }
-        $stmt->close();
-    }
-}
-
-$conn->close();
-?>
 
 <!-- HTML login form -->
 <form method="POST" action="login.php" onsubmit="return validateLoginForm()">
