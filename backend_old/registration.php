@@ -83,26 +83,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 
-<!-- JavaScript for password validation -->
-<!--<script>-->
-<!--    function validatePassword() {-->
-<!--        const password = document.querySelector('input[name="password"]').value;-->
-<!--        const passwordConfirm = document.querySelector('input[name="password_confirm"]').value;-->
-<!--        const errorMessage = document.getElementById('password-error');-->
-<!---->
-<!--        if (password !== passwordConfirm)   // zkontroluj, jestli to takhle funguje-->
-<!--            errorMessage.textContent = "Passwords do not match. JS";-->
-<!--        } else {-->
-<!--            errorMessage.textContent = ""; // Clear error message if passwords match-->
-<!--        }-->
-<!--    }-->
-<!--                                                                    // tu opravit DOMContentLoaded - script hodit na konec kodu (dle Duska)-->
-<!--    document.addEventListener('DOMContentLoaded', function() {          // addEventListener starts when user starts typing into the password field-->
-<!--        document.querySelector('input[name="password"]').addEventListener('input', validatePassword);-->
-<!--        document.querySelector('input[name="password_confirm"]').addEventListener('input', validatePassword);-->
-<!--    });-->
-<!--</script>-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

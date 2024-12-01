@@ -1,0 +1,31 @@
+.notification_success {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+.notification_warning {
+    background-color: #ff9800;
+    color: white;
+    padding: 16px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+.notification_error {
+    background-color: #f44336;
+    color: white;
+    padding: 16px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+.notification_neutral {
+    background-color: #2196F3;
+    color: white;
+    padding: 16px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
