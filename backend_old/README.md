@@ -18,9 +18,12 @@ Czech Technical University in Prague, Faculty of Electrical Engineering
 - [Features](#features)
 - [Technologies](#technologies)
 - [Installation](#installation)
+- [Usage](#usage)
+
 
 ## Introduction – Project Brief
-A simple web app where registered users can view book charts, newly released books and write reviews. Admins can add or delete books, edit existing books and edit user settings.
+Book Nook is a simple web application that allows users to explore a vast collection of books, read and write reviews and keep track of newly released books.
+Admins can add or delete books, edit existing books and edit user settings.
 
 ## Project Overview and Scope
 Website name: Book Nook
@@ -32,11 +35,18 @@ Features: book reviews, book charts,
 User roles: anonymous user, registered user, admin
 
 ## Requirements
+- PHP 7.4 or higher
+- MySQL 5.7 or higher
+- A web server (e.g., Apache, Nginx)
+- Composer (for dependency management, if needed)
+- A modern web browser (e.g., Chrome, Firefox)
 
 ## Features
-- Feature 1
-- Feature 2
-- Feature 3
+- Browse books by various genres
+- Read and write reviews
+- View charts of popular books
+- User authentication (login and register)
+- User profile management
 
 ## Technologies
 No frameworks or libraries are allowed in this project. The following technologies are used:
@@ -48,5 +58,28 @@ No frameworks or libraries are allowed in this project. The following technologi
 ## Installation
 Step-by-step instructions on how to set up the project locally.
 
-```sh
-git clone https://github.com/AndreaOstruszka/ZWA-project-web-app.git
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/AndreaOstruszka/BookNook.git
+    ```
+
+2. Navigate to the project directory:
+    ```bash
+    cd BookNook
+    ```
+
+3. Set up the database:
+    - Create a database named `booknook`.
+    - Import the SQL file located at `db/booknook.sql` to set up the necessary tables.
+
+4. Configure the database connection:
+    - Update the `db_connection.php` file with your database credentials.
+
+5. Start the server:
+    - Use a local server environment like XAMPP, WAMP, or MAMP to run the application.
+
+## Usage
+
+- Open your web browser and navigate to `http://localhost/BookNook`.
+- Register a new account or log in with an existing account.
+- Browse books, read reviews, and explore the features of the application.
