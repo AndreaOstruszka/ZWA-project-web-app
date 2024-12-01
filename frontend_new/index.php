@@ -6,10 +6,18 @@
         <div class="main-container">
             <div class="section welcome">
                 <h2>Everything about your favourite books</h2>
-                <p>Welcome to BookNook! Here, you can explore a vast collection of books across various genres,
+                <p>Hello there!
+                    <br>
+                    On this website you can explore a vast collection of books across various genres,
                     including popular titles, fantasy, sci-fi, and more. Discover detailed information, read reviews,
                     and easily keep track of newly released books all in one place.
                     <br>
+                    Connect with fellow book lovers by
+                    sharing your own reviews and ratings. Stay updated with the latest trends and see what’s popular
+                    among other readers.
+                    <br>
+                    Dive into the world of literature and make BookNook your go-to destination for
+                    all things books!
                 </p>
             </div>
 
