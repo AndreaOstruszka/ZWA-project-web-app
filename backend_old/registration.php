@@ -65,6 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (empty($errors)) {
             $password_hash = password_hash($password, PASSWORD_BCRYPT);     // Hash password by method BCRYPT
+            var_dump($password, bin2hex($password), $password_hash); // Debugging line
             $role = 'registered_user';
             $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, user_name, email, password_hash, role) VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("ssssss", $form_data["first_name"], $form_data["last_name"], $form_data["user_name"], $form_data["email"], $password_hash, $role);
