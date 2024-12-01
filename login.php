@@ -2,7 +2,7 @@
 session_start();
 
 // Database connection
-$servername = "db";
+$servername = "localhost";
 $username = "andy";
 $password = "andy123";
 $dbname = "ostruand";
