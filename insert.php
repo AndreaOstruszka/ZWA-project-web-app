@@ -7,6 +7,14 @@ $authors = $conn->query("SELECT id, name, surname FROM authors");
 $literary_genres = $conn->query("SELECT DISTINCT literary_genre FROM books");
 $fiction_genres = $conn->query("SELECT DISTINCT fiction_genre FROM books");
 
+// Function to validate and sanitize input
+function validate_input($data) {
+    $data = trim($data); // Remove whitespace from the beginning and end
+    $data = stripslashes($data); // Remove backslashes
+    $data = htmlspecialchars($data); // Convert special characters to HTML entities
+    return $data;
+}
+
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate and sanitize form fields
@@ -68,3 +76,30 @@ $conn->close();
     </select><br>
     <input type="submit" value="Submit">
 </form>
+
+<!-- JavaScript for ISBN validation -->
+<script>
+    function validateISBN() {
+        const isbn = document.querySelector('input[name="isbn"]').value;
+        const errorMessage = document.getElementById('isbn-error');
+
+        if (!/^\d{10}$|^\d{13}$/.test(isbn)) {
+            errorMessage.textContent = "ISBN must be a 10 or 13 digit number.";
+            return false;
+        } else {
+            errorMessage.textContent = "";
+            return true;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('bookForm');
+        form.addEventListener('submit', function(event) {
+            if (!validateISBN()) {
+                event.preventDefault(); // Prevent form submission if ISBN is invalid
+            }
+        });
+
+        document.querySelector('input[name="isbn"]').addEventListener('input', validateISBN);
+    });
+</script>
