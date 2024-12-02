@@ -52,7 +52,7 @@ User roles: anonymous user, registered user, admin
 No frameworks or libraries are allowed in this project. The following technologies are used:
 
 ### Backend
-- vanilla PHP 8.1 (with GD library for image processing as the only allowed exception)
+- vanilla PHP 8.1 (with the GD 2.3 library for image processing as the only allowed exception)
 - MySQL database
 
 ### Frontend
