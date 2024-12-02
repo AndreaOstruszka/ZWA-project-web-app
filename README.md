@@ -1,6 +1,6 @@
 # ZWA-project-web-app
 
-Term Project: Creating a Simple Dynamic Web App
+**Term Project: Creating a Simple Dynamic Web App**
 
 Academic year 2024/2025, winter term
 
@@ -50,10 +50,17 @@ User roles: anonymous user, registered user, admin
 
 ## Technologies
 No frameworks or libraries are allowed in this project. The following technologies are used:
-- vanilla PHP
+
+### Backend
+- vanilla PHP 8.1 (with GD library for image processing as the only allowed exception)
+- MySQL database
+
+### Frontend
 - vanilla HTML and CSS
 - vanilla JavaScript
-- MySQL database
+- Google Fonts
+- Font Awesome
+
 
 ## Installation
 Step-by-step instructions on how to set up the project locally.
