@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Pre-fill form data
     foreach ($form_data as $key => &$value) {               // Foreach goes through every element in the array
-        $value = trim($_POST[$key] ?? '');          // Trim removes redundant spaces. If input is nonexistent, empty string is used.
+        $value = htmlspecialchars(trim($_POST[$key] ?? ''), ENT_QUOTES, 'UTF-8');          // Trim removes redundant spaces. If input is nonexistent, empty string is used.
     }
 
     // Input validation
@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <br>
 
     Password:
-    <input type="password" name="password" class="<?php echo isset($errors['password']) ? 'input-error' : ''; ?>">
+    <input type="password" name="password" class="<?php echo isset($errors['password']) ?  : ''; ?>">
     <span class="error"><?php echo $errors["password"] ?? ''; ?></span>
     <br>
 
@@ -138,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         const errorMessage = document.getElementById('password-error');
 
         if (password !== passwordConfirm) {
-            errorMessage.textContent = "Passwords do not match. JS";
+            errorMessage.textContent = "Passwords do not match.";
         } else {
             errorMessage.textContent = ""; // Clear error message if passwords match
         }
