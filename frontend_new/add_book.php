@@ -42,8 +42,12 @@
                     <label for="book_cover">Upload Book Cover:</label>
                     <input type="file" class="form-file" id="book_cover" name="book_cover" accept="image/*" required>
                 </div>
-                <button type="submit" class="button-submit">Add Book</button>
-            </form>n
+
+                <div class="button-container">
+                    <button type="submit" class="button">Add Book</button>
+                </div>
+
+            </form>
         </div>
     </article>
 </div>

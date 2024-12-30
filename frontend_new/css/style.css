@@ -299,36 +299,23 @@ a.genres-item:hover {
     width: 100%;
 }
 
-.button-submit {
+.button {
     background-color: var(--color-primary-dark);
-    border: none;
     color: var(--color-primary-lightest);
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 8px;
-}
-
-.button-submit:hover {
-    background-color: var(--color-secondary-medium);
-    color: var(--color-primary-lightest);
-}
-
-.button-reset {
-    background-color: var(--color-primary-light);
+    font-size: 1em;
     border: none;
-    color: var(--color-primary-dark);
-    padding: 15px 32px;
+    width: 50%;
+    padding: 0.5em;
+    margin: 1em 1%;
     text-align: center;
-    text-decoration: none;
     display: inline-block;
-    font-size: 16px;
-    border-radius: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
 }
 
-.button-reset:hover {
+.button:hover {
     background-color: var(--color-secondary-medium);
     color: var(--color-primary-lightest);
 }
@@ -439,7 +426,7 @@ a.genres-item:hover {
 }
 
 .profile-info p {
-    font-size: 1.4em;
+    font-size: 1em;
     margin-bottom: 1em;
 }
 
@@ -469,22 +456,40 @@ a.genres-item:hover {
     background-color: var(--color-secondary-medium);
 }
 
+.button-edit {
+    background-color: var(--color-primary-dark);
+    border: none;
+    color: white;
+    padding: 1em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.button-edit:hover {
+    background-color: var(--color-secondary-medium);
+}
+
 .review-edit-span {
 }
 
-#review-container .button-edit {
-    color: var(--color-primary-dark);
-    background: none;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-}
+/*#review-container .button-edit {*/
+/*    color: var(--color-primary-dark);*/
+/*    background: none;*/
+/*    border: none;*/
+/*    padding: 0;*/
+/*    font: inherit;*/
+/*    cursor: pointer;*/
+/*}*/
 
-#review-container .button-edit:hover {
-    color: var(--color-secondary-medium);
-    text-decoration: underline var(--color-secondary-medium);
-}
+/*#review-container .button-edit:hover {*/
+/*    color: var(--color-secondary-medium);*/
+/*    text-decoration: underline var(--color-secondary-medium);*/
+/*}*/
 
 .review-edit-span {
     position: absolute;
@@ -585,9 +590,17 @@ a.genres-item:hover {
     right: 2em;
 }
 
+/*.button-container {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*}*/
+
 .button-container {
+    width: 100%;
     display: flex;
     justify-content: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 .framed-form {
@@ -606,22 +619,23 @@ a.genres-item:hover {
     color: var(--color-primary-dark);
 }
 
-.add-comment-button {
-    background-color: var(--color-primary-darkest);
-    border: none;
-    color: white;
-    padding: 1em;
-    margin-left: 10px;
-    text-align: center;
-    display: inline-block;
-    font-size: 1em;
-    border-radius: 3px;
-}
+/*.add-comment-button {*/
+/*    background-color: var(--color-primary-darkest);*/
+/*    border: none;*/
+/*    color: white;*/
+/*    padding: 1em;*/
+/*    margin-left: 10px;*/
+/*    text-align: center;*/
+/*    display: inline-block;*/
+/*    font-size: 1em;*/
+/*    border-radius: 12px;*/
+/*}*/
 
-.add-comment-button:hover {
-    background-color: var(--color-secondary-medium);
-    cursor: pointer;
-}
+/*.add-comment-button:hover {*/
+/*    background-color: var(--color-secondary-medium);*/
+/*    cursor: pointer;*/
+/*}*/
+
 
 /*.book-table th.title-table, .book-table td.title-table {*/
 /*    width: 50%;*/
@@ -704,20 +718,6 @@ label {
     font-size: 1em;
 }
 
-.button-submit, .button-reset {
-    width: 50%;
-    padding: 0.5em;
-    margin: 1em 1%;
-    border: none;
-    border-radius: 4px;
-    background-color: var(--color-primary-dark);
-    color: white;
-    cursor: pointer;
-    font-size: 1em;
-    text-transform: uppercase;
-    transition: background-color 0.3s ease;
-}
-
 .link-div {
     text-align: center;
     margin-top: 1em;
@@ -732,13 +732,8 @@ label {
     color: var(--color-secondary-medium);
 }
 
-.button-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
+
+
 
 .checkbox-label {
     align-items: center;

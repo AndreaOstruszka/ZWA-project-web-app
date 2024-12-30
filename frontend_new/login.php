@@ -17,8 +17,9 @@
                         <input class="form-input" id="password" type="password" name="password" placeholder="*******" required>
                         <br><br>
                         <div class="button-container">
-                            <button class='button-submit' type="submit">Log in</button>
-                            <button class='button-reset' type="reset">Reset form</button>
+                            <button class='button' type="submit">Log in</button>
+                            <button class='button' type="reset">Reset form</button>
+                        </div>
                     </fieldset>
                 </form>
             </div>

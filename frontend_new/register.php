@@ -31,8 +31,8 @@
                 </label>
 
                 <div class="button-container">
-                    <button class="button-submit" type="submit">Register</button>
-                    <button class="button-reset" type="reset">Reset form</button>
+                    <button class="button" type="submit">Register</button>
+                    <button class="button" type="reset">Reset form</button>
                 </div>
             </form>
             <div class="link-div">

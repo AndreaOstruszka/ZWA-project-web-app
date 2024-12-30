@@ -27,8 +27,8 @@
                     <input class="form-input" id="repassword" type="password" name="repassword">
 
                     <div class="button-container">
-                        <button class="button-submit" type="submit">Save changes</button>
-                        <button class="button-reset" type="reset">Reset form</button>
+                        <button class="button" type="submit">Save changes</button>
+                        <button class="button" type="reset">Reset form</button>
                     </div>
                 </fieldset>
             </form>

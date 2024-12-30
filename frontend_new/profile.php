@@ -26,21 +26,21 @@
                     <p class="review-rating">4/5</p>
                     <span class="review-time">29.11.2024 12:34</span>
                     <p class="review_text_index">I tried to train my cat instead. Did not work. Good book tho.</p>
-                    <span class="review-edit-span"><button class="button-edit">edit</button></span>             <!-- TO DO ODKAZ -->
+                    <span class="review-edit-span"><a href="review_edit.php"><button class="button-edit">edit</button></a></span>
                 </div>
                 <div class="review-index">
                     <p class="review-book">The Hitchhiker's Guide to the Galaxy</p>
                     <p class="review-rating">5/5</p>
                     <span class="review-time">29.11.2024 12:34</span>
                     <p class="review_text_index">Great book, but now I'm worried about always having a towel with me. Thanks, Adams!</p>
-                    <span class="review-edit-span"><button class="button-edit">edit</button></span>             <!-- TO DO ODKAZ -->
+                    <span class="review-edit-span"><a href="review_edit.php"><button class="button-edit">edit</button></a></span>
                 </div>
                 <div class="review-index">
                     <p class="review-book">Pride and Prejudice</p>
                     <p class="review-rating">1/5</p>
                     <span class="review-time">29.11.2024 12:34</span>
                     <p class="review_text_index">I thought this was a self-help book.</p>
-                    <span class="review-edit-span"><button class="button-edit">edit</button></span>              <!-- TO DO ODKAZ -->
+                    <span class="review-edit-span"><a href="review_edit.php"><button class="button-edit">edit</button></a></span>
                 </div>
         </div>
 
