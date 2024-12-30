@@ -18,7 +18,7 @@
             <li class="li-navigation"><a class="navigation-item" href="index.php"><i class="fa fa-bookmark"></i> Main page</a></li>
             <li class="li-navigation"><a class="navigation-item" href="books.php"><i class="fa-solid fa-book-open"></i> Books</a></li>
             <li class="li-navigation"><a class="navigation-item" href="charts.php"><i class="fa-solid fa-chart-simple"></i> Charts</a></li>
-            <li class="li-navigation"><a class="navigation-item" href="index.php"><i class="fa-solid fa-comment"></i> Reviews</a></li>
+            <li class="li-navigation"><a class="navigation-item" href="reviews.php"><i class="fa-solid fa-comment"></i> Reviews</a></li>
             <li class="li-navigation"><a class="navigation-item" href="profile.php"><i class="fa-solid fa-user"></i> My profile</a></li>
         </ul>
     </div>
