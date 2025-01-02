@@ -3,7 +3,7 @@
         <div class="footer-row"><a class="return" href="#logo"><i class="fa solid fa-chevron-up fa-2xl" aria-hidden="true"></i></a></div>
         <div class="footer-row">
             <div class="footer-half-left">
-                <a href="terms.html">Terms & Conditions</a></div>
+                <a href="index.php">Terms & Conditions</a></div>
             <div class="footer-half-right"></div>
         </div>
         <div class="footer-row">

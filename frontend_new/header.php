@@ -11,7 +11,15 @@
 
 <body>
 <header>
-    <div id="header-links-container"><a class="header_login_link" href="login.php"><i class="fa-solid fa-lock"></i> Log in </a><a class="header-register-link" href="register.php"><i class="fa-solid fa-user-plus"></i> Register</a></div>
+    <?php
+    if(empty($_SESSION)){
+        $guest_msg = '<div id="header-links-container"><a class="header_login_link" href="login.php"><i class="fa-solid fa-lock"></i> Log in </a><a class="header-register-link" href="register.php"><i class="fa-solid fa-user-plus"></i> Register</a></div>';
+        echo $guest_msg;
+    } else {
+        $user_msg = '<div id="header-links-container"><a class="header_login_link" href="profile.php"><i class="fa-solid fa-user"></i> ' . $_SESSION["user_name"] . '<a class="header-register-link" href="_logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i></i> Logout</a></div>';
+        echo $user_msg;
+    }
+    ?>
     <a href="index.php"><img src="images/gui/logo.svg" alt="BookNook" id="logo"></a>
     <div id="navigation">
         <ul id="ul-navigation">
