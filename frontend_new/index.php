@@ -16,6 +16,20 @@ if($stmt->execute()) {
     die("Error fetching reviews.");
 }
 
+$sql = "SELECT books.id, books.name, books.author, FORMAT(AVG(reviews.rating), 1) AS average_rating
+        FROM books
+        JOIN reviews ON books.id = reviews.book_id
+        GROUP BY books.id
+        ORDER BY average_rating DESC
+        LIMIT 10";
+$stmt = $conn->prepare($sql);
+if($stmt->execute()) {
+    $popular_books = $stmt->fetchAll();
+} else {
+    die("Error fetching popular books.");
+}
+
+
 ?>
 
 
@@ -66,56 +80,17 @@ if($stmt->execute()) {
                         <th>Author</th>
                         <th>Rating</th>
                     </tr>
-                    <tr>
-                        <td>Harry Potter</td>
-                        <td>J.K. Rowling</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Hobbit</td>
-                        <td>J. R. R. Tolkien</td>
-                        <td>4.8</td>
-                    </tr>
-                    <tr>
-                        <td>1984</td>
-                        <td>George Orwell</td>
-                        <td>4.7</td>
-                    </tr>
-                    <tr>
-                        <td>The Great Gatsby</td>
-                        <td>F. Scott Fitzgerald</td>
-                        <td>4.5</td>
-                    </tr>
-                    <tr>
-                        <td>Pride and Prejudice</td>
-                        <td>Jane Austen</td>
-                        <td>4.6</td>
-                    </tr>
-                    <tr>
-                        <td>To Kill a Mockingbird</td>
-                        <td>Harper Lee</td>
-                        <td>4.9</td>
-                    </tr>
-                    <tr>
-                        <td>The Catcher in the Rye</td>
-                        <td>J.D. Salinger</td>
-                        <td>4.3</td>
-                    </tr>
-                    <tr>
-                        <td>The Lord of the Rings</td>
-                        <td>J.R.R. Tolkien</td>
-                        <td>4.9</td>
-                    </tr>
-                    <tr>
-                        <td>The Chronicles of Narnia</td>
-                        <td>C.S. Lewis</td>
-                        <td>4.7</td>
-                    </tr>
-                    <tr>
-                        <td>Brave New World</td>
-                        <td>Aldous Huxley</td>
-                        <td>4.6</td>
-                    </tr>
+
+                    <?php
+                    foreach($popular_books as $book) {
+                        echo "<tr>";
+                        echo "<td><a href='book-detail.php?bookid=" . htmlspecialchars($book["id"]) . "' class='link-dark'>" . htmlspecialchars($book["name"]) . "</a></td>";
+                        echo "<td>" . htmlspecialchars($book["author"]) . "</td>";
+                        echo "<td>" . htmlspecialchars($book["average_rating"]) . "</td>";
+                        echo "</tr>";
+                    }
+                    ?>
+
                 </table>
 
             </div>
