@@ -22,6 +22,8 @@ body, html {
     font-size: 15px;
     height: 100%;
     margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 body > * {
@@ -237,6 +239,10 @@ a:link, a:visited {
     color: var(--color-primary-lightest);
 }
 
+a.link-dark {
+    color: var(--color-primary-dark);
+}
+
 a:hover {
     color: var(--color-secondary-medium);
 }
@@ -398,12 +404,21 @@ a.genres-item:hover {
 /* ----------------------- books overview ------------------------ */
 
 .book-cover-image-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    height: 100%;
+    box-sizing: border-box;
     float: left;
     width: 160px;
-    margin: 5px;
-    padding: 5px;
+    margin: 0.5%;
+    padding: 0.5%;
     text-align: center;
     color: var(--color-primary-dark);
+    border: 1px solid var(--color-primary-light);
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .book-cover-image-wrapper:hover {
@@ -497,6 +512,20 @@ a.genres-item:hover {
     right: 2em;
 }
 
+dt {
+    font-weight: bold;
+    color: var(--color-primary-darkest);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 1em;
+    margin-bottom: 0.3em;
+}
+
+dd {
+    color: var(--color-primary-darkest);
+    margin: 0.5em 0;
+}
+
 /* --------------------------- book detail -------------------------- */
 .book-info {
     position: relative;
@@ -508,6 +537,10 @@ a.genres-item:hover {
     border-radius: 5px;
 }
 
+.book-info dl, .book-info span {
+    font-size: 1.1em;
+}
+
 
 .book-info p {
     margin: 2%;
@@ -516,7 +549,10 @@ a.genres-item:hover {
 }
 
 .book-container {
-    margin: 3%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 1em;
 }
 
 .book-cover-div {
@@ -530,7 +566,7 @@ a.genres-item:hover {
 }
 
 .rating {
-    display: flex;
+    text-align: center;
     align-items: center;
     position: absolute;
     top: 5%;
