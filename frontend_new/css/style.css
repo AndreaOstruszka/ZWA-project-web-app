@@ -243,6 +243,10 @@ a.link-dark {
     color: var(--color-primary-dark);
 }
 
+tr:hover a.link-dark {
+    color: var(--color-primary-lightest);
+}
+
 a:hover {
     color: var(--color-secondary-medium);
 }

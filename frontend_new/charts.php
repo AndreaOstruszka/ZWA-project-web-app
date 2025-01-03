@@ -21,7 +21,7 @@
                 <th class="rating_table">Rating</th>
             </tr>
             <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
+                <td class="title_table"><a href="book-detail.php" class="link-dark">Hobbit</a></td>
                 <td class="author_table">J.R.R. Tolkien</td>
                 <td class="rating_table">4,8/5</td>
             </tr>
