@@ -126,7 +126,7 @@ if($stmt->execute()) {
                 foreach($reviews as $review) {
                     echo "<div class='review-index'>";
                     echo "<div class='review-time'>" . htmlspecialchars(date('d.m.Y H:i', strtotime($review["created_at"]))) . "</div>";
-                    echo "<p>Book: <span class='review-book'>" . htmlspecialchars($review["book_name"]) . "</span></p>";
+                    echo "<p>Book: <span class='review-book'><a href='book-detail.php?bookid=" . htmlspecialchars($review["book_id"]) . "' class='link-dark'>" . htmlspecialchars($review["book_name"]) . "</a></span></p>";
                     echo "<p>Review by: <strong class='review-user'>" . htmlspecialchars($review["user_name"]) . "</strong></p>";
                     echo "<p>Rating: <strong class='review-rating'>" . htmlspecialchars($review["rating"]) . "/5</strong></p>";
                     echo "<p class='review-text'>" . htmlspecialchars($review["review_text"]) . "</p>";
