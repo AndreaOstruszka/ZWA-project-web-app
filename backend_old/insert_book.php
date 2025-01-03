@@ -4,8 +4,8 @@ require_once 'db_connection.php';
 
 // Fetch authors, literary genres, and fiction genres from the database
 $authors = $conn->query("SELECT id, name, surname FROM authors");
-$literary_genres = $conn->query("SELECT DISTINCT literary_genre FROM books");
-$fiction_genres = $conn->query("SELECT DISTINCT fiction_genre FROM books");
+//$literary_genres = $conn->query("SELECT DISTINCT literary_genre FROM books");
+//$fiction_genres = $conn->query("SELECT DISTINCT fiction_genre FROM books");
 
 // Function to validate and sanitize input
 function validate_input($data) {
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate that fields are not empty and check ISBN format
     if (empty($name) || empty($isbn) || empty($author_id) || empty($literary_genre) || empty($fiction_genre)) {
         echo "All fields are required.";
-    } elseif (!ctype_digit($isbn) || (strlen($isbn) !== 10 && strlen($isbn) !== 13)) {
+    } elseif (!ctype_digit($isbn) || strlen($isbn) !== 10 || strlen($isbn) !== 13) {
         echo "ISBN must be a 10 or 13 digit number.";
     } else {
         // Prepare and bind
@@ -64,15 +64,20 @@ $conn->close();
     </select><br>
     Literary Genre:
     <select name="literary_genre" required>
-        <?php while ($genre = $literary_genres->fetch_assoc()): ?>
-            <option value="<?php echo htmlspecialchars($genre['literary_genre']); ?>"><?php echo htmlspecialchars($genre['literary_genre']); ?></option>
-        <?php endwhile; ?>
+        <option value="poetry">Poetry</option>
+        <option value="drama">Drama</option>
+        <option value="prose">Prose</option
+        <option value="other">Other</option>
     </select><br>
     Fiction Genre:
-    <select name="fiction_genre" required>
-        <?php while ($genre = $fiction_genres->fetch_assoc()): ?>
-            <option value="<?php echo htmlspecialchars($genre['fiction_genre']); ?>"><?php echo htmlspecialchars($genre['fiction_genre']); ?></option>
-        <?php endwhile; ?>
+        <select name="fiction_genre" required>
+            <option value="romance">Romance</option>
+            <option value="scifi">Sci-Fi</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="horror">Horror</option>
+            <option value="thriller">Thriller</option>
+            <option value="other">Other</option>
+        </select>
     </select><br>
     <input type="submit" value="Submit">
 </form>
