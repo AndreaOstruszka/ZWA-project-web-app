@@ -1,191 +1,105 @@
-﻿<?php include 'header.php'; ?>
+﻿<?php
+
+include 'header.php';
+require_once 'db_connection.php';
+
+function getMostReviewedBooks($limit)
+{
+    global $conn;
+    $stmt = $conn->prepare("SELECT books.id, books.name, books.author, COUNT(reviews.id) AS review_count, FORMAT(AVG(reviews.rating), 1) AS average_rating
+                            FROM books
+                            JOIN reviews ON books.id = reviews.book_id
+                            GROUP BY books.id
+                            ORDER BY review_count DESC
+                            LIMIT :limit");
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getTopRatedBooks($genre, $limit)
+{
+    global $conn;
+    $stmt = $conn->prepare("SELECT books.id, books.name, books.author, books.release_date, books.description_short, FORMAT(AVG(reviews.rating), 1) AS average_rating
+                            FROM books
+                            JOIN reviews ON books.id = reviews.book_id
+                            GROUP BY books.id
+                            ORDER BY average_rating DESC
+                            LIMIT :limit");
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+$limit = 5; // Number of records per page
+$genres = ['romance', 'scifi', 'fantasy', 'horror', 'other'];
+$books_by_genre = [];
+
+foreach ($genres as $genre) {
+    $books_by_genre[$genre] = getTopRatedBooks($genre, $limit);
+}
+
+$popular_books = getMostReviewedBooks($limit);
+
+?>
 
 <div id="content">
     <nav id="genres">
         <ul class="ul-genres">
             <li class="li-genres"><a class="genres-item" href="#chart_popular">Popular</a></li>
-            <li class="li-genres"><a class="genres-item" href="#chart_fantasy">Fantasy</a></li>
-            <li class="li-genres"><a class="genres-item" href="#chart_scifi">Sci-Fi</a></li>
-            <li class="li-genres"><a class="genres-item" href="#chart_horor">Horror</a></li>
             <li class="li-genres"><a class="genres-item" href="#chart_romance">Romance</a></li>
-
+            <li class="li-genres"><a class="genres-item" href="#chart_scifi">Sci-Fi</a></li>
+            <li class="li-genres"><a class="genres-item" href="#chart_fantasy">Fantasy</a></li>
+            <li class="li-genres"><a class="genres-item" href="#chart_horror">Horror</a></li>
+            <li class="li-genres"><a class="genres-item" href="#chart_other">Other</a></li>
         </ul>
     </nav>
     <article id="main-wider">
         <h1>Charts</h1>
-        <h2 id="chart_popular">Most popular</h2>
-        <table class="book-table">
-            <tr>
-                <th class="title_table">Title</th>
-                <th class="author_table">Author</th>
-                <th class="rating_table">Rating</th>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php" class="link-dark">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-        </table>
-        <br>
 
-        <h2 id="chart_fantasy">Most popular Fantasy</h2>
-        <table class="book-table">
-            <tr>
-                <th class="title_table">Title</th>
-                <th class="author_table">Author</th>
-                <th class="rating_table">Rating</th>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-        </table>
-        <br>
+        <?php
+        echo '<h2>Most Popular</h2>';
+        echo '<table class="book-table fixed-width">';
+        echo '<tr>';
+        echo '<th class="title_table">Title</th>';
+        echo '<th class="author_table">Author</th>';
+        echo '<th class="rating_table">Rating</th>';
+        echo '</tr>';
+        foreach($popular_books as $book) {
+            echo "<tr>";
+            echo "<td class='title_table' ><a href='book-detail.php?bookid=" . htmlspecialchars($book["id"]) . "' class='link-dark'>" . htmlspecialchars($book["name"]) . "</a></td>";
+            echo '<td class="author_table">' . htmlspecialchars($book["author"]) . '</td>';
+            echo '<td class="rating_table">' . htmlspecialchars($book["average_rating"]) . '</td>';
+            echo "</tr>";
+        }
+        echo '</table> <div class="spacing"></div><br>';
 
-        <h2 id="chart_scifi">Most popular Sci-Fi</h2>
-        <table class="book-table">
-            <tr>
-                <th class="title_table">Title</th>
-                <th class="author_table">Author</th>
-                <th class="rating_table">Rating</th>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-        </table>
-        <br>
 
-        <h2 id="chart_horor">Most popular Horror</h2>
-        <table class="book-table">
-            <tr>
-                <th class="title_table">Title</th>
-                <th class="author_table">Author</th>
-                <th class="rating_table">Rating</th>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-        </table>
-        <br>
+        foreach ($genres as $genre) {
+            echo '<h2 id="chart_' . $genre . '">Popular ' . ucfirst($genre) . '</h2>';
+            echo '<table class="book-table fixed-width">';
+            echo '<tr>';
+            echo '<th class="title_table">Title</th>';
+            echo '<th class="author_table">Author</th>';
+            echo '<th class="rating_table">Rating</th>';
+            echo '</tr>';
+            foreach ($books_by_genre[$genre] as $book) {
+                echo "<tr>";
+                echo "<td class='title_table'><a href='book-detail.php?bookid=" . htmlspecialchars($book["id"]) . "' class='link-dark'>" . htmlspecialchars($book["name"]) . "</a></td>";
+                echo '<td class="author_table">' . htmlspecialchars($book["author"]) . '</td>';
+                echo '<td class="rating_table">' . htmlspecialchars($book["average_rating"]) . '</td>';
+                echo '</tr>';
+            }
+            echo '</table><br>';
+        }
 
-        <h2 id="chart_romance">Most popular Romance</h2>
-        <table class="book-table">
-            <tr>
-                <th class="title_table">Title</th>
-                <th class="author_table">Author</th>
-                <th class="rating_table">Rating</th>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-            <tr>
-                <td class="title_table"><a href="book-detail.php">Hobbit</a></td>
-                <td class="author_table">J.R.R. Tolkien</td>
-                <td class="rating_table">4,8/5</td>
-            </tr>
-        </table>
+        ?>
+
+
+
+
+
+
     </article>
 </div>
 
