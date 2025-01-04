@@ -69,7 +69,7 @@ if ($stmt->execute()) {
                     echo "<div class='review-index'>";
                     echo "<p class='review-book'><a href='book-detail.php?bookid=" . htmlspecialchars($review["book_id"]) . "' class='link-dark'>" . htmlspecialchars($review["book_name"]) . "</a></p>";
                     echo "<p class='review-rating'>" . htmlspecialchars($review["rating"]) . "/5</p>";
-                    echo "<div class='review-time'>" . htmlspecialchars(date('d.m.Y H:i', strtotime($review["created_at"]))) . "</div>";
+                    echo "<div class='review-time'>" . htmlspecialchars(date('m.d.Y H:i', strtotime($review["created_at"]))) . "</div>";
                     echo "<p class='review_text_index'>" . htmlspecialchars($review["review_text"]) . "</p>";
                     echo "<span class='review-edit-span'><a href='review_edit.php?review_id=" . htmlspecialchars($review["id"]) . "'><button class='button-edit'>Edit</button></a></span>";
                     echo "</div>";

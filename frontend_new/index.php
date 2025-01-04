@@ -85,7 +85,7 @@ if($stmt->execute()) {
                             $book = $new_books[0];
                             echo "<p>Name: <a href='book-detail.php?bookid=" . htmlspecialchars($book['id']) . "' class='link-dark'>" . htmlspecialchars($book['name']) . "</a></p>";
                             echo "<p>Author: " . htmlspecialchars($book['author']) . "</p>";
-                            echo "<p>Release date: " . htmlspecialchars(date('d.m.Y', strtotime($book['release_date']))) . "</p>";
+                            echo "<p>Release date: " . htmlspecialchars(date('m.d.Y H:i', strtotime($book['release_date']))) . "</p>";
                             echo "<p>" . htmlspecialchars($book['description_short']) . "</p>";
                         } else {
                             echo "<p>No new releases available.</p>";
@@ -125,7 +125,7 @@ if($stmt->execute()) {
                 <?php
                 foreach($reviews as $review) {
                     echo "<div class='review-index'>";
-                    echo "<div class='review-time'>" . htmlspecialchars(date('d.m.Y H:i', strtotime($review["created_at"]))) . "</div>";
+                    echo "<div class='review-time'>" . htmlspecialchars(date('m.d.Y H:i', strtotime($review["created_at"]))) . "</div>";
                     echo "<p>Book: <span class='review-book'><a href='book-detail.php?bookid=" . htmlspecialchars($review["book_id"]) . "' class='link-dark'>" . htmlspecialchars($review["book_name"]) . "</a></span></p>";
                     echo "<p>Review by: <strong class='review-user'>" . htmlspecialchars($review["user_name"]) . "</strong></p>";
                     echo "<p>Rating: <strong class='review-rating'>" . htmlspecialchars($review["rating"]) . "/5</strong></p>";
