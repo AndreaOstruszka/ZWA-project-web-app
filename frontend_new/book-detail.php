@@ -10,7 +10,7 @@ if(isset($_GET["bookid"])){
     die("Book not specified");
 }
 
-$sql = "SELECT name, isbn, literary_genre, fiction_genre, author, book_cover_large, CAST((sum(reviews.rating)/count(reviews.rating)) AS VARCHAR(3)) AS rating
+$sql = "SELECT name, isbn, literary_genre, fiction_genre, author, book_cover_large, description_long, CAST((sum(reviews.rating)/count(reviews.rating)) AS VARCHAR(3)) AS rating
         FROM books LEFT JOIN reviews ON reviews.book_id = books.id
         WHERE books.id = :book_id";
 $stmt = $conn->prepare($sql);
@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2><?php echo htmlspecialchars($current_book['name']); ?></h2>
             <div class="book-container">
                 <div class="book-cover-div">
-                    <img src="<?php echo htmlspecialchars($current_book["book_cover_large"])?>" alt="Book Cover" class="book-cover">
+                    <img src="images/covers/cover-hobbit.jpg" alt="Hobbit" class="book-cover-mini">
                 </div>
                 <div class="book-info">
                     <div class="rating">
@@ -110,6 +110,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <dd><?php echo htmlspecialchars($current_book['literary_genre'])?></dd>
                         <dt>Fictional genre:</dt>
                         <dd><?php echo htmlspecialchars($current_book['fiction_genre'])?></dd>
+                        <dt>Description:</dt>
+                        <dd><?php echo htmlspecialchars($current_book['description_long'])?></dd>
+                        <br>
                     </dl>
                 </div>
             </div>
