@@ -3,12 +3,13 @@ session_start();
 
 require_once 'db_connection.php';
 
+// New reviews
 $sql = "SELECT reviews.book_id, reviews.user_id, reviews.rating, reviews.review_text, reviews.created_at, users.user_name, books.name AS book_name
         FROM reviews
         JOIN users ON reviews.user_id = users.id
         JOIN books ON reviews.book_id = books.id
         ORDER BY reviews.created_at DESC
-        LIMIT 3";
+        LIMIT 2";
 $stmt = $conn->prepare($sql);
 if($stmt->execute()) {
     $reviews = $stmt->fetchAll();
@@ -16,7 +17,8 @@ if($stmt->execute()) {
     die("Error fetching reviews.");
 }
 
-$sql = "SELECT books.id, books.name, books.author, FORMAT(AVG(reviews.rating), 1) AS average_rating
+// Most popular
+$sql = "SELECT books.id, books.name, books.author, books.release_date, books.description_short, FORMAT(AVG(reviews.rating), 1) AS average_rating
         FROM books
         JOIN reviews ON books.id = reviews.book_id
         GROUP BY books.id
@@ -29,6 +31,17 @@ if($stmt->execute()) {
     die("Error fetching popular books.");
 }
 
+// New release
+$sql = "SELECT id, name, author, release_date, description_short
+        FROM books
+        ORDER BY release_date DESC
+        LIMIT 1";
+$stmt = $conn->prepare($sql);
+if($stmt->execute()) {
+    $new_books = $stmt->fetchAll();
+} else {
+    die("Error fetching popular books.");
+}
 
 ?>
 
@@ -42,7 +55,7 @@ if($stmt->execute()) {
             <div class="section welcome">
                 <h2>Everything about your favourite books</h2>
                 <p>Hello there!
-                    <br>
+                    <br><br>
                     On this website you can explore a vast collection of books across various genres,
                     including popular titles, fantasy, sci-fi, and more. Discover detailed information, read reviews,
                     and easily keep track of newly released books all in one place.
@@ -56,27 +69,39 @@ if($stmt->execute()) {
                 </p>
             </div>
 
+
+            <!-- New release section -->
             <div class="section new_release">
                 <h2>New release</h2>
                 <div class="new-release-container">
                     <div class="book-cover-div">
+                        <!-- TODO: DYNAMIC -->
                         <img src="images/covers/cover-hobbit.jpg" alt="Hobbit" class="book-cover-mini">
                     </div>
                     <div class="book-info-mini">
-                        <p>Name: Hobbit</p>
-                        <p>Author: J. R. R. Tolkien</p>
-                        <p>Release date: 31.12.2024</p>
-                        <p>An adventurous journey of Bilbo Baggins as he seeks to help a group of dwarves
-                            reclaim their homeland from the dragon Smaug.</p>
+
+                        <?php
+                        if (!empty($new_books)) {
+                            $book = $new_books[0];
+                            echo "<p>Name: <a href='book-detail.php?bookid=" . htmlspecialchars($book['id']) . "' class='link-dark'>" . htmlspecialchars($book['name']) . "</a></p>";
+                            echo "<p>Author: " . htmlspecialchars($book['author']) . "</p>";
+                            echo "<p>Release date: " . htmlspecialchars(date('d.m.Y', strtotime($book['release_date']))) . "</p>";
+                            echo "<p>" . htmlspecialchars($book['description_short']) . "</p>";
+                        } else {
+                            echo "<p>No new releases available.</p>";
+                        }
+                        ?>
+
                     </div>
                 </div>
             </div>
 
+            <!-- Most popular section -->
             <div class="section most_popular">
                 <h2>Most popular</h2>
                 <table>
                     <tr>
-                        <th>Name</th>
+                        <th>Title</th>
                         <th>Author</th>
                         <th>Rating</th>
                     </tr>
@@ -90,10 +115,10 @@ if($stmt->execute()) {
                         echo "</tr>";
                     }
                     ?>
-
                 </table>
-
             </div>
+
+            <!-- New reviews section -->
             <div class="section new_reviews">
                 <h2>New reviews</h2>
 
