@@ -1,3 +1,9 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
 <!DOCTYPE html>
 <html lang='en'>
 <head>
@@ -12,11 +18,12 @@
 <body>
 <header>
     <?php
-    if(empty($_SESSION)){
-        $guest_msg = '<div id="header-links-container"><a class="header_login_link" href="login.php"><i class="fa-solid fa-lock"></i> Log in </a><a class="header-register-link" href="register.php"><i class="fa-solid fa-user-plus"></i> Register</a></div>';
+    if (empty($_SESSION) || !isset($_SESSION["user_name"])) {
+        $guest_msg = '<div id="header-links-container"><a class="header_login_link" href="login.php?redirect=' . $_SERVER["REQUEST_URI"] . '"><i class="fa-solid fa-lock"></i> Log in </a><a class="header-register-link" href="register.php"><i class="fa-solid fa-user-plus"></i> Register</a></div>';
         echo $guest_msg;
     } else {
-        $user_msg = '<div id="header-links-container"><a class="header_login_link" href="profile.php"><i class="fa-solid fa-user"></i> ' . $_SESSION["user_name"] . '<a class="header-register-link" href="_logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i></i> Logout</a></div>';
+        $user_name = $_SESSION["user_name"];
+        $user_msg = '<div id="header-links-container"><a class="header_login_link" href="profile.php"><i class="fa-solid fa-user"></i> ' . htmlspecialchars($user_name) . '</a><a class="header-register-link" href="_logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></div>';
         echo $user_msg;
     }
     ?>
@@ -32,3 +39,5 @@
     </div>
     <div class="spacing"></div>
 </header>
+</body>
+</html>
