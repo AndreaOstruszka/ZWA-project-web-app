@@ -2,6 +2,7 @@
 session_start();
 
 if (empty($_SESSION["user_id"])) {
+    $_SESSION["redirect_to"] = $_SERVER["REQUEST_URI"];
     header("Location: login.php");
     exit();
 }
@@ -59,10 +60,9 @@ if ($stmt->execute()) {
             </div>
         </div>
 
-        <div>
+        <div id="review_container">
             <h2>My reviews</h2>
             <div id="review_container">
-
 
                 <?php
                 foreach ($user_reviews as $review) {
@@ -75,16 +75,15 @@ if ($stmt->execute()) {
                     echo "</div>";
                 }
                 ?>
-            </div>
 
-            <div class="button-container">
-                <button class="load-more button" data-genre="review" data-offset="3">More</button>
             </div>
-
         </div>
 
+        <div class="button-container">
+            <button class="load-more button" data-genre="review" data-offset="3">More</button>
+        </div>
 
-        <div id="review_container">
+        <div id="books_container">
             <?php
             if ($_SESSION["user_role"] == "admin") {
 
@@ -106,14 +105,12 @@ if ($stmt->execute()) {
                     echo '<a href="book-detail.php?bookid=' . htmlspecialchars($book["id"]) . '" title="Book Title"><div class="book-cover-image-wrapper"><img src="' . htmlspecialchars($book["book_cover_small"]) . '" alt="" height="225" width="150">' . htmlspecialchars($book["name"]) . '</div></a>';
                 }
                 echo '</div><div class="spacing"></div></div>';
+                echo '<div class="button-container"><button class="load-more button" data-genre="books" data-offset="12">More</button></div>';
             }
-
             ?>
         </div>
 
-        <div class="button-container">
-            <button class="load-more button" data-genre="books" data-offset="12">More</button>
-        </div>
+
 
     </article>
 </div>
