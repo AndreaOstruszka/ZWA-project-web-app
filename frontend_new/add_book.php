@@ -33,7 +33,6 @@
                         <option value="romance">Romance</option>
                         <option value="scifi">Sci-Fi</option>
                         <option value="fantasy">Fantasy</option>
-                        <option value="thriller">Thriller</option>
                         <option value="horror">Horror</option>
                         <option value="other">Other</option>
                     </select>
