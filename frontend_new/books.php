@@ -23,7 +23,7 @@ function getTopRatedBooks($genre, $limit, $offset)
 function getMostReviewedBooks($limit, $offset)
 {
     global $conn;
-    $stmt = $conn->prepare("SELECT books.id, books.name, COUNT(reviews.id) AS review_count
+    $stmt = $conn->prepare("SELECT books.id, books.name, books.author, COUNT(reviews.id) AS review_count
                             FROM books
                             JOIN reviews ON books.id = reviews.book_id
                             GROUP BY books.id
@@ -49,7 +49,6 @@ foreach ($genres as $genre) {
 $popular_books = getMostReviewedBooks($limit, $offset);
 
 ?>
-
     <div id="content">
         <nav id="genres">
             <ul class="ul-genres">
@@ -61,17 +60,18 @@ $popular_books = getMostReviewedBooks($limit, $offset);
                 <li class="li-genres"><a class="genres-item" href="#chart_other">Other</a></li>
             </ul>
         </nav>
-        <article id="main-wider">
+        <div id="main-wider">
             <h1>Books</h1>
 
-            <h2 id="chart_popular">Popular</h2>
-            <div id="popular_books">
-                <?php
-                foreach ($popular_books as $book) {
-                    echo '<a href="book-detail.php?bookid=' . htmlspecialchars($book["id"]) . '" title="' . htmlspecialchars($book["name"]) . '"><div class="book-cover-image-wrapper"><img src="images/covers/cover-hobbit.jpg" alt="Hobbit" class="book-cover-mini">' . htmlspecialchars($book["name"]) . '</div></a>';
-                }
-                ?>
-            </div>
+            <?php
+            echo '<div><h2>Popular</h2> <div class="book-container" id="popular_books">';
+
+                    foreach ($popular_books as $book) {
+                    echo '<a href="book-detail.php?bookid=' . htmlspecialchars($book["id"]) . '" title="Book Title"><div class="book-cover-image-wrapper"><img src="images/covers/cover-hobbit.jpg" alt="Hobbit" class="book-cover-mini">' . htmlspecialchars($book["name"]) . '</div></a>';
+                    }
+                    echo '</div><div class="spacing"></div></div>';
+
+            ?>
 
             <div class="button-container">
                 <button class="load-more button" data-genre="popular" data-offset="5">More</button>
@@ -79,20 +79,20 @@ $popular_books = getMostReviewedBooks($limit, $offset);
 
             <div class="spacing"></div>
 
-            <?php
-            foreach ($genres as $genre) {
-                echo '<h2 id="chart_' . $genre . '">' . ucfirst($genre) . '</h2>';
-                echo '<div id="' . $genre . '_books">';
-                foreach ($books_by_genre[$genre] as $book) {
-                    echo '<a href="book-detail.php?bookid=' . htmlspecialchars($book["id"]) . '" title="' . htmlspecialchars($book["name"]) . '"><div class="book-cover-image-wrapper"><img src="images/covers/cover-hobbit.jpg" alt="Hobbit" class="book-cover-mini">' . htmlspecialchars($book["name"]) . '</div></a>';
+                <?php
+                foreach ($genres as $genre) {
+                    echo '<h2 id="chart_' . $genre . '">' . ucfirst($genre) . '</h2>';
+                    echo '<div class="book-container" id="' . $genre . '_books">';
+                    foreach ($books_by_genre[$genre] as $book) {
+                        echo '<a href="book-detail.php?bookid=' . htmlspecialchars($book["id"]) . '" title="Book Title"><div class="book-cover-image-wrapper"><img src="images/covers/cover-hobbit.jpg" alt="Hobbit" class="book-cover-mini">' . htmlspecialchars($book["name"]) . '</div></a>';
+                    }
+                    echo '</div>';
+                    echo '<div class="button-container">';
+                    echo '<button class="load-more button" data-genre="' . $genre . '" data-offset="5">More</button>';
+                    echo '</div>';
+                    echo '<div class="spacing"></div>';
                 }
-                echo '</div>';
-                echo '<div class="button-container">';
-                echo '<button class="load-more button" data-genre="' . $genre . '" data-offset="5">More</button>';
-                echo '</div>';
-                echo '<div class="spacing"></div>';
-            }
-            ?>
+                ?>
         </article>
     </div>
 
@@ -102,6 +102,7 @@ $popular_books = getMostReviewedBooks($limit, $offset);
 
             loadMoreButtons.forEach(button => {
                 button.addEventListener('click', function () {
+                    console.log("Clicked "+button.getAttribute("data-genre"));
                     const genre = this.getAttribute('data-genre');
                     const offset = parseInt(this.getAttribute('data-offset'));
                     const container = document.getElementById(genre + '_books');
@@ -138,6 +139,5 @@ $popular_books = getMostReviewedBooks($limit, $offset);
             }
         });
     </script>
-
 
 <?php include 'footer.php'; ?>
