@@ -30,12 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (empty($errors)) {
             $stmt = $conn->prepare("UPDATE reviews SET review_text = :review_text, rating = :rating, created_at = NOW()
-                                    WHERE id = :review_id
-                                    AND user_id = :user_id");
+                                    WHERE id = :review_id");
             $stmt->bindValue(':review_text', $review_text, PDO::PARAM_STR);
             $stmt->bindValue(':rating', $review_rating, PDO::PARAM_INT);
             $stmt->bindValue(':review_id', $review_id, PDO::PARAM_INT);
-            $stmt->bindValue(':user_id', $_SESSION["user_id"], PDO::PARAM_INT);
+            //$stmt->bindValue(':user_id', $_SESSION["user_id"], PDO::PARAM_INT);
 
             if ($stmt->execute()) {
                 header("Location: profile.php");
@@ -49,9 +48,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     } elseif (isset($_POST["delete"])) {
-        $stmt = $conn->prepare("DELETE FROM reviews WHERE id = :review_id AND user_id = :user_id");
+        $stmt = $conn->prepare("DELETE FROM reviews WHERE id = :review_id");
         $stmt->bindValue(':review_id', $review_id, PDO::PARAM_INT);
-        $stmt->bindValue(':user_id', $_SESSION["user_id"], PDO::PARAM_INT);
+        //$stmt->bindValue(':user_id', $_SESSION["user_id"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             header("Location: profile.php");
@@ -61,11 +60,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 } else {
-    $stmt = $conn->prepare("SELECT review_text, rating FROM reviews WHERE id = :review_id AND user_id = :user_id");
+    $stmt = $conn->prepare("SELECT review_text, rating FROM reviews WHERE id = :review_id");
     $stmt->bindValue(':review_id', $review_id, PDO::PARAM_INT);
-    $stmt->bindValue(':user_id', $_SESSION["user_id"], PDO::PARAM_INT);
-    $stmt->execute();
+    //$stmt->bindValue(':user_id', $_SESSION["user_id"], PDO::PARAM_INT);
+    try {
+        $stmt->execute();
+    } catch (PDOException $e) {
+        die("Error fetching review.".$e->getMessage());
+    }
     $review = $stmt->fetch();
+    if(!$review) {
+        die("Review not found.");
+    }
 }
 ?>
 

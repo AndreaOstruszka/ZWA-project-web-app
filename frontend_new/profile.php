@@ -9,6 +9,7 @@ if (empty($_SESSION["user_id"])) {
 
 require_once 'db_connection.php';
 
+// Fetch user data
 $sql = "SELECT user_name, first_name, last_name, email FROM users
         WHERE id = :user_id";
 $stmt = $conn->prepare($sql);
@@ -19,6 +20,7 @@ if ($stmt->execute()) {
     die("Error fetching user data.");
 }
 
+// Fetch user reviews
 $sql = "SELECT reviews.id, reviews.book_id, reviews.rating, reviews.review_text, reviews.created_at, books.name AS book_name
         FROM reviews
         JOIN books ON reviews.book_id = books.id
@@ -57,6 +59,15 @@ if ($stmt->execute()) {
                 <div class="profile-links">
                     <a href="profile-edit.php">Edit profile</a>
                 </div>
+
+                <?php
+                if ($_SESSION["user_role"] == "admin") {
+                    echo '<div class="profile-links">';
+                    echo '<a href="admin.php">Admin panel</a>';
+                    echo '</div>';
+                }
+
+                ?>
             </div>
         </div>
 
