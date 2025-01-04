@@ -3,20 +3,16 @@ session_start();
 
 require_once 'db_connection.php';
 
-$sql = "SELECT reviews.book_id, reviews.user_id, reviews.rating, reviews.review_text, reviews.created_at, users.user_name, books.name AS book_name
-        FROM reviews
-        JOIN users ON reviews.user_id = users.id
-        JOIN books ON reviews.book_id = books.id
-        ORDER BY reviews.created_at DESC";
-$stmt = $conn->prepare($sql);
-if($stmt->execute()) {
-    $reviews = $stmt->fetchAll();
-} else {
-    die("Error fetching reviews.");
-}
+$limit = 5; // Number of reviews per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
 
+$sql_total = "SELECT COUNT(*) FROM reviews";
+$stmt_total = $conn->prepare($sql_total);
+$stmt_total->execute();
+$total_reviews = $stmt_total->fetchColumn();
+$total_pages = ceil($total_reviews / $limit);
 ?>
-
 
 <?php include 'header.php'; ?>
 
@@ -26,19 +22,54 @@ if($stmt->execute()) {
         <h2>What do other users think?</h2>
         <br>
 
-        <?php
-        foreach ($reviews as $review) {
-            echo "<div class='review-index'>";
-            echo "<div class='review-time'>" . htmlspecialchars(date('d.m.Y H:i', strtotime($review["created_at"]))) . "</div>";
-            echo "<p>Book: <span class='review-book'><a href='book-detail.php?bookid=" . htmlspecialchars($review["book_id"]) . "' class='link-dark'>" . htmlspecialchars($review["book_name"]) . "</a></span></p>";
-            echo "<p>Review by: <strong class='review-user'>" . htmlspecialchars($review["user_name"]) . "</strong></p>";
-            echo "<p>Rating: <strong class='review-rating'>" . htmlspecialchars($review["rating"]) . "/5</strong></p>";
-            echo "<p class='review-text'>" . htmlspecialchars($review["review_text"]) . "</p>";
-            echo "</div>";
-        }
-        ?>
+        <div id="reviews-container">
+            <!-- Reviews will be loaded here via AJAX -->
+        </div>
 
+        <div class="pagination">
+            <?php if ($page > 1): ?>
+                <a href="#" data-page="1">&laquo; First</a>
+                <a href="#" data-page="<?php echo $page - 1; ?>">&lt; Previous</a>
+            <?php endif; ?>
+
+            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                <a href="#" data-page="<?php echo $i; ?>" <?php if ($i == $page) echo 'class="active"'; ?>><?php echo $i; ?></a>
+            <?php endfor; ?>
+
+            <?php if ($page < $total_pages): ?>
+                <a href="#" data-page="<?php echo $total_pages; ?>">Last &raquo;</a>
+            <?php endif; ?>
+        </div>
+
+        <div class="spacing"></div>
     </article>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function loadReviews(page) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'fetch_reviews.php?page=' + page, true);
+            xhr.onload = function () {
+                if (this.status === 200) {
+                    document.getElementById('reviews-container').innerHTML = this.responseText;
+                }
+            };
+            xhr.send();
+        }
+
+        loadReviews(<?php echo $page; ?>);
+
+        document.querySelectorAll('.pagination a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const page = this.getAttribute('data-page');
+                loadReviews(page);
+                document.querySelectorAll('.pagination a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    });
+</script>
 
 <?php include 'footer.php'; ?>
