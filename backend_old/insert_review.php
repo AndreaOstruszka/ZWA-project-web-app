@@ -24,12 +24,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If no errors, proceed with saving to the database
     if (empty($errors)) {
         // Prepare and bind
-        $stmt = $conn->prepare("INSERT INTO reviews (book_id, user_id, rating, review_text) VALUES (?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO reviews (book_id, user_id, rating, review_text) VALUES (:book_id, :user_id, :rating, :review_text)");
         if ($stmt === false) {
             die('Prepare failed: ' . htmlspecialchars($conn->error));
         }
 
-        $bind = $stmt->bind_param("iiis", $book_id, $user_id, $rating, $review_text);
+        $bind = $stmt->bindValue(':book_id', $book_id, PDO::PARAM_INT);
+        $bind = $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $bind = $stmt->bindValue(':rating', $rating, PDO::PARAM_STR);
+        $bind = $stmt->bindValue(':review_text', $review_text, PDO::PARAM_STR);
+
         if ($bind === false) {
             die('Bind failed: ' . htmlspecialchars($stmt->error));
         }
@@ -42,8 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Error: Could not save the review to the database.";
         }
 
-        // Close statement
-        $stmt->close();
     } else {
         // Display errors
         foreach ($errors as $error) {
@@ -51,9 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-
-// Close connection
-$conn->close();
 ?>
 
 <!-- HTML form -->
@@ -72,27 +71,58 @@ $conn->close();
         const ratingInput = form.querySelector('input[name="rating"]');
         const reviewTextInput = form.querySelector('textarea[name="review_text"]');
 
-        form.addEventListener('submit', function(event) {
-            let valid = true;
-
-            // Validate rating
+        function validateRating() {
             const ratingValue = parseInt(ratingInput.value, 10);
+            let errorElement = ratingInput.nextElementSibling;
+            if (!errorElement || !errorElement.classList.contains('error')) {
+                errorElement = document.createElement('span');
+                errorElement.className = 'error';
+                ratingInput.parentNode.insertBefore(errorElement, ratingInput.nextSibling);
+            }
             if (isNaN(ratingValue) || ratingValue < 1 || ratingValue > 5) {
-                valid = false;
-                alert("Rating must be between 1 and 5. JS");
+                errorElement.textContent = 'Rating must be between 1 and 5.';
+            } else {
+                errorElement.textContent = '';
             }
+        }
 
-            // Validate review text
+        function validateReviewText() {
             const reviewTextValue = reviewTextInput.value.trim();
-            if (reviewTextValue === "") {
-                valid = false;
-                alert("Review text cannot be empty. JS");
+            let errorElement = reviewTextInput.nextElementSibling;
+            if (!errorElement || !errorElement.classList.contains('error')) {
+                errorElement = document.createElement('span');
+                errorElement.className = 'error';
+                reviewTextInput.parentNode.insertBefore(errorElement, reviewTextInput.nextSibling);
             }
+            if (reviewTextValue === '') {
+                errorElement.textContent = 'Review text cannot be empty.';
+            } else {
+                errorElement.textContent = '';
+            }
+        }
 
-            // If validation fails, prevent form submission
+        ratingInput.addEventListener('input', validateRating);
+        reviewTextInput.addEventListener('input', validateReviewText);
+
+        form.addEventListener('submit', function(event) {
+            validateRating();
+            validateReviewText();
+
+            const errors = form.querySelectorAll('.error');
+            let valid = true;
+            errors.forEach(function(errorElement) {
+                if (errorElement.textContent !== '') {
+                    valid = false;
+                }
+            });
+
             if (!valid) {
-                event.preventDefault();  // Prevent form submission if validation fails
+                event.preventDefault();
             }
         });
     });
 </script>
+
+<style>
+    .error { color: red; font-size: 0.9em; }
+</style>

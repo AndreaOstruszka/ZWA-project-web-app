@@ -38,18 +38,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {         // This block starts only if
     $book_id = intval($_POST["book_id"]);           // Intval ensures that book_id is an integer
 
     // Retrieve the book name from the database
-    $stmt = $conn->prepare("SELECT name FROM books WHERE id = ?");
-    $stmt->bind_param("i", $book_id);
+    $stmt = $conn->prepare("SELECT name FROM books WHERE id = :book_id");
+    $stmt->bindValue(":book_id", $book_id, PDO::PARAM_INT);
     $stmt->execute();
-    $stmt->bind_result($book_name);
-    $stmt->fetch();
-    $stmt->close();
+    //$stmt->bindValue(1, $book_id, PDO::PARAM_INT);
+    $book_name = $stmt->fetchColumn(0);
 
     if (empty($book_name)) {
         $errors[] = "Error: Book not found.";
     } else {
         // Check if file was uploaded without errors
         if (isset($_FILES["book_cover"]) && $_FILES["book_cover"]["error"] == 0) {
+            var_dump($_FILES["book_cover"]);
             $allowed = ["jpg" => "image/jpeg", "png" => "image/png", "gif" => "image/gif"];
             $filename = $_FILES["book_cover"]["name"];
             $filetype = $_FILES["book_cover"]["type"];
@@ -69,10 +69,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {         // This block starts only if
             // Verify MIME type of the file
             if (in_array($filetype, $allowed)) {
                 // Check whether uploads directory exists, if not, create it
-                if (!is_dir("uploads")) {
-                    mkdir("uploads", 0777, true);
+                if (!is_dir( "./uploads")) {
+                    echo "test";
+                    //mkdir("uploads", 0777, true);
                 }
-
                 // Create filenames using the book name
                 $book_name_sanitized = preg_replace('/[^A-Za-z0-9_\-]/', '_', $book_name); // Sanitize book name
                 $large_filename = "uploads/" . $book_name_sanitized . "_large." . $ext;
@@ -93,14 +93,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {         // This block starts only if
 
                     // Insert file paths into the database - prepared statement
                     $stmt = $conn->prepare("UPDATE books SET book_cover_large = ?, book_cover_small = ? WHERE id = ?");     // ? means that data will be inserted later - preventing change of the SQL statement
-                    $stmt->bind_param("ssi", $large_filename, $small_filename, $book_id);
+                    $stmt->bindValue(1, $large_filename, PDO::PARAM_STR);
+                    $stmt->bindValue(2, $small_filename, PDO::PARAM_STR);
+                    $stmt->bindValue(3, $book_id, PDO::PARAM_INT);
 
                     if ($stmt->execute()) {         // Uses prepared statement - SQL Injection will be ignored, because data aren't included into the SQL statement
                         echo "File uploaded and resized successfully.";
                     } else {
                         echo "Error: Could not save the file paths to the database.";
                     }
-                    $stmt->close();
                 } else {
                     $errors[] = "Error: There was a problem uploading your file.";
                 }
@@ -119,8 +120,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {         // This block starts only if
         }
     }
 }
-
-$conn->close();
 ?>
 
 <!-- HTML form -->
