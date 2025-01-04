@@ -23,9 +23,11 @@ function getTopRatedBooks($genre, $limit)
     $stmt = $conn->prepare("SELECT books.id, books.name, books.author, books.release_date, books.description_short, FORMAT(AVG(reviews.rating), 1) AS average_rating
                             FROM books
                             JOIN reviews ON books.id = reviews.book_id
+                            WHERE books.fiction_genre = :genre
                             GROUP BY books.id
                             ORDER BY average_rating DESC
                             LIMIT :limit");
+    $stmt->bindParam(':genre', $genre, PDO::PARAM_STR);
     $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
