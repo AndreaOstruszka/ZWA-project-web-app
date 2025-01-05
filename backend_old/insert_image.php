@@ -6,7 +6,8 @@ require_once 'db_connection.php';
 $errors = [];
 
 // Function to resize image
-function resize_image($file, $ext, $max_width, $max_height) {
+function resize_image($file, $ext, $max_width, $max_height)
+{
     list($width, $height) = getimagesize($file);
     $ratio = $width / $height;
 
@@ -34,22 +35,20 @@ function resize_image($file, $ext, $max_width, $max_height) {
 }
 
 // Process form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {         // This block starts only if the form method is POST
-    $book_id = intval($_POST["book_id"]);           // Intval ensures that book_id is an integer
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $book_id = intval($_POST["book_id"]);
 
-    // Retrieve the book name from the database
-    $stmt = $conn->prepare("SELECT name FROM books WHERE id = :book_id");
+    // Retrieve the book title from the database
+    $stmt = $conn->prepare("SELECT title FROM books WHERE id = :book_id");
     $stmt->bindValue(":book_id", $book_id, PDO::PARAM_INT);
     $stmt->execute();
-    //$stmt->bindValue(1, $book_id, PDO::PARAM_INT);
-    $book_name = $stmt->fetchColumn(0);
+    $book_title = $stmt->fetchColumn();
 
-    if (empty($book_name)) {
+    if (empty($book_title)) {
         $errors[] = "Error: Book not found.";
     } else {
         // Check if file was uploaded without errors
         if (isset($_FILES["book_cover"]) && $_FILES["book_cover"]["error"] == 0) {
-            var_dump($_FILES["book_cover"]);
             $allowed = ["jpg" => "image/jpeg", "png" => "image/png", "gif" => "image/gif"];
             $filename = $_FILES["book_cover"]["name"];
             $filetype = $_FILES["book_cover"]["type"];
@@ -69,14 +68,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {         // This block starts only if
             // Verify MIME type of the file
             if (in_array($filetype, $allowed)) {
                 // Check whether uploads directory exists, if not, create it
-                if (!is_dir( "./uploads")) {
-                    echo "test";
-                    //mkdir("uploads", 0777, true);
+                if (!is_dir("./uploads")) {
+                    if (!mkdir("./uploads", 0777, true)) {
+                        $errors[] = "Error: Failed to create uploads directory.";
+                    }
                 }
-                // Create filenames using the book name
-                $book_name_sanitized = preg_replace('/[^A-Za-z0-9_\-]/', '_', $book_name); // Sanitize book name
-                $large_filename = "uploads/" . $book_name_sanitized . "_large." . $ext;
-                $small_filename = "uploads/" . $book_name_sanitized . "_small." . $ext;
+
+                // Rename the file based on the book title
+                $sanitized_title = preg_replace('/[^a-zA-Z0-9_-]/', '_', $book_title);
+                $new_filename = $sanitized_title . '.' . $ext;
+
+                // Define file paths
+                $large_filename = "./uploads/" . $new_filename;
+                $small_filename = "./uploads/small_" . $new_filename;
 
                 // Move the uploaded file to the server
                 if (move_uploaded_file($_FILES["book_cover"]["tmp_name"], $large_filename)) {
@@ -91,13 +95,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {         // This block starts only if
                         imagegif($resized_image, $small_filename);
                     }
 
-                    // Insert file paths into the database - prepared statement
-                    $stmt = $conn->prepare("UPDATE books SET book_cover_large = ?, book_cover_small = ? WHERE id = ?");     // ? means that data will be inserted later - preventing change of the SQL statement
-                    $stmt->bindValue(1, $large_filename, PDO::PARAM_STR);
-                    $stmt->bindValue(2, $small_filename, PDO::PARAM_STR);
-                    $stmt->bindValue(3, $book_id, PDO::PARAM_INT);
+                    // Insert file paths into the database
+                    $stmt = $conn->prepare("UPDATE books SET book_cover_large = :large_filename, book_cover_small = :small_filename WHERE id = :book_id");
+                    $stmt->bindValue(":large_filename", $large_filename, PDO::PARAM_STR);
+                    $stmt->bindValue(":small_filename", $small_filename, PDO::PARAM_STR);
+                    $stmt->bindValue(":book_id", $book_id, PDO::PARAM_INT);
 
-                    if ($stmt->execute()) {         // Uses prepared statement - SQL Injection will be ignored, because data aren't included into the SQL statement
+                    if ($stmt->execute()) {
                         echo "File uploaded and resized successfully.";
                     } else {
                         echo "Error: Could not save the file paths to the database.";
@@ -105,11 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {         // This block starts only if
                 } else {
                     $errors[] = "Error: There was a problem uploading your file.";
                 }
-            } else {
-                $errors[] = "Error: There was a problem with the file type.";
             }
-        } else {
-            $errors[] = "Error: " . $_FILES["book_cover"]["error"];
         }
     }
 
