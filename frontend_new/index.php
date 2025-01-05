@@ -4,7 +4,7 @@ session_start();
 require_once 'db_connection.php';
 
 // New reviews
-$sql = "SELECT reviews.book_id, reviews.user_id, reviews.rating, reviews.review_text, reviews.created_at, users.user_name, books.name AS book_name
+$sql = "SELECT reviews.book_id, reviews.user_id, reviews.rating, reviews.review_text, reviews.created_at, users.user_name, books.title AS book_title
         FROM reviews
         JOIN users ON reviews.user_id = users.id
         JOIN books ON reviews.book_id = books.id
@@ -18,7 +18,7 @@ if($stmt->execute()) {
 }
 
 // Most popular
-$sql = "SELECT books.id, books.name, books.author, books.release_date, books.description_short, FORMAT(AVG(reviews.rating), 1) AS average_rating
+$sql = "SELECT books.id, books.title, books.author, books.release_date, books.description_short, FORMAT(AVG(reviews.rating), 1) AS average_rating
         FROM books
         JOIN reviews ON books.id = reviews.book_id
         GROUP BY books.id
@@ -32,7 +32,7 @@ if($stmt->execute()) {
 }
 
 // New release
-$sql = "SELECT id, name, author, release_date, description_short
+$sql = "SELECT id, title, author, release_date, description_short
         FROM books
         ORDER BY release_date DESC
         LIMIT 1";
@@ -42,7 +42,6 @@ if($stmt->execute()) {
 } else {
     die("Error fetching popular books.");
 }
-
 ?>
 
 
@@ -74,18 +73,20 @@ if($stmt->execute()) {
             <div class="section new_release">
                 <h2>New release</h2>
                 <div class="new-release-container">
-                    <div class="book-cover-div">
-                        <!-- TODO: DYNAMIC -->
-                        <img src="images/covers/cover-hobbit.jpg" alt="Hobbit" class="book-cover-mini">
-                    </div>
+                    <?php if (!empty($new_books)) {
+                        $book = $new_books[0]; ?>
+                        <div class="book-cover-div">
+                            <img src="uploads/small_<?php echo htmlspecialchars($book['title']); ?>.jpg" alt="<?php echo htmlspecialchars($book['title']); ?>" class="book-cover-mini">
+                        </div>
+                    <?php } ?>
                     <div class="book-info-mini">
 
                         <?php
                         if (!empty($new_books)) {
                             $book = $new_books[0];
-                            echo "<p>Name: <a href='book-detail.php?bookid=" . htmlspecialchars($book['id']) . "' class='link-dark'>" . htmlspecialchars($book['name']) . "</a></p>";
+                            echo "<p>Title: <a href='book-detail.php?bookid=" . htmlspecialchars($book['id']) . "' class='link-dark'>" . htmlspecialchars($book['title']) . "</a></p>";
                             echo "<p>Author: " . htmlspecialchars($book['author']) . "</p>";
-                            echo "<p>Release date: " . htmlspecialchars(date('m.d.Y H:i', strtotime($book['release_date']))) . "</p>";
+                            echo "<p>Release date: " . htmlspecialchars(date('m.d.Y', strtotime($book['release_date']))) . "</p>";
                             echo "<p>" . htmlspecialchars($book['description_short']) . "</p>";
                         } else {
                             echo "<p>No new releases available.</p>";
@@ -109,7 +110,7 @@ if($stmt->execute()) {
                     <?php
                     foreach($popular_books as $book) {
                         echo "<tr>";
-                        echo "<td><a href='book-detail.php?bookid=" . htmlspecialchars($book["id"]) . "' class='link-dark'>" . htmlspecialchars($book["name"]) . "</a></td>";
+                        echo "<td><a href='book-detail.php?bookid=" . htmlspecialchars($book["id"]) . "' class='link-dark'>" . htmlspecialchars($book["title"]) . "</a></td>";
                         echo "<td>" . htmlspecialchars($book["author"]) . "</td>";
                         echo "<td>" . htmlspecialchars($book["average_rating"]) . "</td>";
                         echo "</tr>";
@@ -126,7 +127,7 @@ if($stmt->execute()) {
                 foreach($reviews as $review) {
                     echo "<div class='review-index'>";
                     echo "<div class='review-time'>" . htmlspecialchars(date('m.d.Y H:i', strtotime($review["created_at"]))) . "</div>";
-                    echo "<p>Book: <span class='review-book'><a href='book-detail.php?bookid=" . htmlspecialchars($review["book_id"]) . "' class='link-dark'>" . htmlspecialchars($review["book_name"]) . "</a></span></p>";
+                    echo "<p>Book: <span class='review-book'><a href='book-detail.php?bookid=" . htmlspecialchars($review["book_id"]) . "' class='link-dark'>" . htmlspecialchars($review["book_title"]) . "</a></span></p>";
                     echo "<p>Review by: <strong class='review-user'>" . htmlspecialchars($review["user_name"]) . "</strong></p>";
                     echo "<p>Rating: <strong class='review-rating'>" . htmlspecialchars($review["rating"]) . "/5</strong></p>";
                     echo "<p class='review-text'>" . htmlspecialchars($review["review_text"]) . "</p>";
