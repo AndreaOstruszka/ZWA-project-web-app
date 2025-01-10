@@ -1,9 +1,3 @@
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-?>
-
 <!DOCTYPE html>
 <html lang='en'>
 <head>
@@ -23,7 +17,7 @@ if (session_status() === PHP_SESSION_NONE) {
         echo $guest_msg;
     } else {
         $user_name = $_SESSION["user_name"];
-        $user_msg = '<div id="header-links-container"><a class="header_login_link" href="profile.php"><i class="fa-solid fa-user"></i> ' . htmlspecialchars($user_name) . '</a><a class="header-register-link" href="_logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></div>';
+        $user_msg = '<div id="header-links-container"><a class="header_login_link" href="profile.php"><i class="fa-solid fa-user"></i> ' . htmlspecialchars($user_name) . '</a><a class="header-register-link" href="api/_logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></div>';
         echo $user_msg;
     }
     ?>
@@ -39,5 +33,3 @@ if (session_status() === PHP_SESSION_NONE) {
     </div>
     <div class="spacing"></div>
 </header>
-</body>
-</html>

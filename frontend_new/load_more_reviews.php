@@ -10,7 +10,7 @@ if (empty($_SESSION["user_id"])) {
 
 $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
 
-$sql = "SELECT reviews.id, reviews.book_id, reviews.rating, reviews.review_text, reviews.created_at, books.name AS book_name
+$sql = "SELECT reviews.id, reviews.book_id, reviews.rating, reviews.review_text, reviews.created_at, books.title AS book_title
         FROM reviews
         JOIN books ON reviews.book_id = books.id
         WHERE reviews.user_id = :user_id
@@ -23,7 +23,7 @@ $user_reviews = $stmt->fetchAll();
 
 foreach ($user_reviews as $review) {
     echo "<div class='review-index'>";
-    echo "<p class='review-book'><a href='book-detail.php?bookid=" . htmlspecialchars($review["book_id"]) . "' class='link-dark'>" . htmlspecialchars($review["book_name"]) . "</a></p>";
+    echo "<p class='review-book'><a href='book-detail.php?bookid=" . htmlspecialchars($review["book_id"]) . "' class='link-dark'>" . htmlspecialchars($review["book_title"]) . "</a></p>";
     echo "<p class='review-rating'>" . htmlspecialchars($review["rating"]) . "/5</p>";
     echo "<div class='review-time'>" . htmlspecialchars(date('d.m.Y H:i', strtotime($review["created_at"]))) . "</div>";
     echo "<p class='review_text_index'>" . htmlspecialchars($review["review_text"]) . "</p>";

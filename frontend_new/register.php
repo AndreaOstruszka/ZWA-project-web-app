@@ -1,129 +1,190 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Generate CSRF token if it doesn't already exist
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+require_once 'src/db_connection.php';
+
+if (isset($_SESSION["user_id"])) {
+    header("Location: profile.php");
+    exit();
 }
 
 // Initialize errors and pre-filled form data
-$errors = [];
-$form_data = [
-    "first_name" => "",
-    "last_name" => "",
-    "user_name" => "",
-    "email" => "",
+$first_name = $last_name = $user_name = $email = $password = $repassword = "";
+$errors = [
+    'user_name' => '',
+    'first_name' => '',
+    'last_name' => '',
+    'email' => '',
+    'password' => '',
+    'repassword' => '',
+    'agreed' => ''
 ];
+
+// Function to validate username duplicity
+function validate_username($user_name, $pdo)
+{
+    $sql = "SELECT COUNT(id) FROM users WHERE user_name = :user_name";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':user_name' => $user_name]);
+    return $stmt->fetchColumn();
+}
+
+// Function to validate email duplicity
+function validate_email($email, $pdo)
+{
+    $sql = "SELECT COUNT(id) FROM users WHERE email = :email";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':email' => $email]);
+    return $stmt->fetchColumn();
+}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Validate CSRF token
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("Invalid CSRF token!");
+        die("Invalid CSRF token! <br>" . $_POST['csrf_token'] . "<br>" . $_SESSION['csrf_token']);
     }
 
-    // Pre-fill form data
-    foreach ($form_data as $key => &$value) {               // Foreach goes through every element in the array
-        $value = htmlspecialchars(trim($_POST[$key] ?? ''), ENT_QUOTES, 'UTF-8');          // Trim removes redundant spaces. If input is nonexistent, empty string is used.
+    $user_name = trim($_POST["user_name"]);
+    $first_name = trim($_POST["first_name"]);
+    $last_name = trim($_POST["last_name"]);
+    $email = trim($_POST["email"]);
+    $password = $_POST["password"];
+    $repassword = $_POST["repassword"];
+    $agreed = isset($_POST["agreed"]) ? $_POST["agreed"] : '';
+
+
+    // Validate that fields are not empty
+    if (empty($user_name)) $errors["user_name"] = "Username is required. PHP";
+    if (empty($first_name)) $errors["first_name"] = "First name is required. PHP";
+    if (empty($last_name)) $errors["last_name"] = "Last name is required. PHP";
+
+    // Validate email format
+    if (empty($email)) {
+        $errors["email"] = "Email is required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) || !preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/', $email)) {
+        $errors["email"] = "Invalid email address.";
+    }
+    if (!empty($email) && validate_email($email, $conn) > 0) {
+        $errors['email'] = "Email is already registered with a different account.";
     }
 
-    // Input validation
-    if (empty($form_data["first_name"])) {
-        $errors["first_name"] = "First name is required.";
-    }
-    if (empty($form_data["last_name"])) {
-        $errors["last_name"] = "Last name is required.";
-    }
-    if (empty($form_data["user_name"])) {
-        $errors["user_name"] = "User name is required.";
-    }
-    if (empty($form_data["email"]) || !filter_var($form_data["email"], FILTER_VALIDATE_EMAIL)) {
-        $errors["email"] = "A valid email is required.";
-    }
-
-    // Password validation
-    $password = $_POST["password"] ?? '';
-    $password_confirm = $_POST["password_confirm"] ?? '';
     if (empty($password)) {
         $errors["password"] = "Password is required.";
-    } elseif ($password !== $password_confirm) {
-        $errors["password_confirm"] = "Passwords do not match.";
+    } elseif (strlen($password) < 6) {
+        $errors["password"] = "Password must be at least 6 characters.";
+    }
+    if (empty($repassword)) {
+        $errors["repassword"] = "Please re-enter password.";
+    } elseif ($password !== $repassword) {
+        $errors["repassword"] = "Passwords do not match.";
+    }
+    if (empty($agreed)) $errors["agreed"] = "You must agree to the terms.";
+
+    // Check for email duplicity
+    if (validate_email($email, $conn) > 0) {
+        $errors["email"] = "Email is already registered.";
     }
 
-    // If no errors, proceed with saving to the database
-    if (empty($errors)) {
-        // Database connection
-        require_once 'db_connection.php';
+    if (validate_username($user_name, $conn) > 0) {
+        $errors["user_name"] = "Username already exists.";
+    }
+    if (count(array_filter($errors)) == 0) {
+        $sql = "INSERT INTO users (first_name, last_name, user_name, email, password_hash, role) VALUES (:first_name, :last_name, :user_name, :email, :password, :role)";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            ':first_name' => $first_name,
+            ':last_name' => $last_name,
+            ':user_name' => $user_name,
+            ':email' => $email,
+            ':password' => password_hash($password, PASSWORD_DEFAULT),
+            ':role' => 'registered_user'
+        ]);
 
-        $stmt = $conn->prepare("SELECT id FROM users WHERE user_name = ? OR email = ?");    // Prepare SQL statement to check if user or mail already exists
-        $stmt->bind_param("ss", $form_data["user_name"], $form_data["email"]);  // Bind input parameters to statement
-        $stmt->execute();
-        $stmt->store_result();
-        if ($stmt->num_rows > 0) {
-            $errors["user_name"] = "This username or email is already registered.";
-        }
-        $stmt->close();
-
-        if (empty($errors)) {
-            $password_hash = password_hash($password, PASSWORD_BCRYPT);     // Hash password by method BCRYPT
-            var_dump($password, bin2hex($password), $password_hash); // Debugging line
-            $role = 'registered_user';
-            $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, user_name, email, password_hash, role) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssss", $form_data["first_name"], $form_data["last_name"], $form_data["user_name"], $form_data["email"], $password_hash, $role);
-
-            //$sql = "INSERT INTO users (Username, Name, Surname, Email, PasswordHash) VALUES (?, ?, ?, ?, ?)";
-            //$stmt = $conn->prepare($sql);
-            //$stmt->bind_param("sssss", $form_data["user_name"], $form_data["first_name"], $form_data["last_name"], $form_data["email"], $password_hash);
-
-            if ($stmt->execute()) {
-                $stmt->close();
-                $conn->close();
-                unset($_SESSION['csrf_token']); // Remove token only after successful registration
-                header("Location: registration_success.php");
-                exit();
-            } else {
-                echo "Registration error: " . $stmt->error;
-            }
-        }
+        $user_id = $conn->lastInsertId(); // Define $user_id here
+        $_SESSION["user_id"] = $user_id;
+        $_SESSION["user_name"] = $user_name;
+        $_SESSION["user_role"] = 'registered_user';
+        header("Location: profile.php");
+        exit();
     }
 }
+
+// Generate CSRF token
+$csrf_token = bin2hex(random_bytes(16));
+$_SESSION["csrf_token"] = $csrf_token;
 ?>
 
 <?php include 'header.php'; ?>
+<script src="js/form_validation_profile.js" defer></script>
 
 <div id="content">
     <article id="main-widest">
         <h1>Registration</h1>
         <br>
         <div class="form-wrapper">
-            <form action="#" method="post" enctype="multipart/form-data" class="my_form">
-                <legend>Please fill in info about yourself:</legend>
-                <label for="fName">First name:</label>
-                <input class="form-input" id="fName" type="text" name="fName" placeholder="John" required>
+            <form action="#" method="post" enctype="multipart/form-data" class="my_form" id="registrationForm">
+                <fieldset>
+                    <legend>Please fill in info about yourself:</legend>
+                    <label for="first_name">* First name:</label>
+                    <input class="form-input <?php echo !empty($errors['first_name']) ? 'error-border' : ''; ?>"
+                           id="first_name" type="text" name="first_name" placeholder="J. R. R."
+                           value="<?php if (isset($_POST["first_name"])) {
+                               echo htmlspecialchars($first_name);
+                           } ?>">
+                    <span class="error" id="first_name_error"><?php echo $errors['first_name']; ?></span>
 
-                <label for="lName">Last name:</label>
-                <input class="form-input" id="lName" type="text" name="lName" placeholder="Doe" required>
+                    <label for="last_name">* Last name:</label>
+                    <input class="form-input <?php echo !empty($errors['last_name']) ? 'error-border' : ''; ?>"
+                           id="last_name" type="text" name="last_name" placeholder="Tolkien"
+                           value="<?php echo htmlspecialchars($last_name); ?>">
+                    <span class="error" id="last_name_error"><?php echo $errors['last_name']; ?></span>
 
-                <label for="nickname">Nickname:</label>
-                <input class="form-input" id="nickname" type="text" name="nickname" placeholder="BookWorm125" required>
 
-                <label for="email">Email:</label>
-                <input class="form-input" id="email" type="email" name="email" value="@" required>
+                    <label for="user_name">* Username:</label>
+                    <input class="form-input <?php echo !empty($errors['user_name']) ? 'error-border' : ''; ?>"
+                           id="user_name" type="text" name="user_name" placeholder="RolkieTolkie"
+                           value="<?php if (isset($_POST["user_name"])) {
+                               echo htmlspecialchars($user_name);
+                           } ?>">
+                    <span class="error" id="user_name_error"><?php echo $errors['user_name']; ?></span>
 
-                <label for="password">Password:</label>
-                <input class="form-input" id="password" type="password" name="password" placeholder="at least 6 characters" required>
+                    <label for="email">* Email:</label>
+                    <input class="form-input <?php echo !empty($errors['email']) ? 'error-border' : ''; ?>" id="email"
+                           type="email" name="email" placeholder="tolkien@books.com"
+                           value="<?php if (isset($_POST["email"])) {
+                               echo htmlspecialchars($email);
+                           } ?>">
+                    <span class="error" id="email_error"><?php echo $errors['email']; ?></span>
 
-                <label for="repassword">Re-enter password:</label>
-                <input class="form-input" id="repassword" type="password" name="repassword" required>
+                    <label for="password">* Password:</label>
+                    <input class="form-input  <?php echo !empty($errors['password']) ? 'error-border' : ''; ?>"
+                           id="password" type="password" name="password" placeholder="at least 6 characters">
+                    <span class="error" id="password_error"><?php echo $errors['password']; ?></span>
 
-                <label class="checkbox-label">
-                    <input type="checkbox" name="agreed" value="yes" checked required>
-                    I agree to the BookNook Terms of Service and Privacy Policy
-                </label>
+                    <label for="repassword">* Re-enter password:</label>
+                    <input class="form-input  <?php echo !empty($errors['repassword']) ? 'error-border' : ''; ?>"
+                           id="repassword" type="password" name="repassword">
+                    <span class="error" id="repassword_error"><?php echo $errors['repassword']; ?></span>
 
-                <div class="button-container">
-                    <button class="button" type="submit">Register</button>
-                    <button class="button" type="reset">Reset form</button>
-                </div>
+                    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+
+                    <label class="checkbox-label <?php echo !empty($errors['agreed']) ? 'error-border' : ''; ?>">
+                        <input type="checkbox" name="agreed" value="yes" checked>
+                        * I agree to the BookNook Terms of Service and Privacy Policy
+                    </label>
+                    <p class="error" id="agreed_error"><?php echo $errors['agreed']; ?></p>
+
+                    <br>
+                    <p>* mandatory field</p>
+                    <br><br>
+
+                    <div class="button-container">
+                        <button class="button" type="submit" name="save_changes">Register</button>
+                        <button class="button" type="reset">Reset form</button>
+                    </div>
+                </fieldset>
             </form>
             <div class="link-div">
                 <p>Already have an account? Click <a href="login.php">here!</a></p>

@@ -75,17 +75,16 @@ footer {
     background-color: var(--color-primary-dark);
     color: var(--color-primary-lightest);
     text-align: center;
-    padding: 0 20px 20px 20px; /* No padding on the top, 20px padding on other sides */
+    padding: 0 20px 20px 20px;
     width: 100%;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    box-sizing: border-box;
 }
 
 #footer-container {
     width: 95%;
     max-width: 1280px;
     margin: 0 auto;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-}
+    box-sizing: border-box;
 
 .footer-row {
     display: flex;
@@ -107,22 +106,6 @@ footer {
     color: var(--color-primary-lightest);
     text-decoration: none;
 }
-
-/*q {*/
-/*    quotes: "„" "”";*/
-/*    display: block;*/
-/*    font-size: 17px;*/
-/*    font-weight: bold;*/
-/*    font-style: italic;*/
-/*    padding: 5px;*/
-/*    margin-top: -4px;*/
-/*    text-align: center;*/
-/*}*/
-
-/*q:hover {*/
-/*    background-color: var(--hover);*/
-/*    color: var(--light);*/
-/*}*/
 
 ul {
     margin-left: 35px;
@@ -330,6 +313,10 @@ a.genres-item:hover {
     color: var(--color-primary-lightest);
 }
 
+.button:active {
+    transform: scale(1.1);
+}
+
 .book-cover-div {
     flex: 0 0 30%;
 }
@@ -500,20 +487,6 @@ a.genres-item:hover {
 .review-edit-span {
 }
 
-/*#review-container .button-edit {*/
-/*    color: var(--color-primary-dark);*/
-/*    background: none;*/
-/*    border: none;*/
-/*    padding: 0;*/
-/*    font: inherit;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*#review-container .button-edit:hover {*/
-/*    color: var(--color-secondary-medium);*/
-/*    text-decoration: underline var(--color-secondary-medium);*/
-/*}*/
-
 .review-edit-span {
     position: absolute;
     bottom: 1em;
@@ -634,11 +607,6 @@ dd {
     right: 2em;
 }
 
-/*.button-container {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*}*/
-
 .button-container {
     width: 100%;
     display: flex;
@@ -668,7 +636,7 @@ dd {
     justify-content: center;
     margin-top: 20px;
     margin-bottom: 20px;
-    color; blue;
+    color: blue;
 }
 
 .pagination a {
@@ -712,7 +680,6 @@ dd {
     width: 10%;
 }
 
-/* --------------------------- charts -------------------------- */
 /* --------------------------- login, register, add_book -------------------------- */
 .form-wrapper {
     display: flex;
@@ -795,9 +762,6 @@ label {
 .link-div a:hover {
     color: var(--color-secondary-medium);
 }
-
-
-
 
 .checkbox-label {
     align-items: center;

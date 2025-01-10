@@ -1,14 +1,18 @@
-﻿<?php
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-include 'header.php';
-require_once 'db_connection.php';
+require_once 'src/db_connection.php';
+require_once 'src/cover_check.php';
 
+// Books by genre
 function getTopRatedBooks($genre, $limit, $offset)
 {
     global $conn;
-    $stmt = $conn->prepare("SELECT books.id, books.name, FORMAT(AVG(reviews.rating), 1) AS average_rating
+    $stmt = $conn->prepare("SELECT books.id, books.title, CAST(AVG(reviews.rating) AS CHAR(3)) AS average_rating
                             FROM books
-                            JOIN reviews ON books.id = reviews.book_id
+                            LEFT JOIN reviews ON books.id = reviews.book_id
                             WHERE books.fiction_genre = :genre
                             GROUP BY books.id
                             ORDER BY average_rating DESC
@@ -20,12 +24,14 @@ function getTopRatedBooks($genre, $limit, $offset)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+// Popular books
 function getMostReviewedBooks($limit, $offset)
 {
     global $conn;
-    $stmt = $conn->prepare("SELECT books.id, books.name, books.author, COUNT(reviews.id) AS review_count
+    $stmt = $conn->prepare("SELECT books.id, books.title, books.author, COUNT(reviews.id) AS review_count
                             FROM books
-                            JOIN reviews ON books.id = reviews.book_id
+                            LEFT JOIN reviews ON books.id = reviews.book_id
                             GROUP BY books.id
                             ORDER BY review_count DESC
                             LIMIT :limit OFFSET :offset");
@@ -48,7 +54,11 @@ foreach ($genres as $genre) {
 
 $popular_books = getMostReviewedBooks($limit, $offset);
 
+include 'header.php';
+
 ?>
+    <script src="js/scroll_nav.js" defer></script>
+    <script src="js/load_more_books.js" defer></script>
     <div id="content">
         <nav id="genres">
             <ul class="ul-genres">
@@ -66,10 +76,16 @@ $popular_books = getMostReviewedBooks($limit, $offset);
             <?php
             echo '<div><h2>Popular</h2> <div class="book-container" id="popular_books">';
 
-                    foreach ($popular_books as $book) {
-                    echo '<a href="book-detail.php?bookid=' . htmlspecialchars($book["id"]) . '" title="Book Title"><div class="book-cover-image-wrapper"><img src="images/covers/cover-hobbit.jpg" alt="Hobbit" class="book-cover-mini">' . htmlspecialchars($book["name"]) . '</div></a>';
-                    }
-                    echo '</div><div class="spacing"></div></div>';
+            foreach ($popular_books as $book) {
+                echo '<a href="book_detail.php?bookid=' . htmlspecialchars($book["id"], ENT_QUOTES, 'UTF-8') . '" title="Book Title">
+            <div class="book-cover-image-wrapper">
+                <img src="' . getCoverImageSmall($book['title']) . '"
+                     alt="' . htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8') . '"
+                     class="book-cover-mini">' . htmlspecialchars($book["title"], ENT_QUOTES, 'UTF-8') . '
+            </div>
+            </a>';
+            }
+            echo '</div><div class="spacing"></div></div>';
 
             ?>
 
@@ -79,65 +95,20 @@ $popular_books = getMostReviewedBooks($limit, $offset);
 
             <div class="spacing"></div>
 
-                <?php
-                foreach ($genres as $genre) {
-                    echo '<h2 id="chart_' . $genre . '">' . ucfirst($genre) . '</h2>';
-                    echo '<div class="book-container" id="' . $genre . '_books">';
-                    foreach ($books_by_genre[$genre] as $book) {
-                        echo '<a href="book-detail.php?bookid=' . htmlspecialchars($book["id"]) . '" title="Book Title"><div class="book-cover-image-wrapper"><img src="images/covers/cover-hobbit.jpg" alt="Hobbit" class="book-cover-mini">' . htmlspecialchars($book["name"]) . '</div></a>';
-                    }
-                    echo '</div>';
-                    echo '<div class="button-container">';
-                    echo '<button class="load-more button" data-genre="' . $genre . '" data-offset="5">More</button>';
-                    echo '</div>';
-                    echo '<div class="spacing"></div>';
+            <?php
+            foreach ($genres as $genre) {
+                echo '<h2 id="chart_' . $genre . '">' . ucfirst($genre) . '</h2>';
+                echo '<div class="book-container" id="' . $genre . '_books">';
+                foreach ($books_by_genre[$genre] as $book) {
+                    echo '<a href="book_detail.php?bookid=' . htmlspecialchars($book["id"]) . '" title="Book Title"><div class="book-cover-image-wrapper"><img src="' . getCoverImageSmall($book['title']) . '" alt="' . htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8') . '" class="book-cover-mini">' . htmlspecialchars($book["title"]) . '</div></a>';
                 }
-                ?>
-        </article>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const loadMoreButtons = document.querySelectorAll('.load-more');
-
-            loadMoreButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    console.log("Clicked "+button.getAttribute("data-genre"));
-                    const genre = this.getAttribute('data-genre');
-                    const offset = parseInt(this.getAttribute('data-offset'));
-                    const container = document.getElementById(genre + '_books');
-
-                    fetch(`load_more_books.php?genre=${genre}&offset=${offset}`)
-                        .then(response => response.text())
-                        .then(data => {
-                            container.insertAdjacentHTML('beforeend', data);
-                            this.setAttribute('data-offset', offset + 5);
-                        })
-                        .catch(error => console.error('Error fetching data:', error));
-                });
-            });
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const links = document.querySelectorAll('a[href^="#"]');
-
-            for (const link of links) {
-                link.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
-                    const targetElement = document.getElementById(targetId);
-
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
+                echo '</div>';
+                echo '<div class="button-container">';
+                echo '<button class="load-more button" data-genre="' . $genre . '" data-offset="5">More</button>';
+                echo '</div>';
+                echo '<div class="spacing"></div>';
             }
-        });
-    </script>
-
+            ?>
+        </div>
+    </div>
 <?php include 'footer.php'; ?>

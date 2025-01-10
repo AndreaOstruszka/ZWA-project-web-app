@@ -1,12 +1,14 @@
-﻿<?php
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-include 'header.php';
-require_once 'db_connection.php';
+require_once 'src/db_connection.php';
 
 function getMostReviewedBooks($limit)
 {
     global $conn;
-    $stmt = $conn->prepare("SELECT books.id, books.name, books.author, COUNT(reviews.id) AS review_count, FORMAT(AVG(reviews.rating), 1) AS average_rating
+    $stmt = $conn->prepare("SELECT books.id, books.title, books.author, COUNT(reviews.id) AS review_count, FORMAT(AVG(reviews.rating), 1) AS average_rating
                             FROM books
                             JOIN reviews ON books.id = reviews.book_id
                             GROUP BY books.id
@@ -20,7 +22,7 @@ function getMostReviewedBooks($limit)
 function getTopRatedBooks($genre, $limit)
 {
     global $conn;
-    $stmt = $conn->prepare("SELECT books.id, books.name, books.author, books.release_date, books.description_short, FORMAT(AVG(reviews.rating), 1) AS average_rating
+    $stmt = $conn->prepare("SELECT books.id, books.title, books.author, books.release_date, books.description_short, FORMAT(AVG(reviews.rating), 1) AS average_rating
                             FROM books
                             JOIN reviews ON books.id = reviews.book_id
                             WHERE books.fiction_genre = :genre
@@ -43,8 +45,10 @@ foreach ($genres as $genre) {
 
 $popular_books = getMostReviewedBooks($limit);
 
-?>
+include 'header.php';
 
+?>
+<script src="js/scroll_nav.js" defer></script>
 <div id="content">
     <nav id="genres">
         <ul class="ul-genres">
@@ -69,7 +73,7 @@ $popular_books = getMostReviewedBooks($limit);
         echo '</tr>';
         foreach($popular_books as $book) {
             echo "<tr>";
-            echo "<td class='title_table' ><a href='book-detail.php?bookid=" . htmlspecialchars($book["id"]) . "' class='link-dark'>" . htmlspecialchars($book["name"]) . "</a></td>";
+            echo "<td class='title_table' ><a href='book_detail.php?bookid=" . htmlspecialchars($book["id"]) . "' class='link-dark'>" . htmlspecialchars($book["title"]) . "</a></td>";
             echo '<td class="author_table">' . htmlspecialchars($book["author"]) . '</td>';
             echo '<td class="rating_table">' . htmlspecialchars($book["average_rating"]) . '</td>';
             echo "</tr>";
@@ -87,43 +91,14 @@ $popular_books = getMostReviewedBooks($limit);
             echo '</tr>';
             foreach ($books_by_genre[$genre] as $book) {
                 echo "<tr>";
-                echo "<td class='title_table'><a href='book-detail.php?bookid=" . htmlspecialchars($book["id"]) . "' class='link-dark'>" . htmlspecialchars($book["name"]) . "</a></td>";
+                echo "<td class='title_table'><a href='book_detail.php?bookid=" . htmlspecialchars($book["id"]) . "' class='link-dark'>" . htmlspecialchars($book["title"]) . "</a></td>";
                 echo '<td class="author_table">' . htmlspecialchars($book["author"]) . '</td>';
                 echo '<td class="rating_table">' . htmlspecialchars($book["average_rating"]) . '</td>';
                 echo '</tr>';
             }
             echo '</table><br>';
         }
-
         ?>
-
-
-
-
-
-
     </article>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const links = document.querySelectorAll('a[href^="#"]');
-
-        for (const link of links) {
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        }
-    });
-</script>
-
 <?php include 'footer.php'; ?>

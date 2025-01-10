@@ -1,7 +1,10 @@
-﻿<?php
-session_start(); // Start the session
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-require_once 'db_connection.php'; // Include the database connection
+require_once 'src/db_connection.php'; // Include the database connection
+require_once 'src/cover_check.php'; // Include the cover image check function
 
 // Fetch the latest 2 reviews
 $sql = "SELECT reviews.book_id, reviews.user_id, reviews.rating, reviews.review_text, reviews.created_at, users.user_name, books.title AS book_title
@@ -44,7 +47,7 @@ if ($stmt->execute()) {
 }
 ?>
 
-<?php include 'header.php'; // Include the header ?>
+<?php require_once 'header.php'; // Include the header ?>
 
     <div id="content">
         <article id="main-widest">
@@ -67,7 +70,6 @@ if ($stmt->execute()) {
                         all things books!
                     </p>
                 </div>
-
                 <!-- New release section -->
                 <div class="section new_release">
                     <h2>New release</h2>
@@ -75,7 +77,7 @@ if ($stmt->execute()) {
                         <?php if (!empty($new_books)) {
                             $book = $new_books[0]; ?>
                             <div class="book-cover-div">
-                                <img src="uploads/small_<?php echo htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8'); ?>.jpg"
+                                <img src="<?php echo getCoverImageSmall($book['title']); ?>"
                                      alt="<?php echo htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8'); ?>"
                                      class="book-cover-mini">
                             </div>
@@ -84,7 +86,7 @@ if ($stmt->execute()) {
                             <?php
                             if (!empty($new_books)) {
                                 $book = $new_books[0];
-                                echo "<p>Title: <a href='book-detail.php?bookid=" . htmlspecialchars($book['id'], ENT_QUOTES, 'UTF-8') . "' class='link-dark'>" . htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8') . "</a></p>";
+                                echo "<p>Title: <a href='book_detail.php?bookid=" . htmlspecialchars($book['id'], ENT_QUOTES, 'UTF-8') . "' class='link-dark'>" . htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8') . "</a></p>";
                                 echo "<p>Author: " . htmlspecialchars($book['author'], ENT_QUOTES, 'UTF-8') . "</p>";
                                 echo "<p>Release date: " . htmlspecialchars(date('m.d.Y', strtotime($book['release_date'])), ENT_QUOTES, 'UTF-8') . "</p>";
                                 echo "<p>" . htmlspecialchars($book['description_short'], ENT_QUOTES, 'UTF-8') . "</p>";
@@ -95,7 +97,6 @@ if ($stmt->execute()) {
                         </div>
                     </div>
                 </div>
-
                 <!-- Most popular section -->
                 <div class="section most_popular">
                     <h2>Most popular</h2>
@@ -108,7 +109,7 @@ if ($stmt->execute()) {
                         <?php
                         foreach ($popular_books as $book) {
                             echo "<tr>";
-                            echo "<td><a href='book-detail.php?bookid=" . htmlspecialchars($book["id"], ENT_QUOTES, 'UTF-8') . "' class='link-dark'>" . htmlspecialchars($book["title"], ENT_QUOTES, 'UTF-8') . "</a></td>";
+                            echo "<td><a href='book_detail.php?bookid=" . htmlspecialchars($book["id"], ENT_QUOTES, 'UTF-8') . "' class='link-dark'>" . htmlspecialchars($book["title"], ENT_QUOTES, 'UTF-8') . "</a></td>";
                             echo "<td>" . htmlspecialchars($book["author"], ENT_QUOTES, 'UTF-8') . "</td>";
                             echo "<td>" . htmlspecialchars($book["average_rating"], ENT_QUOTES, 'UTF-8') . "</td>";
                             echo "</tr>";
@@ -116,7 +117,6 @@ if ($stmt->execute()) {
                         ?>
                     </table>
                 </div>
-
                 <!-- New reviews section -->
                 <div class="section new_reviews">
                     <h2>New reviews</h2>
@@ -124,7 +124,7 @@ if ($stmt->execute()) {
                     foreach ($reviews as $review) {
                         echo "<div class='review-index'>";
                         echo "<div class='review-time'>" . htmlspecialchars(date('m.d.Y H:i', strtotime($review["created_at"])), ENT_QUOTES, 'UTF-8') . "</div>";
-                        echo "<p>Book: <span class='review-book'><a href='book-detail.php?bookid=" . htmlspecialchars($review["book_id"], ENT_QUOTES, 'UTF-8') . "' class='link-dark'>" . htmlspecialchars($review["book_title"], ENT_QUOTES, 'UTF-8') . "</a></span></p>";
+                        echo "<p>Book: <span class='review-book'><a href='book_detail.php?bookid=" . htmlspecialchars($review["book_id"], ENT_QUOTES, 'UTF-8') . "' class='link-dark'>" . htmlspecialchars($review["book_title"], ENT_QUOTES, 'UTF-8') . "</a></span></p>";
                         echo "<p>Review by: <strong class='review-user'>" . htmlspecialchars($review["user_name"], ENT_QUOTES, 'UTF-8') . "</strong></p>";
                         echo "<p>Rating: <strong class='review-rating'>" . htmlspecialchars($review["rating"], ENT_QUOTES, 'UTF-8') . "/5</strong></p>";
                         echo "<p class='review-text'>" . htmlspecialchars($review["review_text"], ENT_QUOTES, 'UTF-8') . "</p>";
@@ -135,5 +135,4 @@ if ($stmt->execute()) {
             </div>
         </article>
     </div>
-
 <?php include 'footer.php'; // Include the footer ?>

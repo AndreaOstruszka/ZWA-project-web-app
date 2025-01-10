@@ -1,11 +1,20 @@
 <?php
-session_start();
-require_once 'db_connection.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once 'src/db_connection.php';
 
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit();
 }
+
+$review_text = $review_rating = "";
+$errors = [
+    'review_text' => '',
+    'rating' => ''
+];
 
 if (isset($_GET["review_id"])) {
     $review_id = $_GET["review_id"];
@@ -16,6 +25,11 @@ if (isset($_GET["review_id"])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["edit"])) {
         $review_text = trim($_POST["review_text"]);
+
+        if (empty($review_text)) {
+            $errors["review_text"] = "Review text is required.";
+        }
+
         if (strpos($review_text, "(edited)") !== 0) {
             $review_text = "(edited) " . $review_text;
         }
@@ -24,11 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($review_rating === false || $review_rating < 1 || $review_rating > 5) {
             $errors["rating"] = "Rating must be between 1 and 5.";
         }
-        if (empty($review_text)) {
-            $errors["review_text"] = "Review text is required.";
-        }
 
-        if (empty($errors)) {
+        if (empty(array_filter($errors))) {
             $stmt = $conn->prepare("UPDATE reviews SET review_text = :review_text, rating = :rating, created_at = NOW()
                                     WHERE id = :review_id");
             $stmt->bindValue(':review_text', $review_text, PDO::PARAM_STR);
@@ -41,10 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit();
             } else {
                 echo "Error updating review.";
-            }
-        } else {
-            foreach ($errors as $error) {
-                echo htmlspecialchars($error) . "<br>";
             }
         }
     } elseif (isset($_POST["delete"])) {
@@ -59,20 +66,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Error deleting review.";
         }
     }
-} else {
-    $stmt = $conn->prepare("SELECT review_text, rating FROM reviews WHERE id = :review_id");
-    $stmt->bindValue(':review_id', $review_id, PDO::PARAM_INT);
-    //$stmt->bindValue(':user_id', $_SESSION["user_id"], PDO::PARAM_INT);
-    try {
-        $stmt->execute();
-    } catch (PDOException $e) {
-        die("Error fetching review.".$e->getMessage());
-    }
+}
+$stmt = $conn->prepare("SELECT review_text, rating FROM reviews WHERE id = :review_id");
+$stmt->bindValue(':review_id', $review_id, PDO::PARAM_INT);
+try {
+    $stmt->execute();
     $review = $stmt->fetch();
-    if(!$review) {
+    if (!$review) {
         die("Review not found.");
     }
+} catch (PDOException $e) {
+    die("Error fetching review." . $e->getMessage());
 }
+
 ?>
 
 <?php include 'header.php'; ?>
@@ -82,26 +88,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1>Edit your review</h1>
             <br>
             <div class="form-wrapper">
-                <form action="review_edit.php?review_id=<?php echo htmlspecialchars($review_id); ?>" method="post" enctype="multipart/form-data" class="my_form">
-                    <legend>How did you like this book?</legend>
-                    <br>
-                    <label for="review_text">Review:</label>
-                    <textarea class="form-input form-detail" id="review-text" name="review_text" placeholder="Is there anything you would like to say?"><?php echo htmlspecialchars($review["review_text"]); ?></textarea>
+                <form action="review_edit.php?review_id=<?php echo htmlspecialchars($review_id); ?>" method="post"
+                      enctype="multipart/form-data" class="my_form">
+                    <fieldset>
+                        <legend>How did you like this book?</legend>
+                        <br>
+                        <label for="review_text">Review:</label>
+                        <textarea
+                                class="form-input form-detail <?php echo !empty($errors['review_text']) ? 'error-border' : ''; ?>"
+                                id="review_text" name="review_text"
+                                placeholder="Is there anything you would like to say?"><?php echo htmlspecialchars(isset($_POST['review_text']) ? $_POST['review_text'] : $review["review_text"]); ?></textarea>
+                        <span class="error"><?php echo $errors['review_text']; ?></span>
 
-                    <label for="review_rating">Rating:</label>
-                    <select class="form-input form-detail" id="review-rating" name="review_rating">
-                        <option value="1" <?php if ($review["rating"] == 1) echo 'selected'; ?>>1/5</option>
-                        <option value="2" <?php if ($review["rating"] == 2) echo 'selected'; ?>>2/5</option>
-                        <option value="3" <?php if ($review["rating"] == 3) echo 'selected'; ?>>3/5</option>
-                        <option value="4" <?php if ($review["rating"] == 4) echo 'selected'; ?>>4/5</option>
-                        <option value="5" <?php if ($review["rating"] == 5) echo 'selected'; ?>>5/5</option>
-                    </select>
-                    <br><br>
+                        <label for="review_rating">Rating:</label>
+                        <select class="form-input form-detail <?php echo !empty($errors['rating']) ? 'error-border' : ''; ?>"
+                                id="review_rating" name="review_rating">
+                            <option value="1" <?php if ($review["rating"] == 1) echo 'selected'; ?>>1/5</option>
+                            <option value="2" <?php if ($review["rating"] == 2) echo 'selected'; ?>>2/5</option>
+                            <option value="3" <?php if ($review["rating"] == 3) echo 'selected'; ?>>3/5</option>
+                            <option value="4" <?php if ($review["rating"] == 4) echo 'selected'; ?>>4/5</option>
+                            <option value="5" <?php if ($review["rating"] == 5) echo 'selected'; ?>>5/5</option>
+                        </select>
+                        <span class="error"><?php echo $errors['rating']; ?></span>
+                        <br><br>
 
-                    <div class="button-container">
-                        <button class="button" name="edit">Edit</button>
-                        <button class="button" name="delete">Delete</button>
-                    </div>
+                        <div class="button-container">
+                            <button class="button" name="edit">Edit</button>
+                            <button class="button" name="delete">Delete</button>
+                        </div>
+                    </fieldset>
                 </form>
             </div>
         </article>

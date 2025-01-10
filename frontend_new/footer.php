@@ -1,4 +1,5 @@
 <footer>
+    <script src="js/scroll.js" defer></script>
     <div id="footer-container">
         <div class="footer-row"><a class="return" href="#logo"><i class="fa solid fa-chevron-up fa-2xl" aria-hidden="true"></i></a></div>
         <div class="footer-row">
@@ -16,19 +17,5 @@
         </div>
     </div>
 </footer>
-<script>
-    // Smooth scroll to the top
-    document.addEventListener('DOMContentLoaded', function() {
-        const returnButton = document.querySelector('.return');
-
-        returnButton.addEventListener('click', function(event) {
-            event.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    });
-</script>
 </body>
 </html>

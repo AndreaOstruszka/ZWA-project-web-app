@@ -1,21 +1,24 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Database connection
 require_once 'db_connection.php';
+require_once 'cover_check.php';
 
-if(isset($_GET["bookid"])){
+if (isset($_GET["bookid"])) {
     $book_id = $_GET["bookid"];
 } else {
     die("Book not specified");
 }
 
-$sql = "SELECT name, isbn, literary_genre, fiction_genre, author, book_cover_large, description_long, CAST((sum(reviews.rating)/count(reviews.rating)) AS VARCHAR(3)) AS rating
+$sql = "SELECT title, isbn, literary_genre, fiction_genre, author, book_cover_large, description_long, CAST((sum(reviews.rating)/count(reviews.rating)) AS CHAR(3)) AS rating
         FROM books LEFT JOIN reviews ON reviews.book_id = books.id
         WHERE books.id = :book_id";
 $stmt = $conn->prepare($sql);
 $stmt->bindValue(":book_id", $book_id);
-if($stmt->execute()) {
+if ($stmt->execute()) {
     $current_book = $stmt->fetch();
 } else {
     die("Error fetching book.");
@@ -27,7 +30,7 @@ $sql = "SELECT reviews.book_id, reviews.user_id, reviews.rating, reviews.review_
         WHERE reviews.book_id = :book_id";
 $stmt = $conn->prepare($sql);
 $stmt->bindValue(":book_id", $book_id);
-if($stmt->execute()) {
+if ($stmt->execute()) {
     $user_reviews = $stmt->fetchAll();
 } else {
     die("Error fetching reviews.");
@@ -91,32 +94,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div id="content">
         <article id="main-widest">
             <h1>Book detail</h1>
-            <h2><?php echo htmlspecialchars($current_book['name']); ?></h2>
+            <h2><?php echo htmlspecialchars($current_book['title']); ?></h2>
             <div class="book-container">
                 <div class="book-cover-div">
-                    <img src="images/covers/cover-hobbit.jpg" alt="Hobbit" class="book-cover-mini">
+                    <img src="<?php echo getCoverImageBig($current_book['title']) ?: 'path/to/placeholder.jpg'; ?>"
+                         alt="<?php echo htmlspecialchars($current_book['title'], ENT_QUOTES, 'UTF-8'); ?>"
+                         class="book-cover">
                 </div>
+
                 <div class="book-info">
                     <div class="rating">
-                        <span>Rating: <?php echo $current_book["rating"]?>/5</span>
+                        <span>Rating: <?php echo $current_book["rating"] ?>/5</span>
                     </div>
 
                     <dl>
                         <dt>Author:</dt>
-                        <dd><?php echo htmlspecialchars($current_book['author'])?></dd>
+                        <dd><?php echo htmlspecialchars($current_book['author']) ?></dd>
                         <dt>ISBN:</dt>
-                        <dd><?php echo htmlspecialchars($current_book['isbn'])?></dd>
+                        <dd><?php echo htmlspecialchars($current_book['isbn']) ?></dd>
                         <dt>Literary genre:</dt>
-                        <dd><?php echo htmlspecialchars($current_book['literary_genre'])?></dd>
+                        <dd><?php echo htmlspecialchars($current_book['literary_genre']) ?></dd>
                         <dt>Fictional genre:</dt>
-                        <dd><?php echo htmlspecialchars($current_book['fiction_genre'])?></dd>
+                        <dd><?php echo htmlspecialchars($current_book['fiction_genre']) ?></dd>
                         <dt>Description:</dt>
-                        <dd><?php echo htmlspecialchars($current_book['description_long'])?></dd>
-                        <br>
+                        <dd><?php echo htmlspecialchars($current_book['description_long']) ?></dd>
                     </dl>
                 </div>
             </div>
             <br>
+
+            <?php
+            if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] == "admin") {
+                echo '<div class="profile-links">';
+                echo '<a href="review_edit.php?review_id=' . htmlspecialchars($book_id) . '">Edit book</a>';
+                echo '</div><br>';
+            }
+            ?>
 
             <h2>Reviews</h2>
             <div class="review-container">
@@ -135,8 +148,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <br><br>
 
                 <?php
-                if(isset($_SESSION["user_id"])) {
-                    include 'review-create.php';
+                if (isset($_SESSION["user_id"])) {
+                    include 'review_add.php';
                 }
                 ?>
             </div>

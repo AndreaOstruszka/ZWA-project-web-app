@@ -30,7 +30,7 @@ Website name: Book Nook
 
 Purpose: Like IMDB, but for books.
 
-Features: book reviews, book charts, 
+Features: book reviews, book charts,
 
 User roles: anonymous user, registered user, admin
 
@@ -46,7 +46,7 @@ User roles: anonymous user, registered user, admin
 - Read and write reviews
 - View charts of popular books
 - User authentication (login and register)
-- User profile management
+- User profile management (edit profile, delete account)
 
 ## Technologies
 No frameworks or libraries are allowed in this project. The following technologies are used:
