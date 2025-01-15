@@ -1,7 +1,7 @@
 <?php
 $db_servername = "localhost";
-$db_username = "ostruand";
-$db_password = "webove aplikace";
+$db_username = "andy";
+$db_password = "andy123";
 $db_name = "ostruand";
 
 $conn = new PDO("mysql:host=$db_servername;dbname=$db_name", $db_username, $db_password);
