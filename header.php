@@ -4,9 +4,9 @@
     <title>BookNook</title>
     <meta charset='utf-8'>
     <meta name="description" content='BOOK NOOK'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans&amp;subset=greek-ext,greek,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans&amp;subset=greek-ext,greek,latin-ext' rel='stylesheet' type='text/css'>
     <script src="https://kit.fontawesome.com/7bce69507d.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 
 <body>
