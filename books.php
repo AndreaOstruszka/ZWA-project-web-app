@@ -6,7 +6,14 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once 'src/db_connection.php';
 require_once 'src/cover_check.php';
 
-// Books by genre
+/**
+ * Fetch the top-rated books of a specific genre from the database.
+ *
+ * @param string $genre The genre of books to fetch.
+ * @param int $limit The number of books to fetch.
+ * @param int $offset The offset for pagination.
+ * @return array The list of top-rated books with their details.
+ */
 function getTopRatedBooks($genre, $limit, $offset)
 {
     global $conn;
@@ -24,8 +31,13 @@ function getTopRatedBooks($genre, $limit, $offset)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
-// Popular books
+/**
+ * Fetch the most reviewed books from the database.
+ *
+ * @param int $limit The number of books to fetch.
+ * @param int $offset The offset for pagination.
+ * @return array The list of most reviewed books with their details.
+ */
 function getMostReviewedBooks($limit, $offset)
 {
     global $conn;
@@ -45,13 +57,15 @@ $limit = 5; // Number of records per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
-$genres = ['romance', 'scifi', 'fantasy', 'horror', 'other'];
-$books_by_genre = [];
+$genres = ['romance', 'scifi', 'fantasy', 'horror', 'other']; // List of genres
+$books_by_genre = []; // Array to store books by genre
 
+// Fetch top-rated books for each genre
 foreach ($genres as $genre) {
     $books_by_genre[$genre] = getTopRatedBooks($genre, $limit, $offset);
 }
 
+// Fetch the most reviewed books
 $popular_books = getMostReviewedBooks($limit, $offset);
 
 include 'header.php';
@@ -74,6 +88,7 @@ include 'header.php';
             <h1>Books</h1>
 
             <?php
+            // Display the most popular books
             echo '<div><h2>Popular</h2> <div class="book-container" id="popular_books">';
 
             foreach ($popular_books as $book) {
@@ -96,6 +111,7 @@ include 'header.php';
             <div class="spacing"></div>
 
             <?php
+            // Display the top-rated books for each genre
             foreach ($genres as $genre) {
                 echo '<h2 id="chart_' . $genre . '">' . ucfirst($genre) . '</h2>';
                 echo '<div class="book-container" id="' . $genre . '_books">';

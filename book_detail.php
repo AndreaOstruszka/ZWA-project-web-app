@@ -7,6 +7,14 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once 'src/db_connection.php';
 require_once 'src/cover_check.php';
 
+/**
+ * Fetch book details and user reviews from the database.
+ *
+ * @var int $book_id The ID of the book to fetch details for.
+ * @var array $current_book The details of the current book.
+ * @var array $user_reviews The list of user reviews for the current book.
+ * @var array $errors The list of error messages for form validation.
+ */
 if (isset($_GET["bookid"])) {
     $book_id = $_GET["bookid"];
 } else {

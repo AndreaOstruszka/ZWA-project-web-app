@@ -2,7 +2,15 @@
 // Database connection
 require_once __DIR__ . '/../src/db_connection.php';
 
-// Function to resize image
+/**
+ * Resizes an image to the specified dimensions.
+ *
+ * @param string $file The path to the image file.
+ * @param string $ext The file extension (jpg, jpeg, png, gif).
+ * @param int $max_width The maximum width of the resized image.
+ * @param int $max_height The maximum height of the resized image.
+ * @return resource The resized image resource.
+ */
 function resize_image($file, $ext, $max_width, $max_height)
 {
     list($width, $height) = getimagesize($file);
@@ -31,7 +39,14 @@ function resize_image($file, $ext, $max_width, $max_height)
     return $dst;
 }
 
-// Function to handle image upload
+/**
+ * Handles the image upload process, including validation, resizing, and database update.
+ *
+ * @param int $book_id The ID of the book to which the image belongs.
+ * @param string $book_title The title of the book.
+ * @param array $file The uploaded file information from the $_FILES superglobal.
+ * @return array|bool Returns true on success, or an array with 'success' => false and 'errors' on failure.
+ */
 function handle_image_upload($book_id, $book_title, $file)
 {
     global $conn;
@@ -58,11 +73,11 @@ function handle_image_upload($book_id, $book_title, $file)
         if (in_array($filetype, $allowed)) {
             // Check whether uploads directory exists, if not, create it
             if (!is_dir("./uploads")) {
-                if (!mkdir("../uploads", 0777, true)) {
+                if (!mkdir("../uploads", 0775, true)) {
                     $errors[] = "Error: Failed to create uploads directory. Check directory permissions.";
                 } else {
                     // Set the correct permissions if the directory was created
-                    chmod("./uploads", 0777);
+                    chmod("./uploads", 0775);
                 }
             }
 

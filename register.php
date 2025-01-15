@@ -22,8 +22,16 @@ $errors = [
     'agreed' => ''
 ];
 
-// Function to validate username duplicity
-function validate_username($user_name, $pdo)
+/**
+ * Function to validate username duplicity
+ *
+ * This function checks if a given username already exists in the database.
+ *
+ * @param string $user_name The username to check for duplicity.
+ * @param PDO $pdo The PDO database connection object.
+ * @return int The count of users with the given username.
+ */
+function countUsersByUsername($user_name, $pdo)
 {
     $sql = "SELECT COUNT(id) FROM users WHERE user_name = :user_name";
     $stmt = $pdo->prepare($sql);
@@ -31,8 +39,16 @@ function validate_username($user_name, $pdo)
     return $stmt->fetchColumn();
 }
 
-// Function to validate email duplicity
-function validate_email($email, $pdo)
+/**
+ * Function to validate email duplicity
+ *
+ * This function checks if a given email already exists in the database.
+ *
+ * @param string $email The email to check for duplicity.
+ * @param PDO $pdo The PDO database connection object.
+ * @return int The count of users with the given email.
+ */
+function countUsersByEmail($email, $pdo)
 {
     $sql = "SELECT COUNT(id) FROM users WHERE email = :email";
     $stmt = $pdo->prepare($sql);
@@ -66,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) || !preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/', $email)) {
         $errors["email"] = "Invalid email address.";
     }
-    if (!empty($email) && validate_email($email, $conn) > 0) {
+    if (!empty($email) && countUsersByEmail($email, $conn) > 0) {
         $errors['email'] = "Email is already registered with a different account.";
     }
 
@@ -83,11 +99,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($agreed)) $errors["agreed"] = "You must agree to the terms.";
 
     // Check for email duplicity
-    if (validate_email($email, $conn) > 0) {
+    if (countUsersByEmail($email, $conn) > 0) {
         $errors["email"] = "Email is already registered.";
     }
 
-    if (validate_username($user_name, $conn) > 0) {
+    if (countUsersByUsername($user_name, $conn) > 0) {
         $errors["user_name"] = "Username already exists.";
     }
     if (count(array_filter($errors)) == 0) {

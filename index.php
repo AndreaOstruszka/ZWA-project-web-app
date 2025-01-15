@@ -6,7 +6,13 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once 'src/db_connection.php'; // Include the database connection
 require_once 'src/cover_check.php'; // Include the cover image check function
 
-// Fetch the latest 2 reviews
+/**
+ * Fetch the latest 2 reviews from the database.
+ *
+ * @var string $sql SQL query to fetch the latest 2 reviews.
+ * @var PDOStatement $stmt Prepared statement for executing the SQL query.
+ * @var array $reviews Array to store the fetched reviews.
+ */
 $sql = "SELECT reviews.book_id, reviews.user_id, reviews.rating, reviews.review_text, reviews.created_at, users.user_name, books.title AS book_title
         FROM reviews
         JOIN users ON reviews.user_id = users.id
@@ -20,7 +26,13 @@ if ($stmt->execute()) {
     die("Error fetching reviews."); // Handle error
 }
 
-// Fetch the top 10 most popular books based on average rating
+/**
+ * Fetch the top 10 most popular books based on average rating.
+ *
+ * @var string $sql SQL query to fetch the top 10 most popular books.
+ * @var PDOStatement $stmt Prepared statement for executing the SQL query.
+ * @var array $popular_books Array to store the fetched popular books.
+ */
 $sql = "SELECT books.id, books.title, books.author, books.release_date, books.description_short, FORMAT(AVG(reviews.rating), 1) AS average_rating
         FROM books
         JOIN reviews ON books.id = reviews.book_id
@@ -34,7 +46,13 @@ if ($stmt->execute()) {
     die("Error fetching popular books."); // Handle error
 }
 
-// Fetch the latest book release
+/**
+ * Fetch the latest book release from the database.
+ *
+ * @var string $sql SQL query to fetch the latest book release.
+ * @var PDOStatement $stmt Prepared statement for executing the SQL query.
+ * @var array $new_books Array to store the fetched new release.
+ */
 $sql = "SELECT id, title, author, release_date, description_short
         FROM books
         ORDER BY release_date DESC

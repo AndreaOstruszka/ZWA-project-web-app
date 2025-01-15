@@ -20,8 +20,17 @@ $errors = [
     'repassword' => ''
 ];
 
-// Function to validate email duplicity
-function validate_email($email, $user_id, $pdo)
+/**
+ * Function to validate email duplicity
+ *
+ * This function checks if a given email already exists in the database for a different user.
+ *
+ * @param string $email The email to check for duplicity.
+ * @param int $user_id The ID of the user to exclude from the check.
+ * @param PDO $pdo The PDO database connection object.
+ * @return int The count of users with the given email.
+ */
+function validateEmailDuplicity($email, $user_id, $pdo)
 {
     $sql = "SELECT COUNT(id) FROM users WHERE email = :email AND id != :user_id";
     $stmt = $pdo->prepare($sql);
@@ -29,8 +38,17 @@ function validate_email($email, $user_id, $pdo)
     return $stmt->fetchColumn();
 }
 
-// Function to validate username duplicity
-function validate_username($user_name, $user_id, $pdo)
+/**
+ * Function to validate username duplicity
+ *
+ * This function checks if a given username already exists in the database for a different user.
+ *
+ * @param string $user_name The username to check for duplicity.
+ * @param int $user_id The ID of the user to exclude from the check.
+ * @param PDO $pdo The PDO database connection object.
+ * @return int The count of users with the given username.
+ */
+function validateUsernameDuplicity($user_name, $user_id, $pdo)
 {
     $sql = "SELECT COUNT(id) FROM users WHERE user_name = :user_name AND id != :user_id";
     $stmt = $pdo->prepare($sql);
@@ -77,12 +95,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $errors["email"] = "Invalid email address.";
         }
         // Check for email duplicity
-        if (!empty($email) && validate_email($email, $user_id, $conn) > 0) {
+        if (!empty($email) && validate_email_duplicity($email, $user_id, $conn) > 0) {
             $errors['email'] = "Email is already registered with a different account.";
         }
 
         // Check for username duplicity
-        if (!empty($user_name) && validate_username($user_name, $user_id, $conn) > 0) {
+        if (!empty($user_name) && validate_username_duplicity($user_name, $user_id, $conn) > 0) {
             $errors['user_name'] = "Username is already taken.";
         }
 
