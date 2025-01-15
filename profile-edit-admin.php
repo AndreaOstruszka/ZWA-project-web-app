@@ -3,6 +3,19 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Redirect to login if user is not logged in
+if (empty($_SESSION["user_id"])) {
+    $_SESSION["redirect_to"] = $_SERVER["REQUEST_URI"];
+    header("Location: login.php");
+    exit();
+}
+
+// Redirect to books page if user is not an admin
+if ($_SESSION["user_role"] !== "admin") {
+    header("Location: profile.php");
+    exit();
+}
+
 require_once 'src/db_connection.php';
 
 if (isset($_GET["userId"]) && intval($_GET["userId"]) > 0) {

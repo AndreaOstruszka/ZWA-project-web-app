@@ -3,9 +3,16 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Redirect to login if user is not logged in
 if (empty($_SESSION["user_id"])) {
     $_SESSION["redirect_to"] = $_SERVER["REQUEST_URI"];
     header("Location: login.php");
+    exit();
+}
+
+// Redirect to books page if user is not an admin
+if ($_SESSION["user_role"] !== "admin") {
+    header("Location: profile.php");
     exit();
 }
 
@@ -13,10 +20,14 @@ require_once 'src/db_connection.php';
 
 include 'header.php';
 
-$limit = 3; // Number of reviews per page
+// Number of reviews per page
+$limit = 3;
+// Current page number
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+// Offset for pagination
 $offset = ($page - 1) * $limit;
 
+// SQL query to fetch reviews with user and book details
 $sql = "SELECT reviews.id, reviews.book_id, reviews.user_id, reviews.rating, reviews.review_text, reviews.created_at, users.user_name, books.title AS book_title
         FROM reviews
         JOIN users ON reviews.user_id = users.id
@@ -27,6 +38,7 @@ $stmt = $conn->prepare($sql);
 $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
 $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
+// Fetch all reviews
 $reviews = $stmt->fetchAll();
 ?>
 
@@ -38,6 +50,7 @@ $reviews = $stmt->fetchAll();
 
             <div id="review_container">
                 <?php
+                // Display each review
                 foreach ($reviews as $review) {
                     echo "<div class='review-index'>";
                     echo "<div class='review-time'>" . htmlspecialchars(date('m.d.Y H:i', strtotime($review["created_at"]))) . "</div>";
@@ -67,12 +80,15 @@ $reviews = $stmt->fetchAll();
                         <th>Last name</th>
                         <th>Email</th>
                     </tr>
-                <?php
+                    <?php
+                    // SQL query to fetch user details
                     $sql = "SELECT id, user_name, first_name, last_name, email, role FROM users";
                     $stmt = $conn->query($sql);
                     $stmt->execute();
+                    // Fetch all users
                     $users = $stmt->fetchAll();
 
+                    // Display each user
                     foreach($users as $user){
                         echo "<tr>";
                         echo "<td>" . htmlspecialchars($user["id"]) . "</td>";
@@ -83,7 +99,7 @@ $reviews = $stmt->fetchAll();
                         echo "<td>" . htmlspecialchars($user["email"]) . "</td>";
                         echo "</tr>";
                     }
-                ?>
+                    ?>
                 </table>
             </div>
         </article>

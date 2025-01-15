@@ -5,10 +5,13 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once 'src/db_connection.php';
 
+// If the user is not logged in, redirect to the login page
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit();
 }
+
+$user_id = $_SESSION["user_id"];
 
 $review_text = $review_rating = "";
 $errors = [
@@ -20,6 +23,23 @@ if (isset($_GET["review_id"])) {
     $review_id = $_GET["review_id"];
 } else {
     die("Review not specified.");
+}
+
+// Fetch the reviewer's user ID
+$stmt = $conn->prepare("SELECT user_id FROM reviews WHERE id = :review_id");
+$stmt->bindValue(':review_id', $review_id, PDO::PARAM_INT);
+$stmt->execute();
+$review = $stmt->fetch();
+if (!$review) {
+    die("Review not found.");
+}
+
+$reviewer_id = $review['user_id'];
+
+// Check if the current user is the one who wrote the review or an admin
+if ($user_id !== $reviewer_id && $_SESSION["user_role"] !== "admin") {
+    header("Location: reviews.php");
+    exit();
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

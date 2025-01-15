@@ -7,17 +7,20 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once 'src/db_connection.php';
 require_once 'src/insert_image.php';
 
+// Redirect to login if user is not logged in
 if (empty($_SESSION["user_id"])) {
     $_SESSION["redirect_to"] = $_SERVER["REQUEST_URI"];
     header("Location: login.php");
     exit();
 }
 
+// Redirect to profile if user is not an admin
 if ($_SESSION["user_role"] !== "admin") {
-    header("Location: profile.php");
+    header("Location: books.php");
     exit();
 }
 
+// Get book ID from query parameter
 if (isset($_GET["book_id"])) {
     $book_id = $_GET["book_id"];
 } else {
